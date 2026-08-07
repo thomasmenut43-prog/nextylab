@@ -39,7 +39,7 @@ a{ text-decoration:none; color:inherit; }
 /* Sur écran >= 1440px (zoom = 1, page centrée), les sections à fond sombre
    s'étendent bord à bord ; leur contenu reste dans la colonne 1440 (.sec-inner). */
 @media (min-width:1440px){
-  .histoire, .cta-final, .footer{ width:100vw; margin-left:calc(50% - 50vw); }
+  .histoire, .cta-final, .footer, .sol-dark{ width:100vw; margin-left:calc(50% - 50vw); }
   .cta-final .sec-inner .top-band{ left:calc(50% - 50vw); width:100vw; }
   /* Visuel ChatGPT : collé au bord gauche réel de l'écran (comme dans Figma),
      texte gardé aligné dans la colonne 1440. */
@@ -144,8 +144,9 @@ a{ text-decoration:none; color:inherit; }
 .cg-text .p2{ font-size:22px; font-weight:600; color:#080e0c; line-height:1.4; width:530px; }
 
 /* ==================== SOLUTIONS DARK (rôle de NextyLab) ==================== */
-.sol-dark{ position:relative; height:711px; padding:15px; overflow:hidden; }
-.sol-dark-panel{ position:absolute; inset:15px; background:#2a2a2a; border-radius:37px; overflow:hidden; }
+.sol-dark{ position:relative; height:100vh; min-height:731px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.sol-dark-bg{ position:absolute; inset:10px; background:#2a2a2a; border-radius:37px; }   /* rectangle noir plein ecran, marge 10px */
+.sol-dark-stage{ position:relative; width:1440px; height:711px; flex:none; }             /* contenu a taille fixe, centre */
 .chip{
   position:absolute; display:flex; gap:10px; align-items:center;
   background:rgba(0,0,0,0.2); box-shadow:0 7px 11.9px rgba(0,0,0,0.25);
@@ -160,18 +161,18 @@ a{ text-decoration:none; color:inherit; }
 .chip.small{ border-radius:7px; padding-right:6px; }
 .chip.small .ibox{ border-radius:7px; background:linear-gradient(92deg,#2a2a2a 1.6%,#525252 98.3%); }
 .chip.small .txt{ display:flex; align-items:center; padding:6px 6px 6px 0; }
-.chip-docs{ left:658px; top:156px; }
+.chip-docs{ left:673px; top:171px; }
 .chip-docs .ibox img{ width:39px; height:40px; }
-.chip-data{ left:316px; top:90px; padding-right:0; }
+.chip-data{ left:331px; top:105px; padding-right:0; }
 .chip-data .ibox{ width:27px; height:27px; }
 .chip-data .ibox img{ width:17px; height:15px; }
-.chip-rdv{ left:649px; top:546px; padding-right:0; }
+.chip-rdv{ left:664px; top:561px; padding-right:0; }
 .chip-rdv .ibox{ width:24px; height:24px; }
 .chip-rdv .ibox img{ width:9px; height:9px; }
 .chip-rdv .txt span{ width:85px; white-space:normal; }
-.chip-report{ left:951px; top:455px; }
+.chip-report{ left:966px; top:470px; }
 .chip-report .ibox img{ width:30px; height:31px; }
-.chip-relance{ left:293px; top:384px; }
+.chip-relance{ left:308px; top:399px; }
 .chip-relance .ibox img{ width:22px; height:23px; }
 
 .sol-dark-heading{
