@@ -223,6 +223,7 @@
 
   <!-- ==================== HISTOIRE (Deux profils) ==================== -->
   <section class="histoire" id="equipe">
+   <div class="sec-inner">
     <h2>Deux profils. Une même exigence.</h2>
     <div class="profiles">
       <div class="profile">
@@ -238,6 +239,7 @@
       <p>Conçoit et structure des produits digitaux depuis 2019.</p>
       <p>Développe des logiciels sur mesure et des projets e-commerce depuis 2017.</p>
     </div>
+   </div>
   </section>
 
   <!-- ==================== REASSURANCE (chat bubbles) ==================== -->
@@ -288,6 +290,7 @@
 
   <!-- ==================== CTA FINAL (iPhone) ==================== -->
   <section class="cta-final" id="contact">
+   <div class="sec-inner">
     <div class="top-band"></div>
     <div class="headline">
       <div class="l1">Réservez dès maintenant </div>
@@ -372,10 +375,12 @@
         </div>
       </div>
     </div>
+   </div>
   </section>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="footer">
+   <div class="sec-inner">
     <div class="footer-top">
       <div class="footer-brand">
         <div class="name">NEXTYLAB</div>
@@ -403,6 +408,7 @@
       <p>© 2026 NextyLab. Tous droits réservés.</p>
       <p>Conçu ici, au Puy-en-Velay.</p>
     </div>
+   </div>
   </footer>
 
 </div>
@@ -419,7 +425,7 @@
 
   function fit() {
     var w = document.documentElement.clientWidth;
-    var s = w / BASE;
+    var s = Math.min(1, w / BASE);   /* plafonné : jamais plus grand que la taille d'origine */
     if (supportsZoom) {
       page.style.zoom = s;
     } else {

@@ -16,7 +16,7 @@
 
 *{ box-sizing:border-box; margin:0; padding:0; }
 html,body{ background:#fff; }
-html{ overflow-x:hidden; }
+html,body{ overflow-x:clip; }
 body{
   font-family:var(--sf);
   color:#080e0c;
@@ -31,11 +31,16 @@ a{ text-decoration:none; color:inherit; }
 
 .page{
   width:1440px;
-  margin:0;
+  margin:0 auto;
   background:#fff;
   position:relative;
-  overflow:hidden;               /* clip left-bleeding ChatGPT visual */
   transform-origin:top left;     /* fallback scaler (browsers sans zoom) */
+}
+/* Sur écran >= 1440px (zoom = 1, page centrée), les sections à fond sombre
+   s'étendent bord à bord ; leur contenu reste dans la colonne 1440 (.sec-inner). */
+@media (min-width:1440px){
+  .histoire, .cta-final, .footer{ width:100vw; margin-left:calc(50% - 50vw); }
+  .cta-final .sec-inner .top-band{ left:calc(50% - 50vw); width:100vw; }
 }
 
 /* Fill text with an image texture (Figma image-fill headings) */
@@ -104,6 +109,7 @@ a{ text-decoration:none; color:inherit; }
 .chatgpt{
   background:#fff; display:flex; gap:47px; height:900px;
   align-items:flex-start; justify-content:flex-end; padding:110px 96px;
+  overflow:hidden;               /* clippe le débord gauche du visuel ChatGPT */
 }
 .cg-visual{
   flex:none; width:709px; height:680px; background:#2a2a2a;
@@ -242,8 +248,9 @@ a{ text-decoration:none; color:inherit; }
 .pcard .caption .desc{ font-size:16px; font-weight:400; color:#dedede; line-height:1.5; }
 
 /* ==================== HISTOIRE (Deux profils) ==================== */
-.histoire{ background:#2a2a2a; display:flex; flex-direction:column; gap:88px; height:1010px; align-items:center; overflow:hidden; padding:96px; }
-.histoire > h2{ font-size:48px; font-weight:600; color:#fff; text-align:center; letter-spacing:-0.96px; line-height:1.15; padding:15px; width:100%; }
+.histoire{ background:#2a2a2a; }
+.histoire > .sec-inner{ display:flex; flex-direction:column; gap:88px; height:1010px; align-items:center; overflow:hidden; padding:96px; width:1440px; margin:0 auto; }
+.histoire .sec-inner > h2{ font-size:48px; font-weight:600; color:#fff; text-align:center; letter-spacing:-0.96px; line-height:1.15; padding:15px; width:100%; }
 .profiles{ display:flex; gap:266px; height:420px; align-items:center; justify-content:center; width:100%; filter:drop-shadow(0 26px 20.55px rgba(0,0,0,0.25)); }
 .profile{
   position:relative; width:461px; height:428px; border-radius:33px; overflow:hidden;
@@ -289,7 +296,8 @@ a{ text-decoration:none; color:inherit; }
 .faq-card .a{ font-size:16px; font-weight:400; color:#334740; line-height:1.5; width:760px; max-width:100%; }
 
 /* ==================== CTA FINAL (iPhone) ==================== */
-.cta-final{ position:relative; height:900px; background:#2a2a2a; overflow:hidden; }
+.cta-final{ background:#2a2a2a; }
+.cta-final > .sec-inner{ position:relative; height:900px; overflow:hidden; width:1440px; margin:0 auto; }
 .cta-final .top-band{ position:absolute; left:0; top:0; width:1440px; height:433px; background:#fff; }
 .cta-final .headline{ position:absolute; left:116px; top:178px; color:#000; }
 .cta-final .headline .l1{ font-size:55px; font-weight:700; line-height:71px; letter-spacing:0.38px; white-space:pre; }
@@ -357,7 +365,8 @@ a{ text-decoration:none; color:inherit; }
 .ls-notif .actions img{ width:36px; height:36px; }
 
 /* ==================== FOOTER ==================== */
-.footer{ background:#2a2a2a; display:flex; flex-direction:column; gap:40px; align-items:flex-start; overflow:hidden; padding:72px 96px 44px; }
+.footer{ background:#2a2a2a; }
+.footer > .sec-inner{ display:flex; flex-direction:column; gap:40px; align-items:flex-start; overflow:hidden; padding:72px 96px 44px; width:1440px; margin:0 auto; }
 .footer-top{ display:flex; align-items:flex-start; justify-content:space-between; width:100%; }
 .footer-brand{ display:flex; flex-direction:column; gap:14px; width:380px; }
 .footer-brand .name{ font-family:var(--geist); font-weight:700; font-size:20px; color:#fff; }
