@@ -41,6 +41,15 @@ a{ text-decoration:none; color:inherit; }
 @media (min-width:1440px){
   .histoire, .cta-final, .footer{ width:100vw; margin-left:calc(50% - 50vw); }
   .cta-final .sec-inner .top-band{ left:calc(50% - 50vw); width:100vw; }
+  /* Visuel ChatGPT : collé au bord gauche réel de l'écran (comme dans Figma),
+     texte gardé aligné dans la colonne 1440. */
+  .page .chatgpt{
+    width:100vw; margin-left:calc(50% - 50vw);
+    justify-content:space-between;
+    padding-left:0;
+    padding-right:calc(50vw - 720px + 96px);
+  }
+  .chatgpt .cg-visual{ margin-left:-32px; }
 }
 
 /* Fill text with an image texture (Figma image-fill headings) */
