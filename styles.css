@@ -144,8 +144,8 @@ a{ text-decoration:none; color:inherit; }
 .cg-text .p2{ font-size:22px; font-weight:600; color:#080e0c; line-height:1.4; width:530px; }
 
 /* ==================== SOLUTIONS DARK (rôle de NextyLab) ==================== */
-.sol-dark{ position:relative; height:1215px; padding:25px; overflow:hidden; }
-.sol-dark-panel{ position:absolute; inset:25px; background:#2a2a2a; border-radius:37px; overflow:hidden; }
+.sol-dark{ position:relative; height:711px; padding:15px; overflow:hidden; }
+.sol-dark-panel{ position:absolute; inset:15px; background:#2a2a2a; border-radius:37px; overflow:hidden; }
 .chip{
   position:absolute; display:flex; gap:10px; align-items:center;
   background:rgba(0,0,0,0.2); box-shadow:0 7px 11.9px rgba(0,0,0,0.25);
@@ -160,27 +160,27 @@ a{ text-decoration:none; color:inherit; }
 .chip.small{ border-radius:7px; padding-right:6px; }
 .chip.small .ibox{ border-radius:7px; background:linear-gradient(92deg,#2a2a2a 1.6%,#525252 98.3%); }
 .chip.small .txt{ display:flex; align-items:center; padding:6px 6px 6px 0; }
-.chip-docs{ left:658px; top:461px; }
+.chip-docs{ left:658px; top:156px; }
 .chip-docs .ibox img{ width:39px; height:40px; }
-.chip-data{ left:316px; top:395px; padding-right:0; }
+.chip-data{ left:316px; top:90px; padding-right:0; }
 .chip-data .ibox{ width:27px; height:27px; }
 .chip-data .ibox img{ width:17px; height:15px; }
-.chip-rdv{ left:649px; top:851px; padding-right:0; }
+.chip-rdv{ left:649px; top:546px; padding-right:0; }
 .chip-rdv .ibox{ width:24px; height:24px; }
 .chip-rdv .ibox img{ width:9px; height:9px; }
 .chip-rdv .txt span{ width:85px; white-space:normal; }
-.chip-report{ left:951px; top:760px; }
+.chip-report{ left:951px; top:455px; }
 .chip-report .ibox img{ width:30px; height:31px; }
-.chip-relance{ left:293px; top:689px; }
+.chip-relance{ left:293px; top:384px; }
 .chip-relance .ibox img{ width:22px; height:23px; }
 
 .sol-dark-heading{
-  position:absolute; left:96px; right:96px; top:540px; height:85px;
+  position:absolute; left:96px; right:96px; top:235px; height:85px;
   display:flex; align-items:center; justify-content:center; padding:15px;
 }
 .sol-dark-heading p{ font-size:48px; font-weight:600; color:#fff; text-align:center; letter-spacing:-0.96px; line-height:1.14; }
 .sol-dark-sub{
-  position:absolute; left:93px; right:99px; top:604px; height:61px;
+  position:absolute; left:93px; right:99px; top:299px; height:61px;
   display:flex; align-items:center; justify-content:center; padding:15px 50px;
 }
 .sol-dark-sub p{ font-size:20px; font-weight:400; color:#b8bdbd; text-align:center; line-height:1.55; }
