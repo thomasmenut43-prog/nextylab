@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=1440">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NextyLab — Automatisez ce qui vous ralentit</title>
 <meta name="description" content="NextyLab conçoit des logiciels, automatisations et agents IA adaptés au fonctionnement réel des entreprises locales.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -406,3 +406,31 @@
   </footer>
 
 </div>
+
+<script>
+/* Le design est un canvas figé de 1440px. On le fait remplir exactement la
+   largeur de l'écran (pas de bandes, pas de scroll horizontal). `zoom` garde
+   le texte net et recalcule la mise en page ; `transform:scale` sert de repli
+   pour les navigateurs sans zoom. */
+(function () {
+  var BASE = 1440;
+  var page = document.querySelector('.page');
+  var supportsZoom = 'zoom' in document.body.style;
+
+  function fit() {
+    var w = document.documentElement.clientWidth;
+    var s = w / BASE;
+    if (supportsZoom) {
+      page.style.zoom = s;
+    } else {
+      page.style.transform = 'scale(' + s + ')';
+      document.body.style.height = (page.offsetHeight * s) + 'px';
+    }
+  }
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(page);
+  fit();
+})();
+</script>

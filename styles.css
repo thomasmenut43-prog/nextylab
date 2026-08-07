@@ -15,7 +15,8 @@
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
-html{ background:#e9e9ec; }
+html,body{ background:#fff; }
+html{ overflow-x:hidden; }
 body{
   font-family:var(--sf);
   color:#080e0c;
@@ -30,10 +31,11 @@ a{ text-decoration:none; color:inherit; }
 
 .page{
   width:1440px;
-  margin:0 auto;
+  margin:0;
   background:#fff;
   position:relative;
   overflow:hidden;               /* clip left-bleeding ChatGPT visual */
+  transform-origin:top left;     /* fallback scaler (browsers sans zoom) */
 }
 
 /* Fill text with an image texture (Figma image-fill headings) */
