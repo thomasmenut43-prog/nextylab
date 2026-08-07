@@ -440,4 +440,17 @@
   if (window.ResizeObserver) new ResizeObserver(fit).observe(page);
   fit();
 })();
+
+/* Apparition de la section "role de NextyLab" quand elle entre dans l'ecran. */
+(function () {
+  var sec = document.querySelector('.sol-dark');
+  if (!sec || !('IntersectionObserver' in window)) return;   /* sans JS/support : reste visible */
+  sec.classList.add('reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { sec.classList.add('in-view'); io.disconnect(); }
+    });
+  }, { threshold: 0.15 });
+  io.observe(sec);
+})();
 </script>
