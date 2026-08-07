@@ -306,7 +306,7 @@ a{ text-decoration:none; color:inherit; }
 
 /* ==================== CTA FINAL (iPhone) ==================== */
 .cta-final{ background:#2a2a2a; }
-.cta-final > .sec-inner{ position:relative; height:900px; overflow:hidden; width:1440px; margin:0 auto; }
+.cta-final > .sec-inner{ position:relative; height:900px; width:1440px; margin:0 auto; }
 .cta-final .top-band{ position:absolute; left:0; top:0; width:1440px; height:433px; background:#fff; }
 .cta-final .headline{ position:absolute; left:116px; top:178px; color:#000; }
 .cta-final .headline .l1{ font-size:55px; font-weight:700; line-height:71px; letter-spacing:0.38px; white-space:pre; }
