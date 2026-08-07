@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Outer Ring" opacity="0.2">
+<path d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28ZM5.6 28C5.6 40.3712 15.6288 50.4 28 50.4C40.3712 50.4 50.4 40.3712 50.4 28C50.4 15.6288 40.3712 5.6 28 5.6C15.6288 5.6 5.6 15.6288 5.6 28Z" fill="white" style="mix-blend-mode:overlay"/>
+<path d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28ZM5.6 28C5.6 40.3712 15.6288 50.4 28 50.4C40.3712 50.4 50.4 40.3712 50.4 28C50.4 15.6288 40.3712 5.6 28 5.6C15.6288 5.6 5.6 15.6288 5.6 28Z" fill="white" fill-opacity="0.35" style="mix-blend-mode:soft-light"/>
+<path d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28ZM5.6 28C5.6 40.3712 15.6288 50.4 28 50.4C40.3712 50.4 50.4 40.3712 50.4 28C50.4 15.6288 40.3712 5.6 28 5.6C15.6288 5.6 5.6 15.6288 5.6 28Z" fill="url(#paint0_linear_0_125)" fill-opacity="0.35" style="mix-blend-mode:overlay"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_125" x1="18.3715" y1="44.7059" x2="18.3715" y2="18.3529" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>
