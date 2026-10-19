@@ -938,7 +938,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   transform-origin: top center;
   transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
 }
-.step-card--last { background: var(--bg); }
 
 .step-card__text {
   display: flex;
@@ -1485,7 +1484,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   align-items: center;
   gap: 18px;
   max-width: 360px;
-  color: #FFFFFF;
+  color: var(--ink);
 }
 
 .mock-lock__clock {
@@ -1494,7 +1493,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   align-items: center;
   gap: 2px;
 }
-.mock-lock__clock span { color: rgba(255, 255, 255, 0.7); font-size: 13px; font-weight: 500; }
+.mock-lock__clock span { color: rgba(10, 10, 10, 0.55); font-size: 13px; font-weight: 500; }
 .mock-lock__clock b {
   font-size: 52px;
   font-weight: 600;
@@ -1515,12 +1514,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   align-items: flex-start;
   gap: 10px;
   padding: 11px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(10, 10, 10, 0.06);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.8);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
-  box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 24px -14px rgba(10, 10, 10, 0.3);
   animation: lock-notif 9s infinite;
   animation-delay: var(--d);
 }
@@ -1538,10 +1537,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .mock-lock__notif div { min-width: 0; flex: 1; }
 .mock-lock__notif p { margin: 0; }
-.mock-lock__meta { display: flex; justify-content: space-between; gap: 8px; color: rgba(255, 255, 255, 0.55); font-size: 10.5px; }
-.mock-lock__meta b { color: rgba(255, 255, 255, 0.75); font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; font-size: 10px; }
+.mock-lock__meta { display: flex; justify-content: space-between; gap: 8px; color: rgba(10, 10, 10, 0.5); font-size: 10.5px; }
+.mock-lock__meta b { color: rgba(10, 10, 10, 0.7); font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; font-size: 10px; }
 .mock-lock__title { margin-top: 2px !important; font-size: 12.5px; font-weight: 600; }
-.mock-lock__text { color: rgba(255, 255, 255, 0.7); font-size: 12px; line-height: 1.35; }
+.mock-lock__text { color: rgba(10, 10, 10, 0.65); font-size: 12px; line-height: 1.35; }
 
 @keyframes lock-notif {
   0%, 3% { opacity: 0; transform: translateY(-14px) scale(0.96); }
