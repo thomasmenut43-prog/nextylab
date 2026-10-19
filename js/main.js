@@ -425,7 +425,7 @@ if (savings) {
       input.style.setProperty('--p', `${p}%`);
     });
     out('nombre').textContent = `${nombre} fois`;
-    out('minutes').textContent = `${minutes} min`;
+    out('minutes').textContent = duration(minutes);
 
     const perDay = nombre * minutes;
     const perMonth = perDay * DAYS_PER_MONTH;
@@ -434,7 +434,7 @@ if (savings) {
     pick('total').textContent = duration(perMonth);
     pick('day').textContent = duration(perDay);
     pick('year').textContent = days < 1 ? "moins d'un jour de travail" : `${days} jour${days > 1 ? 's' : ''} de travail`;
-    summary = `Automatiser une tâche : ${task}, environ ${nombre} fois par jour, ${minutes} min à chaque fois (soit ${duration(perMonth)} par mois).`;
+    summary = `Automatiser une tâche : ${task}, environ ${nombre} fois par jour, ${duration(minutes)} à chaque fois (soit ${duration(perMonth)} par mois).`;
   };
 
   savings.addEventListener('input', update);
