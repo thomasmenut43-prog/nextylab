@@ -37,8 +37,8 @@
   --shadow-float: 0 24px 64px -16px #000000cc;
   --gradient-halo: radial-gradient(50% 50% at 50% 50%, rgba(255, 107, 44, 0.42) 0%, rgba(255, 107, 44, 0) 100%);
 
-  --gutter: clamp(16px, 5vw, 80px);
-  --container: 1200px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --container: 1440px;
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -402,7 +402,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   position: relative;
   justify-self: end;
   width: 100%;
-  max-width: 540px;
+  max-width: 600px;
   aspect-ratio: 1;
   touch-action: pan-y;
 }
@@ -504,7 +504,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 .pains__inner,
-.tools__inner,
 .method__inner,
 .faq__inner,
 .cta__inner { width: 100%; }
@@ -570,6 +569,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 .pains__item p {
+  max-width: 680px;
   margin: 0;
   color: var(--ink-2);
   font-size: 16px;
@@ -715,91 +715,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .offer-item.is-active .offer-item__bar { transform: none; }
-}
-
-/* ---------- Outils ---------- */
-.tools__inner {
-  max-width: var(--container);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.tools__intro {
-  max-width: 760px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.tools__lead {
-  margin: 0;
-  color: var(--ink-2);
-  font-size: 18px;
-  line-height: 28px;
-}
-
-/* 12 outils : 4 colonnes en bureau, 3 en tablette, 2 en mobile, toujours des rangées pleines */
-.tools__grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-
-@media (max-width: 1024px) {
-  .tools__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-.tool {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px 12px 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: var(--elevated);
-}
-
-.tool__mono {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: var(--surface);
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.tool__text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.tool__name {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 20px;
-}
-
-.tool__type {
-  color: var(--ink-2);
-  font-size: 13px;
-  line-height: 18px;
-}
-
-@media (max-width: 600px) {
-  .tools__inner { gap: 32px; }
-  .tools__lead { font-size: 17px; line-height: 27px; }
-  .tools__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .tool { gap: 10px; padding: 10px 12px 10px 10px; }
-  .tool__mono { width: 36px; height: 36px; font-size: 12px; }
-  .tool__name { font-size: 14px; }
-  .tool__type { font-size: 12px; line-height: 16px; }
 }
 
 /* ---------- Méthode ---------- */
