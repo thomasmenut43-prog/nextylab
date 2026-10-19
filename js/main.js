@@ -17,29 +17,32 @@ menu.addEventListener('click', (event) => {
   if (event.target.closest('a')) setMenuOpen(false);
 });
 
-// Menu déroulant « Métiers » : ouverture au clic (et au survol en bureau, en CSS)
-const dropdown = document.querySelector('.nav__dropdown');
-const dropButton = dropdown && dropdown.querySelector('.nav__drop-btn');
-const setDropdownOpen = (open) => {
-  if (!dropdown) return;
+// Menus déroulants « Solutions » et « Métiers » : ouverture au clic (et au survol en bureau, en CSS),
+// un seul ouvert à la fois
+const dropdowns = [...document.querySelectorAll('.nav__dropdown')];
+const setDropdownOpen = (dropdown, open) => {
   dropdown.classList.toggle('is-open', open);
-  dropButton.setAttribute('aria-expanded', String(open));
+  dropdown.querySelector('.nav__drop-btn').setAttribute('aria-expanded', String(open));
 };
-if (dropdown) {
-  dropButton.addEventListener('click', (event) => {
+dropdowns.forEach((dropdown) => {
+  dropdown.querySelector('.nav__drop-btn').addEventListener('click', (event) => {
     event.stopPropagation();
-    setDropdownOpen(!dropdown.classList.contains('is-open'));
+    const open = !dropdown.classList.contains('is-open');
+    dropdowns.forEach((other) => setDropdownOpen(other, other === dropdown && open));
   });
-  document.addEventListener('click', (event) => {
-    if (!dropdown.contains(event.target)) setDropdownOpen(false);
+});
+document.addEventListener('click', (event) => {
+  dropdowns.forEach((dropdown) => {
+    if (!dropdown.contains(event.target)) setDropdownOpen(dropdown, false);
   });
-}
+});
 
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
-  if (dropdown && dropdown.classList.contains('is-open')) {
-    setDropdownOpen(false);
-    dropButton.focus();
+  const openDropdown = dropdowns.find((dropdown) => dropdown.classList.contains('is-open'));
+  if (openDropdown) {
+    setDropdownOpen(openDropdown, false);
+    openDropdown.querySelector('.nav__drop-btn').focus();
   } else if (nav.classList.contains('is-open')) {
     setMenuOpen(false);
     toggle.focus();
@@ -84,6 +87,7 @@ if (offers) {
       card.style.setProperty('--dist', Math.abs(pos));
       card.classList.toggle('is-active', seen && pos === 0);
       card.setAttribute('aria-hidden', String(pos !== 0));
+      card.querySelectorAll('a').forEach((link) => { link.tabIndex = pos === 0 ? 0 : -1; });
     });
     dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === active)));
     dots.forEach((dot, i) => dot.classList.toggle('is-active', i === active));
@@ -390,6 +394,59 @@ if (window.matchMedia('(hover: hover)').matches) {
     if ('requestIdleCallback' in window) requestIdleCallback(preload);
     else setTimeout(preload, 1500);
   });
+}
+
+// Simulateur : fois par jour × minutes à chaque fois, ramené au mois (21 jours travaillés) et à l'année
+// (journées de 7 h). Le bouton mène au formulaire et y note la tâche, si le visiteur n'a rien écrit lui-même.
+const savings = document.querySelector('[data-savings]');
+if (savings) {
+  const DAYS_PER_MONTH = 21;
+  const HOURS_PER_DAY = 7;
+  const inputs = {
+    nombre: savings.querySelector('[data-savings-in="nombre"]'),
+    minutes: savings.querySelector('[data-savings-in="minutes"]'),
+  };
+  const out = (name) => savings.querySelector(`[data-savings-out="${name}"]`);
+  const pick = (name) => savings.querySelector(`[data-savings-${name}]`);
+  const duration = (minutes) => {
+    const h = Math.floor(minutes / 60);
+    const m = Math.round(minutes % 60);
+    if (!h) return `${m} min`;
+    return m ? `${h} h ${String(m).padStart(2, '0')}` : `${h} h`;
+  };
+  let summary = '';
+
+  const update = () => {
+    const nombre = Number(inputs.nombre.value);
+    const minutes = Number(inputs.minutes.value);
+    const task = savings.querySelector('input[name="tache"]:checked').value;
+    Object.values(inputs).forEach((input) => {
+      const p = ((input.value - input.min) / (input.max - input.min)) * 100;
+      input.style.setProperty('--p', `${p}%`);
+    });
+    out('nombre').textContent = `${nombre} fois`;
+    out('minutes').textContent = `${minutes} min`;
+
+    const perDay = nombre * minutes;
+    const perMonth = perDay * DAYS_PER_MONTH;
+    const days = Math.round((perMonth * 12) / 60 / HOURS_PER_DAY);
+    pick('task').textContent = task;
+    pick('total').textContent = duration(perMonth);
+    pick('day').textContent = duration(perDay);
+    pick('year').textContent = days < 1 ? "moins d'un jour de travail" : `${days} jour${days > 1 ? 's' : ''} de travail`;
+    summary = `Automatiser une tâche : ${task}, environ ${nombre} fois par jour, ${minutes} min à chaque fois (soit ${duration(perMonth)} par mois).`;
+  };
+
+  savings.addEventListener('input', update);
+  pick('cta').addEventListener('click', () => {
+    const besoin = document.querySelector('textarea[name="besoin"]');
+    if (besoin && (!besoin.value.trim() || besoin.dataset.fromSimulator === 'true')) {
+      besoin.value = summary;
+      besoin.dataset.fromSimulator = 'true';
+      besoin.addEventListener('input', () => { besoin.dataset.fromSimulator = 'false'; }, { once: true });
+    }
+  });
+  update();
 }
 
 // FAQ : une question ouverte à la fois ; à l'ouverture, l'assistant « écrit » un instant puis sa réponse apparaît
