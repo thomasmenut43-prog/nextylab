@@ -636,10 +636,14 @@
                 <input type="text" name="nom" autocomplete="name" maxlength="120" required>
               </label>
               <label class="booking__field">
-                <span>Téléphone ou e-mail</span>
-                <input type="text" name="contact" autocomplete="email" maxlength="160" required>
+                <span>Entreprise ou structure</span>
+                <input type="text" name="entreprise" autocomplete="organization" maxlength="160" required>
               </label>
             </div>
+            <label class="booking__field">
+              <span>Téléphone ou e-mail</span>
+              <input type="text" name="contact" autocomplete="email" maxlength="160" required>
+            </label>
             <!-- Champ piège pour les robots, invisible pour les visiteurs -->
             <input class="booking__trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
             <input type="hidden" name="date">

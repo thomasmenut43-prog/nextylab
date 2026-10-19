@@ -36,6 +36,7 @@ module.exports = async (req, res) => {
     heure: clean(body.heure, 5),
     besoin: clean(body.besoin, 2000),
     nom: clean(body.nom, 120),
+    entreprise: clean(body.entreprise, 160),
     contact: clean(body.contact, 160),
   };
 
@@ -44,7 +45,7 @@ module.exports = async (req, res) => {
 
   const day = new Date(`${data.date}T12:00:00Z`);
   const valid = /^\d{4}-\d{2}-\d{2}$/.test(data.date) && !Number.isNaN(day.getTime())
-    && SLOTS.includes(data.heure) && data.besoin && data.nom
+    && SLOTS.includes(data.heure) && data.besoin && data.nom && data.entreprise
     && (EMAIL.test(data.contact) || PHONE.test(data.contact));
   if (!valid) return res.status(400).json({ ok: false, error: 'champs' });
 
@@ -54,6 +55,7 @@ module.exports = async (req, res) => {
     'Nouvelle demande de rendez-vous',
     `Créneau souhaité : ${jour} à ${heure}`,
     `Nom : ${data.nom}`,
+    `Entreprise : ${data.entreprise}`,
     `Contact : ${data.contact}`,
     '',
     'Besoin :',
@@ -62,7 +64,7 @@ module.exports = async (req, res) => {
   const html = `
     <h2>Nouvelle demande de rendez-vous</h2>
     <p><strong>Créneau souhaité :</strong> ${escape(jour)} à ${escape(heure)}</p>
-    <p><strong>Nom :</strong> ${escape(data.nom)}<br><strong>Contact :</strong> ${escape(data.contact)}</p>
+    <p><strong>Nom :</strong> ${escape(data.nom)}<br><strong>Entreprise :</strong> ${escape(data.entreprise)}<br><strong>Contact :</strong> ${escape(data.contact)}</p>
     <p><strong>Besoin :</strong><br>${escape(data.besoin).replace(/\n/g, '<br>')}</p>`;
 
   try {
@@ -71,7 +73,7 @@ module.exports = async (req, res) => {
       from: `"Site Nextylab" <${SMTP_USER}>`,
       to,
       replyTo: EMAIL.test(data.contact) ? data.contact : undefined,
-      subject: `Demande de rendez-vous : ${data.nom}, ${jour} à ${heure}`,
+      subject: `Demande de rendez-vous : ${data.nom} (${data.entreprise}), ${jour} à ${heure}`,
       text,
       html,
     });

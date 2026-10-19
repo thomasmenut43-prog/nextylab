@@ -1,5 +1,5 @@
 // CTA final : demande de rendez-vous en trois étapes. 1) un jour ouvré dans les 60 prochains jours, 2) un créneau,
-// 3) le besoin et les coordonnées ; la demande part en JSON vers /api/demande (fonction Vercel).
+// 3) le besoin, l'entreprise et les coordonnées ; la demande part en JSON vers /api/demande (fonction Vercel).
 // C'est une demande : le créneau est confirmé ensuite par Nextylab.
 (() => {
   const form = document.querySelector('[data-booking]');
@@ -129,14 +129,16 @@
       heure: time,
       besoin: field('besoin').value.trim(),
       nom: field('nom').value.trim(),
+      entreprise: field('entreprise').value.trim(),
       contact: field('contact').value.trim(),
       site: field('site').value,
     };
-    ['besoin', 'nom', 'contact'].forEach((name) => field(name).removeAttribute('aria-invalid'));
+    ['besoin', 'nom', 'entreprise', 'contact'].forEach((name) => field(name).removeAttribute('aria-invalid'));
     const contactOk = EMAIL.test(values.contact) || PHONE.test(values.contact);
     const missing = [];
     if (!values.besoin) { missing.push('votre besoin'); field('besoin').setAttribute('aria-invalid', 'true'); }
     if (!values.nom) { missing.push('votre nom'); field('nom').setAttribute('aria-invalid', 'true'); }
+    if (!values.entreprise) { missing.push('votre entreprise'); field('entreprise').setAttribute('aria-invalid', 'true'); }
     if (!contactOk) { missing.push('un téléphone ou un e-mail valide'); field('contact').setAttribute('aria-invalid', 'true'); }
     if (missing.length) {
       setStatus(`Il manque ${missing.join(', ')}.`, true);
