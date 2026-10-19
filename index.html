@@ -42,7 +42,6 @@
 
       <div class="nav__menu" id="nav-menu">
         <ul class="nav__links">
-          <li><a href="#offres">Offres</a></li>
           <li class="nav__dropdown">
             <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-metiers">Métiers<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="nav__submenu" id="menu-metiers">
@@ -60,9 +59,8 @@
               </a>
             </div>
           </li>
+          <li><a href="#methode">Comment ça marche</a></li>
           <li><a href="/etude-de-cas.html">Étude de cas</a></li>
-          <li><a href="#methode">Méthode</a></li>
-          <li><a href="#faq">Questions</a></li>
         </ul>
         <a class="btn btn--light btn--sm nav__cta" href="#contact">
           Réserver un diagnostic
@@ -135,89 +133,99 @@
       </div>
     </section>
 
-    <section class="section offers theme-dark" id="offres" aria-labelledby="offres-titre" data-offers>
-      <div class="offers__inner">
-        <div class="offers__content">
-          <h2 class="section-title" id="offres-titre">Trois façons de vous libérer du travail répétitif.</h2>
+    <section class="section offers theme-light" id="offres" aria-labelledby="offres-titre" data-offers>
+      <h2 class="section-title offers__title" id="offres-titre">Trois façons de vous libérer du travail répétitif.</h2>
 
-          <!-- La liste pilote la pile de cartes ; la carte de devant change toute seule tant que la section est à l'écran -->
-          <ul class="offers__list">
-            <li><button class="offers__tab is-active" type="button" aria-current="true" data-offer="0">Agents IA conversationnels</button></li>
-            <li><button class="offers__tab" type="button" aria-current="false" data-offer="1">Automatisations métier</button></li>
-            <li><button class="offers__tab" type="button" aria-current="false" data-offer="2">SaaS sur mesure</button></li>
-          </ul>
-        </div>
-
-        <div class="offers__stage">
-          <article class="offer-card" style="--s:0">
-            <div class="offer-il" aria-hidden="true">
-              <div class="offer-il__head">
-                <span class="offer-il__avatar"><svg viewBox="0 0 90 90"><path d="M15.67 42.56 34.61 23.61c5.74-5.74 15.03-5.74 20.78 0l6.72 6.72-9.78 9.78-5.5-5.5c-1.71-1.71-4.4-1.71-6.11 0l-16.5 16.5a5.86 5.86 0 0 1-8.55-8.55Z"/><path d="M74.33 47.44 55.39 66.39c-5.74 5.74-15.03 5.74-20.78 0l-6.72-6.72 9.78-9.78 5.5 5.5c1.71 1.71 4.4 1.71 6.11 0l16.5-16.5a5.86 5.86 0 0 1 8.55 8.55Z"/></svg></span>
-                <strong>Assistant</strong>
-                <small>En ligne</small>
+      <!-- Carte focus : une offre au centre, les deux autres en retrait sur les côtés. Flèches, points, glisser et clavier.
+           Chaque visuel raconte l'offre en trois temps (scènes reprises par les pages Métiers : garder les marqueurs scene). -->
+      <div class="offers__stage" data-offers-stage aria-roledescription="carrousel">
+        <article class="offer-card" aria-roledescription="diapositive" aria-label="1 sur 3" style="--pos:0;--dist:0">
+          <div class="offer-card__text">
+            <small>Agent IA</small>
+            <h3>Agents IA conversationnels</h3>
+            <p>Il répond, qualifie la demande et prend les rendez-vous par téléphone, mail ou chat.</p>
+          </div>
+          <div class="offer-card__visual" aria-hidden="true">
+            <!-- scene:agent -->
+            <div class="vz">
+              <div class="vz-panel vz-chat">
+                <div class="vz-chat__head"><span class="vz-av"><svg viewBox="0 0 90 90"><path d="M15.67 42.56 34.61 23.61c5.74-5.74 15.03-5.74 20.78 0l6.72 6.72-9.78 9.78-5.5-5.5c-1.71-1.71-4.4-1.71-6.11 0l-16.5 16.5a5.86 5.86 0 0 1-8.55-8.55Z"/><path d="M74.33 47.44 55.39 66.39c-5.74 5.74-15.03 5.74-20.78 0l-6.72-6.72 9.78-9.78 5.5 5.5c1.71 1.71 4.4 1.71 6.11 0l16.5-16.5a5.86 5.86 0 0 1 8.55 8.55Z"/></svg></span><b>Assistant</b><small>Chat du site</small></div>
+                <p class="vz-b vz-s1">Bonjour, il vous reste de la place pour un massage samedi&nbsp;?</p>
+                <p class="vz-b vz-b--out vz-s2">Oui, samedi à 15 h. Je vous l'ajoute&nbsp;?</p>
+                <p class="vz-b vz-s3">Parfait, merci&nbsp;!</p>
               </div>
-              <div class="offer-chat">
-                <div class="offer-chat__row offer-chat__past"><span class="offer-bubble">Vous êtes ouverts le samedi&nbsp;?</span></div>
-                <div class="offer-chat__row offer-chat__row--out offer-chat__past"><span class="offer-bubble">Oui, de 9 h à 18 h.</span></div>
-                <div class="offer-chat__row" data-step><span class="offer-bubble">Bonjour, je voudrais un rendez-vous jeudi.</span></div>
-                <div class="offer-chat__row offer-chat__row--out" data-step data-transient><span class="offer-bubble offer-bubble--typing"><i></i><i></i><i></i></span></div>
-                <div class="offer-chat__row offer-chat__row--out" data-step><span class="offer-bubble">Jeudi, j'ai 14 h ou 16 h 30. Lequel vous convient&nbsp;?</span></div>
-                <div class="offer-chat__row" data-step><span class="offer-bubble">14 h, parfait.</span></div>
-                <div class="offer-chat__ok" data-step>Rendez-vous ajouté au planning</div>
+              <div class="vz-panel vz-ticket vz-s4">
+                <span class="vz-tag">Demande qualifiée</span>
+                <dl><div><dt>Prestation</dt><dd>Massage 1 h</dd></div><div><dt>Créneau</dt><dd>Samedi 15 h</dd></div><div><dt>Contact</dt><dd>Mme Durand</dd></div></dl>
               </div>
-              <div class="offer-il__chips"><span>Téléphone</span><span>Mail</span><span class="is-on">Chat</span></div>
+              <div class="vz-toast vz-s5"><i>✓</i>Rendez-vous ajouté à l'agenda</div>
             </div>
-            <h3 class="offer-card__title">Agents IA conversationnels</h3>
-            <p class="offer-card__text">Il répond, qualifie la demande et prend les rendez-vous par téléphone, mail ou chat.</p>
-          </article>
+            <!-- /scene -->
+          </div>
+        </article>
 
-          <article class="offer-card" style="--s:1">
-            <div class="offer-il offer-il--flow" aria-hidden="true">
-              <!-- CRM et caisse envoient leurs données, planning et compta les reçoivent, en passant par Nextylab -->
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet">
-                <path id="offre-flux-0" d="M90 44C116 44 118 88 132 92" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
-                <path id="offre-flux-1" d="M230 44C204 44 202 88 188 92" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
-                <path id="offre-flux-2" d="M90 156C116 156 118 112 132 108" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
-                <path id="offre-flux-3" d="M230 156C204 156 202 112 188 108" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
-                <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-0"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle>
-                <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-0"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.2s" repeatCount="indefinite"/></circle>
-                <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="0.6s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-1"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="0.6s" repeatCount="indefinite"/></circle>
-                <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-1"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.8s" repeatCount="indefinite"/></circle>
-                <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" calcMode="linear" keyPoints="1;0" keyTimes="0;1"><mpath href="#offre-flux-2"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.2s" repeatCount="indefinite"/></circle>
-                <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" calcMode="linear" keyPoints="1;0" keyTimes="0;1"><mpath href="#offre-flux-3"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.8s" repeatCount="indefinite"/></circle>
-                <circle cx="160" cy="100" r="36" fill="none" stroke="#D9622F" stroke-opacity=".3"><animate attributeName="r" values="34;54" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values=".35;0" dur="2.4s" repeatCount="indefinite"/></circle>
-                <rect x="132" y="72" width="56" height="56" rx="15" fill="#D9622F"/>
-                <g transform="translate(139 79) scale(.4667)" fill="#fff"><path d="M15.67 42.56 34.61 23.61c5.74-5.74 15.03-5.74 20.78 0l6.72 6.72-9.78 9.78-5.5-5.5c-1.71-1.71-4.4-1.71-6.11 0l-16.5 16.5a5.86 5.86 0 0 1-8.55-8.55Z"/><path d="M74.33 47.44 55.39 66.39c-5.74 5.74-15.03 5.74-20.78 0l-6.72-6.72 9.78-9.78 5.5 5.5c1.71 1.71 4.4 1.71 6.11 0l16.5-16.5a5.86 5.86 0 0 1 8.55 8.55Z"/></g>
-                <rect x="14" y="26" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="52" y="48" text-anchor="middle">CRM</text>
-                <rect x="230" y="26" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="268" y="48" text-anchor="middle">Caisse</text>
-                <rect x="14" y="138" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="52" y="160" text-anchor="middle">Planning</text>
-                <rect x="230" y="138" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="268" y="160" text-anchor="middle">Compta</text>
-              </svg>
+        <article class="offer-card" aria-roledescription="diapositive" aria-label="2 sur 3" style="--pos:1;--dist:1">
+          <div class="offer-card__text">
+            <small>Automatisation</small>
+            <h3>Automatisations métier</h3>
+            <p>Votre CRM, votre caisse, votre planning et votre compta échangent leurs données sans ressaisie.</p>
+          </div>
+          <div class="offer-card__visual" aria-hidden="true">
+            <!-- scene:flux -->
+            <div class="vz">
+              <div class="vz-flow">
+                <div class="vz-flow__head"><span class="vz-tag">Automatique</span><small>Aucune ressaisie</small></div>
+                <div class="vz-step vz-step--trigger vz-s1"><span class="vz-app"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><div><b>Réservation confirmée</b><small>Site de réservation</small></div></div>
+                <div class="vz-step vz-s2"><span class="vz-app"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-3.5 3.8-5.5 7-5.5s5.8 2 7 5.5"/></svg></span><div><b>Client ajouté au CRM</b><small>CRM</small></div><span class="vz-check">✓</span></div>
+                <div class="vz-step vz-s3"><span class="vz-app"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></span><div><b>Facture d'acompte créée</b><small>Comptabilité</small></div><span class="vz-check">✓</span></div>
+                <div class="vz-step vz-s4"><span class="vz-app"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span><div><b>Confirmation envoyée</b><small>Messagerie</small></div><span class="vz-check">✓</span></div>
+              </div>
             </div>
-            <h3 class="offer-card__title">Automatisations métier</h3>
-            <p class="offer-card__text">Votre CRM, votre caisse, votre planning et votre compta échangent leurs données sans ressaisie.</p>
-          </article>
+            <!-- /scene -->
+          </div>
+        </article>
 
-          <article class="offer-card" style="--s:2">
-            <div class="offer-il" aria-hidden="true">
-              <div class="offer-app">
-                <div class="offer-app__bar"><i></i><i></i><i></i></div>
-                <div class="offer-app__body">
-                  <div class="offer-app__side"><span class="is-on"></span><span></span><span></span><span></span><span></span></div>
-                  <div class="offer-app__main">
-                    <div class="offer-app__chart"><i style="--h:46%;--k:0"></i><i style="--h:70%;--k:1"></i><i style="--h:58%;--k:2"></i><i style="--h:88%;--k:3"></i><i style="--h:64%;--k:4"></i><i class="is-hl" style="--h:96%;--k:5"></i><i style="--h:74%;--k:6"></i></div>
-                    <div class="offer-app__row"><b></b><span></span><span></span><em class="is-todo">À traiter</em></div>
-                    <div class="offer-app__row"><b></b><span></span><span></span><em class="is-todo">À traiter</em></div>
-                    <div class="offer-app__row"><b></b><span></span><span></span><em>Traité</em></div>
-                    <div class="offer-app__row"><b></b><span></span><span></span><em class="is-todo">À traiter</em></div>
+        <article class="offer-card" aria-roledescription="diapositive" aria-label="3 sur 3" style="--pos:-1;--dist:1">
+          <div class="offer-card__text">
+            <small>Logiciel</small>
+            <h3>SaaS sur mesure</h3>
+            <p>Le logiciel interne qui remplace vos tableurs, hébergé et maintenu par nos soins.</p>
+          </div>
+          <div class="offer-card__visual" aria-hidden="true">
+            <!-- scene:saas -->
+            <div class="vz">
+              <div class="vz-panel vz-sheet vz-s1">
+                <div class="vz-sheet__name">Planning_v3_FINAL.xlsx</div>
+                <div class="vz-grid"><i></i><i></i><i></i><i></i><i></i><i class="r"></i><i></i><i></i><i></i><i class="r"></i><i></i><i></i><i></i><i class="y"></i><i></i><i></i><i></i><i></i><i class="r"></i><i></i><i></i><i></i><i class="y"></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <span class="vz-label vz-label--before vz-s1">Avant</span>
+              <div class="vz-panel vz-app-win vz-s3">
+                <div class="vz-win__bar"><i></i><i></i><i></i><b>Votre outil</b></div>
+                <div class="vz-win__body">
+                  <div class="vz-win__side"><span>Réservations</span><span>Clients</span><span>Factures</span><span>Équipe</span></div>
+                  <div class="vz-win__main">
+                    <div class="vz-win__top">Cette semaine<em>+ Nouvelle</em></div>
+                    <div class="vz-row"><span>Chambre 12 · Martin</span><em>Confirmé</em></div>
+                    <div class="vz-row"><span>Chambre 4 · Bernard</span><em class="w">À valider</em></div>
+                    <div class="vz-row"><span>Chambre 7 · Petit</span><em>Confirmé</em></div>
                   </div>
                 </div>
               </div>
+              <span class="vz-label vz-label--after vz-s3">Après</span>
             </div>
-            <h3 class="offer-card__title">SaaS sur mesure</h3>
-            <p class="offer-card__text">Le logiciel interne qui remplace vos tableurs, hébergé et maintenu par nos soins.</p>
-          </article>
+            <!-- /scene -->
+          </div>
+        </article>
+      </div>
+
+      <div class="offers__nav">
+        <button class="offers__arrow" type="button" data-offers-prev aria-label="Offre précédente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="offers__dots" data-offers-dots>
+          <button type="button" aria-label="Agents IA conversationnels"></button>
+          <button type="button" aria-label="Automatisations métier"></button>
+          <button type="button" aria-label="SaaS sur mesure"></button>
         </div>
+        <button class="offers__arrow" type="button" data-offers-next aria-label="Offre suivante"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
     </section>
 
