@@ -55,62 +55,170 @@ const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-// Offres : la liste pilote l'objet 3D. Quand la barre de l'offre active est pleine, on passe à la
-// suivante ; le survol met en pause (CSS) et l'animation s'arrête hors écran.
+// Offres : pile de cartes en perspective. Toutes les quelques secondes, la carte de devant tombe et repasse
+// derrière ; la liste suit et permet de choisir une offre, un clic sur la pile passe à la suivante.
+// Le survol de la pile met en pause, et la rotation s'arrête hors écran.
 const offers = document.querySelector('[data-offers]');
 if (offers) {
-  const items = [...offers.querySelectorAll('.offer-item')];
-  const images = [...offers.querySelectorAll('.offers__img')];
+  const cards = [...offers.querySelectorAll('.offer-card')];
+  const tabs = [...offers.querySelectorAll('.offers__tab')];
+  const stage = offers.querySelector('.offers__stage');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DELAY = 4200;
+  const DROP = 700;
+  let order = cards.map((_, i) => i); // de devant vers derrière
+  let visible = !('IntersectionObserver' in window);
+  let hovered = false;
+  let dropping = false;
+  let timer = 0;
 
-  const showOffer = (index) => {
-    items.forEach((item, i) => {
-      const active = i === index;
-      item.classList.toggle('is-active', active);
-      item.setAttribute('aria-current', String(active));
-      if (active) {
-        // Relance la barre même si l'offre était déjà active
-        const bar = item.querySelector('.offer-item__bar');
-        bar.style.animation = 'none';
-        void bar.offsetWidth;
-        bar.style.animation = '';
-      }
+  const place = () => {
+    order.forEach((card, slot) => cards[card].style.setProperty('--s', slot));
+    tabs.forEach((tab, i) => {
+      const active = i === order[0];
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-current', String(active));
     });
-    images.forEach((img, i) => img.classList.toggle('is-active', i === index));
-    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
   };
 
-  // Mobile : un glissement horizontal sur l'image passe à l'offre suivante ou précédente
-  const dots = [...offers.querySelectorAll('.offers__dots i')];
-  const visual = offers.querySelector('.offers__visual');
-  let touchStart = null;
-  visual.addEventListener('touchstart', (event) => {
-    const touch = event.touches[0];
-    touchStart = { x: touch.clientX, y: touch.clientY };
-  }, { passive: true });
-  visual.addEventListener('touchend', (event) => {
-    if (!touchStart) return;
-    const touch = event.changedTouches[0];
-    const dx = touch.clientX - touchStart.x;
-    const dy = touch.clientY - touchStart.y;
-    touchStart = null;
-    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-    const current = items.findIndex((item) => item.classList.contains('is-active'));
-    showOffer((current + (dx < 0 ? 1 : -1) + items.length) % items.length);
-  }, { passive: true });
-
-  items.forEach((item, i) => {
-    item.addEventListener('click', () => showOffer(i));
-    item.querySelector('.offer-item__bar').addEventListener('animationend', () => {
-      showOffer((i + 1) % items.length);
+  const next = () => {
+    if (dropping) return;
+    const front = cards[order[0]];
+    order = [...order.slice(1), order[0]];
+    if (still) {
+      place();
+      return;
+    }
+    // Les autres cartes avancent pendant que celle de devant tombe
+    dropping = true;
+    front.classList.add('is-dropping');
+    order.slice(0, -1).forEach((card, slot) => cards[card].style.setProperty('--s', slot));
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle('is-active', i === order[0]);
+      tab.setAttribute('aria-current', String(i === order[0]));
     });
-  });
+    setTimeout(() => {
+      front.style.setProperty('--s', order.length - 1);
+      front.classList.remove('is-dropping');
+      dropping = false;
+    }, DROP);
+  };
 
+  const schedule = () => {
+    clearTimeout(timer);
+    if (still || !visible || hovered) return;
+    timer = setTimeout(() => {
+      next();
+      schedule();
+    }, DELAY);
+  };
+
+  tabs.forEach((tab, i) => tab.addEventListener('click', () => {
+    const steps = order.indexOf(i);
+    if (still) {
+      order = [...order.slice(steps), ...order.slice(0, steps)];
+      place();
+      return;
+    }
+    for (let s = 0; s < steps; s += 1) setTimeout(next, s * (DROP + 60));
+    schedule();
+  }));
+  stage.addEventListener('click', () => {
+    next();
+    schedule();
+  });
+  if (window.matchMedia('(hover: hover)').matches) {
+    stage.addEventListener('pointerenter', () => { hovered = true; schedule(); });
+    stage.addEventListener('pointerleave', () => { hovered = false; schedule(); });
+  }
+
+  const setVisible = (value) => {
+    visible = value;
+    schedule();
+  };
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
-      offers.classList.toggle('is-paused', !entry.isIntersecting);
-    }).observe(offers);
+    new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting)).observe(offers);
+  } else {
+    setVisible(true);
   }
 }
+
+// Illustrations d'interface (section Offres et pages Métiers) : la conversation avance, les demandes passent
+// en « Traité », le schéma de flux s'anime. Chacune s'arrête hors écran ; sans animation, elle reste figée
+// dans un état lisible.
+document.querySelectorAll('.offer-il').forEach((il) => {
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const flow = il.classList.contains('offer-il--flow') ? il.querySelector('svg') : null;
+  let visible = !('IntersectionObserver' in window);
+
+  // Conversation : les messages arrivent un par un, puis elle recommence
+  const steps = [...il.querySelectorAll('.offer-chat [data-step]')];
+  let stepIndex = 0;
+  let chatTimer = 0;
+  const chatTick = () => {
+    chatTimer = 0;
+    if (!visible) return;
+    if (stepIndex < steps.length) {
+      const prev = steps[stepIndex - 1];
+      if (prev && prev.hasAttribute('data-transient')) prev.classList.remove('is-on');
+      const step = steps[stepIndex];
+      stepIndex += 1;
+      step.classList.add('is-on');
+      chatTimer = setTimeout(chatTick, step.hasAttribute('data-transient') ? 1000 : 1400);
+    } else {
+      chatTimer = setTimeout(() => {
+        steps.forEach((step) => step.classList.remove('is-on'));
+        stepIndex = 0;
+        chatTimer = setTimeout(chatTick, 500);
+      }, 2600);
+    }
+  };
+
+  // Application : les demandes « À traiter » passent une à une en « Traité »
+  const rows = [...il.querySelectorAll('.offer-app__row')];
+  const initial = rows.map((row) => row.querySelector('em').textContent);
+  const appTick = () => {
+    if (!visible) return;
+    const row = rows.find((r) => r.querySelector('em').classList.contains('is-todo'));
+    if (!row) {
+      rows.forEach((r, k) => {
+        const em = r.querySelector('em');
+        em.textContent = initial[k];
+        em.classList.toggle('is-todo', initial[k] !== 'Traité');
+      });
+      return;
+    }
+    const em = row.querySelector('em');
+    row.classList.add('is-flash');
+    setTimeout(() => {
+      em.textContent = 'Traité';
+      em.classList.remove('is-todo');
+    }, 300);
+    setTimeout(() => row.classList.remove('is-flash'), 900);
+  };
+
+  if (still) {
+    steps.forEach((step) => { if (!step.hasAttribute('data-transient')) step.classList.add('is-on'); });
+    if (flow) flow.pauseAnimations();
+    return;
+  }
+  if (rows.length) setInterval(appTick, 1800);
+
+  const setVisible = (value) => {
+    visible = value;
+    il.classList.toggle('is-paused', !visible);
+    if (flow) {
+      if (visible) flow.unpauseAnimations();
+      else flow.pauseAnimations();
+    }
+    if (visible && steps.length && !chatTimer) chatTick();
+  };
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting)).observe(il);
+  } else {
+    setVisible(true);
+  }
+});
 
 // Méthode : où les cartes se figent. Si l'écran est assez grand, le titre reste figé en haut et
 // les cartes se centrent dans la place restante ; sinon elles se centrent dans l'écran.

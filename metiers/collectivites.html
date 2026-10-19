@@ -73,7 +73,34 @@
         </div>
         <div class="trade-hero__visual theme-dark" aria-hidden="true">
           <div class="trade-hero__halo"></div>
-          <img src="/assets/3d/offre-automatisation.webp" alt="" width="1200" height="1200">
+          <div class="trade-hero__stack">
+            <span class="trade-hero__ghost" style="--g:2"></span>
+            <span class="trade-hero__ghost" style="--g:1"></span>
+            <div class="trade-hero__card">
+              <div class="offer-il offer-il--flow" aria-hidden="true">
+                <!-- CRM et caisse envoient leurs données, planning et compta les reçoivent, en passant par Nextylab -->
+                <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet">
+                  <path id="offre-flux-0" d="M90 44C116 44 118 88 132 92" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
+                  <path id="offre-flux-1" d="M230 44C204 44 202 88 188 92" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
+                  <path id="offre-flux-2" d="M90 156C116 156 118 112 132 108" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
+                  <path id="offre-flux-3" d="M230 156C204 156 202 112 188 108" fill="none" stroke="#2E2E34" stroke-width="1.5"/>
+                  <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-0"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle>
+                  <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-0"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.2s" repeatCount="indefinite"/></circle>
+                  <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="0.6s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-1"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="0.6s" repeatCount="indefinite"/></circle>
+                  <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" calcMode="linear"><mpath href="#offre-flux-1"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.8s" repeatCount="indefinite"/></circle>
+                  <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" calcMode="linear" keyPoints="1;0" keyTimes="0;1"><mpath href="#offre-flux-2"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.2s" repeatCount="indefinite"/></circle>
+                  <circle r="3.4" fill="#D9622F" opacity="0"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" calcMode="linear" keyPoints="1;0" keyTimes="0;1"><mpath href="#offre-flux-3"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.4s" begin="1.8s" repeatCount="indefinite"/></circle>
+                  <circle cx="160" cy="100" r="36" fill="none" stroke="#D9622F" stroke-opacity=".3"><animate attributeName="r" values="34;54" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values=".35;0" dur="2.4s" repeatCount="indefinite"/></circle>
+                  <rect x="132" y="72" width="56" height="56" rx="15" fill="#D9622F"/>
+                  <g transform="translate(139 79) scale(.4667)" fill="#fff"><path d="M15.67 42.56 34.61 23.61c5.74-5.74 15.03-5.74 20.78 0l6.72 6.72-9.78 9.78-5.5-5.5c-1.71-1.71-4.4-1.71-6.11 0l-16.5 16.5a5.86 5.86 0 0 1-8.55-8.55Z"/><path d="M74.33 47.44 55.39 66.39c-5.74 5.74-15.03 5.74-20.78 0l-6.72-6.72 9.78-9.78 5.5 5.5c1.71 1.71 4.4 1.71 6.11 0l16.5-16.5a5.86 5.86 0 0 1 8.55 8.55Z"/></g>
+                  <rect x="14" y="26" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="52" y="48" text-anchor="middle">CRM</text>
+                  <rect x="230" y="26" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="268" y="48" text-anchor="middle">Caisse</text>
+                  <rect x="14" y="138" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="52" y="160" text-anchor="middle">Planning</text>
+                  <rect x="230" y="138" width="76" height="36" rx="9" fill="#1C1C20" stroke="#2E2E34"/><text x="268" y="160" text-anchor="middle">Compta</text>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
