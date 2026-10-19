@@ -123,17 +123,22 @@ if (stepCards.length) {
   const placeCards = () => {
     // Toutes les cartes prennent la hauteur de la plus grande, pour une pile régulière
     cardsList.style.removeProperty('--card-h');
-    const tallest = Math.max(...stepCards.map((card) => card.offsetHeight));
-    cardsList.style.setProperty('--card-h', `${tallest}px`);
+    const measured = Math.max(...stepCards.map((card) => card.offsetHeight));
     const step = parseFloat(getComputedStyle(cardsList).getPropertyValue('--stack-step')) || 0;
     const stack = (stepCards.length - 1) * step;
     methodInner.classList.remove('has-pinned-intro');
     const introBottom = INTRO_TOP + intro.offsetHeight + 24;
+    const desktop = window.matchMedia('(min-width: 861px)').matches;
+    // En bureau, les cartes gagnent jusqu'à 64 px de hauteur, tant que le titre figé et la pile tiennent à l'écran
+    const extra = desktop ? Math.min(64, Math.max(0, window.innerHeight - introBottom - measured - stack - 16)) : 0;
+    const tallest = measured + extra;
+    cardsList.style.setProperty('--card-h', `${tallest}px`);
     const free = window.innerHeight - introBottom - tallest - stack;
-    const pinned = window.matchMedia('(min-width: 861px)').matches && free >= 16;
+    const pinned = desktop && free >= 16;
     methodInner.classList.toggle('has-pinned-intro', pinned);
+    // Au plus près du centre de l'écran, sans jamais passer sous le titre figé
     const top = pinned
-      ? introBottom + Math.max(16, free / 2)
+      ? Math.max(introBottom + 16, (window.innerHeight - tallest - stack) / 2)
       : Math.max(INTRO_TOP - 16, (window.innerHeight - tallest - stack) / 2);
     cardsList.style.setProperty('--stick-top', `${Math.round(top)}px`);
   };

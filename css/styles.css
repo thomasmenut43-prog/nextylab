@@ -212,7 +212,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .nav {
   position: relative;
-  max-width: var(--container);
+  max-width: min(1080px, 90%);
   min-height: 66px;
   margin: 0 auto;
   display: grid;
@@ -261,6 +261,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* Mobile et tablette : bouton menu et panneau déroulant */
 @media (max-width: 880px) {
   .nav {
+    max-width: none;
     grid-template-columns: 1fr auto;
     min-height: 60px;
     padding: 7px 7px 7px 20px;
@@ -569,6 +570,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .pains__text {
   max-width: 1120px;
   margin: 0;
+  text-align: center;
   font-family: var(--font-display);
   color: #8A8F98;
   font-size: clamp(28px, 3.7vw, 54px);
@@ -766,10 +768,16 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 .method__intro {
-  max-width: 760px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
+  text-align: center;
+}
+
+/* Bureau : le titre tient sur une ligne, sa taille suit la largeur de l'écran (texte ~29 fois la taille de police) */
+@media (min-width: 961px) {
+  .method__intro .section-title { font-size: min(48px, 2.95vw); white-space: nowrap; }
 }
 
 .method__lead {
@@ -814,7 +822,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: clamp(24px, 4vw, 56px);
-  padding: clamp(20px, 2.4vw, 32px);
+  padding: clamp(28px, 3.2vw, 48px) clamp(24px, 3vw, 40px);
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: var(--elevated);
@@ -1492,18 +1500,55 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 .pledges__feature {
+  --pad: clamp(28px, 3vw, 44px);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 48px;
-  min-height: 380px;
-  padding: clamp(28px, 3vw, 44px);
+  padding: var(--pad);
   border-radius: var(--radius-xl);
-  background: radial-gradient(90% 70% at 100% 100%, rgba(255, 107, 44, 0.32) 0%, rgba(255, 107, 44, 0) 70%), var(--bg);
+  background: radial-gradient(70% 45% at 50% 100%, rgba(255, 107, 44, 0.22) 0%, rgba(255, 107, 44, 0) 70%), var(--bg);
   color: var(--ink);
 }
 
-.pledges__icon { width: 56px; height: 56px; }
+.pledges__feature-text { position: relative; z-index: 1; }
+
+/* Globe centré sur l'Europe, deux fois plus large que le contenu de la tuile et coupé par son bord bas.
+   Les marges sont en % de la largeur : la sphère occupe environ 69 % du canevas et commence à 15,5 % du
+   haut ; on la remonte à 28 px sous le texte et on en montre 58 %. Sans WebGL, l'icône reste affichée. */
+.pledges__globe {
+  --g: 200%;
+  position: relative;
+  flex: none;
+  width: var(--g);
+  aspect-ratio: 1;
+  margin: calc(28px - 0.155 * var(--g)) calc((100% - var(--g)) / 2) calc(-0.445 * var(--g) - var(--pad));
+}
+
+.pledges__globe canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: grab;
+  touch-action: pan-y;
+  transition: opacity 0.8s ease;
+  contain: layout paint size;
+}
+.pledges__globe canvas.is-grabbing { cursor: grabbing; }
+.pledges__globe.is-ready canvas { opacity: 1; }
+
+.pledges__icon {
+  position: absolute;
+  left: 50%;
+  top: 24%;
+  width: 56px;
+  height: 56px;
+  transform: translateX(-50%);
+}
+.pledges__globe.is-ready .pledges__icon { display: none; }
 
 .pledges__feature h3 {
   margin: 0;
@@ -1568,7 +1613,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 @media (max-width: 960px) {
   .pledges__layout { grid-template-columns: minmax(0, 1fr); }
-  .pledges__feature { min-height: 0; }
+  .pledges__globe { --g: min(200%, 900px); }
 }
 
 @media (max-width: 600px) {
