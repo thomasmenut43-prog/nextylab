@@ -79,7 +79,10 @@ if (stepCards.length) {
   const intro = methodInner.querySelector('.method__intro');
   const INTRO_TOP = 100; // sous la barre de navigation
   const placeCards = () => {
+    // Toutes les cartes prennent la hauteur de la plus grande, pour une pile régulière
+    cardsList.style.removeProperty('--card-h');
     const tallest = Math.max(...stepCards.map((card) => card.offsetHeight));
+    cardsList.style.setProperty('--card-h', `${tallest}px`);
     const step = parseFloat(getComputedStyle(cardsList).getPropertyValue('--stack-step')) || 0;
     const stack = (stepCards.length - 1) * step;
     methodInner.classList.remove('has-pinned-intro');
@@ -97,20 +100,37 @@ if (stepCards.length) {
   window.addEventListener('load', placeCards);
 }
 
-// Méthode : une carte recouverte par la suivante recule légèrement et s'assombrit
-if (stepCards.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+// Méthode, pendant le défilement :
+// - chaque carte recule d'un cran par carte déjà figée devant elle (pile régulière) ;
+// - quand la pile repart vers le haut, le titre figé remonte du même nombre de pixels,
+//   pour qu'il ne passe jamais par-dessus les cartes.
+if (stepCards.length > 1) {
+  const cardsList = stepCards[0].parentElement;
+  const methodInner = cardsList.parentElement;
+  const intro = methodInner.querySelector('.method__intro');
+  const lastCard = stepCards[stepCards.length - 1];
+  const animateDepth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let ticking = false;
   const stackCards = () => {
     ticking = false;
+    const base = parseFloat(cardsList.style.getPropertyValue('--stick-top')) || 0;
+    const step = parseFloat(getComputedStyle(cardsList).getPropertyValue('--stack-step')) || 0;
+
+    const lastTarget = base + (stepCards.length - 1) * step;
+    const lift = methodInner.classList.contains('has-pinned-intro')
+      ? Math.max(0, lastTarget - lastCard.getBoundingClientRect().top)
+      : 0;
+    intro.style.transform = lift > 0.5 ? `translateY(${-Math.round(lift)}px)` : '';
+
+    if (!animateDepth) return;
+    const stuck = stepCards.map((card, j) => card.getBoundingClientRect().top <= base + j * step + 1);
     stepCards.forEach((card, i) => {
-      const next = stepCards[i + 1];
-      if (!next) return;
-      const overlap = card.getBoundingClientRect().bottom - next.getBoundingClientRect().top;
-      const covered = Math.max(0, Math.min(1, overlap / card.offsetHeight));
-      card.style.transform = `scale(${1 - covered * 0.06})`;
-      card.style.filter = `brightness(${1 - covered * 0.12})`;
+      const depth = stuck.slice(i + 1).filter(Boolean).length;
+      card.style.transform = depth ? `scale(${1 - depth * 0.035})` : '';
+      card.style.filter = depth ? `brightness(${1 - depth * 0.05})` : '';
     });
   };
+  window.addEventListener('resize', stackCards);
   window.addEventListener('scroll', () => {
     if (!ticking) {
       ticking = true;

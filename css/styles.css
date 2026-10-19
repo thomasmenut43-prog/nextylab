@@ -759,12 +759,20 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .method__cards {
   --stack-step: 16px;
+  --last: 3; /* index de la dernière carte */
   margin: 0;
-  padding: 0 0 6vh;
+  padding: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+
+/* Temps de pause : la pile complète reste affichée avant de repartir */
+.method__cards::after {
+  content: "";
+  flex: none;
+  height: 22vh;
 }
 
 .step-card {
@@ -778,8 +786,11 @@ ul { margin: 0; padding: 0; list-style: none; }
   border-radius: var(--radius-xl);
   background: var(--elevated);
   color: var(--ink);
+  min-height: var(--card-h, 0px);
+  margin-bottom: calc((var(--last) - var(--i)) * var(--stack-step));
   box-shadow: 0 -12px 40px -24px rgba(10, 10, 10, 0.25);
   transform-origin: top center;
+  transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
 }
 .step-card--last { background: var(--bg); }
 
@@ -832,7 +843,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   letter-spacing: -0.03em;
 }
 
-.step-card p {
+.step-card__body p {
   max-width: 440px;
   margin: 0;
   color: var(--ink-2);
@@ -1206,55 +1217,191 @@ ul { margin: 0; padding: 0; list-style: none; }
   100% { opacity: 0; }
 }
 
-/* Déploiement : vos outils reliés à Nextylab */
-.mock-sync { position: relative; max-width: 380px; aspect-ratio: 5 / 4; }
-.mock-sync__lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.mock-sync__lines path {
-  fill: none;
-  stroke: var(--orange);
-  stroke-width: 1.5;
-  stroke-dasharray: 5 5;
-  vector-effect: non-scaling-stroke;
-  animation: sync-flow 1.6s linear infinite;
-}
-@keyframes sync-flow { to { stroke-dashoffset: -20; } }
-.mock-sync__chip {
-  position: absolute;
-  display: inline-flex;
+/* Déploiement : vos outils en icônes d'app, reliés à Nextylab par des flux, l'équipe formée */
+.mock-deploy {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--elevated);
-  box-shadow: var(--shadow-card);
-  font-weight: 600;
-  white-space: nowrap;
-  transform: translate(-50%, -50%);
+  gap: 14px;
 }
-.mock-sync__chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
-.mock-sync__hub {
+
+.mock-deploy__stage {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 400 / 290;
+}
+
+.mock-deploy__flows {
   position: absolute;
-  top: 50%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.mock-deploy__lines path {
+  fill: none;
+  stroke: #D4D4D8;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 5;
+}
+.mock-deploy__packets circle {
+  fill: #FF6B2C;
+  filter: drop-shadow(0 0 4px rgba(255, 107, 44, 0.8));
+}
+
+.mock-deploy__hub {
+  position: absolute;
+  top: 40%;
   left: 50%;
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
-  background: #0A0A0A;
-  box-shadow: 0 0 0 8px rgba(255, 107, 44, 0.14), var(--shadow-card);
+  width: 68px;
+  height: 68px;
+  border-radius: 19px;
+  background: linear-gradient(180deg, #1F1F23 0%, #0A0A0A 100%);
+  box-shadow: 0 0 0 8px rgba(255, 107, 44, 0.12), 0 16px 30px -12px rgba(10, 10, 10, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   transform: translate(-50%, -50%);
 }
 
-/* Maintenance : évolutions livrées chaque mois */
-.mock-chart__live { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: 12px; font-weight: 500; }
-.mock-chart__live i { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(255, 107, 44, 0.2); }
-.mock-chart__bars { display: flex; align-items: flex-end; gap: 12px; height: 150px; padding: 20px 16px 0; }
-.mock-chart__bars span { flex: 1; height: var(--h); border-radius: 6px 6px 2px 2px; background: var(--line); }
-.mock-chart__bars span.is-on { background: var(--orange); }
-.mock-chart__months { display: flex; gap: 12px; padding: 10px 16px 14px; color: var(--ink-2); font-size: 11px; }
-.mock-chart__months span { flex: 1; text-align: center; }
+.mock-deploy__app {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transform: translate(-50%, -50%);
+}
+
+/* Icône d'app façon iPhone : tuile blanche bombée, pastille orange « connecté » */
+.mock-deploy__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F3 100%);
+  box-shadow: 0 10px 22px -10px rgba(10, 10, 10, 0.35), inset 0 0 0 1px rgba(10, 10, 10, 0.05), inset 0 1px 0 #FFFFFF;
+}
+.mock-deploy__icon i {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  border: 2.5px solid var(--surface);
+  border-radius: 50%;
+  background: #FF6B2C;
+}
+
+.mock-deploy__label {
+  color: var(--ink-2);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.mock-deploy__team {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 5px;
+  border: 1px solid rgba(10, 10, 10, 0.06);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px -12px rgba(10, 10, 10, 0.35);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+.mock-deploy__faces { display: flex; }
+.mock-deploy__faces span {
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #FFFFFF 0%, var(--tint) 70%);
+}
+.mock-deploy__faces span + span { margin-left: -9px; }
+.mock-deploy__faces img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Maintenance : écran verrouillé, les notifications Nextylab arrivent l'une après l'autre */
+.mock-lock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 360px;
+  color: #FFFFFF;
+}
+
+.mock-lock__clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.mock-lock__clock span { color: rgba(255, 255, 255, 0.7); font-size: 13px; font-weight: 500; }
+.mock-lock__clock b {
+  font-size: 52px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.mock-lock__stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mock-lock__notif {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.8);
+  animation: lock-notif 9s infinite;
+  animation-delay: var(--d);
+}
+
+.mock-lock__app {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #2E2E35 0%, #141416 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.mock-lock__notif div { min-width: 0; flex: 1; }
+.mock-lock__notif p { margin: 0; }
+.mock-lock__meta { display: flex; justify-content: space-between; gap: 8px; color: rgba(255, 255, 255, 0.55); font-size: 10.5px; }
+.mock-lock__meta b { color: rgba(255, 255, 255, 0.75); font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; font-size: 10px; }
+.mock-lock__title { margin-top: 2px !important; font-size: 12.5px; font-weight: 600; }
+.mock-lock__text { color: rgba(255, 255, 255, 0.7); font-size: 12px; line-height: 1.35; }
+
+@keyframes lock-notif {
+  0%, 3% { opacity: 0; transform: translateY(-14px) scale(0.96); }
+  9%, 88% { opacity: 1; transform: none; }
+  95%, 100% { opacity: 0; transform: translateY(-6px) scale(0.98); }
+}
 
 @media (max-width: 860px) {
   .method__cards { --stack-step: 14px; }
@@ -1270,7 +1417,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .method__inner { gap: 40px; }
   .method__lead { font-size: 17px; line-height: 27px; }
   .method__cards { gap: 20px; }
-  .step-card p { font-size: 16px; line-height: 26px; }
+  .step-card__body p { font-size: 16px; line-height: 26px; }
   .step-card__visual { min-height: 0; padding: 16px; }
   .mock { font-size: 12px; }
   .mock-proto__stage { width: 100%; height: 284px; }
@@ -1281,7 +1428,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   .mock-proto__face { width: 36px; height: 36px; }
   .mock-proto__bubble { padding: 5px 9px; font-size: 10.5px; }
   .mock-proto__cursor { top: 250px; }
-  .mock-chart__bars { height: 110px; }
+  .mock-deploy__icon { width: 44px; height: 44px; border-radius: 12px; }
+  .mock-deploy__icon svg { width: 20px; height: 20px; }
+  .mock-deploy__hub { width: 54px; height: 54px; border-radius: 15px; }
+  .mock-deploy__team { font-size: 11px; }
+  .mock-deploy__faces span { width: 26px; height: 26px; }
+  .mock-lock__clock b { font-size: 40px; }
   .mock-call { --r: 88px; --s: 62px; }
   .mock-call__btn, .mock-call__pulse { width: 68px; height: 68px; }
 }
