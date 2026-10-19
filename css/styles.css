@@ -127,9 +127,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   height: 52px;
-  padding: 0 26px;
+  padding: 0 20px;
   border-radius: var(--radius-sm);
   font: 600 15px/1 var(--font-text);
   text-decoration: none;
@@ -171,7 +170,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 
   position: relative;
   height: 44px;
-  padding: 0 32px;
   border: calc(0.08 * 1rem) solid transparent;
   background:
     linear-gradient(var(--rb-fill), var(--rb-fill)) padding-box,
