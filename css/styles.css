@@ -203,9 +203,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   100% { background-position: 200%; }
 }
 
-.btn__arrow { transition: transform 0.2s var(--ease-out); }
-.btn:hover .btn__arrow { transform: translateX(3px); }
-
 /* ---------- Barre de navigation ---------- */
 .site-header {
   position: sticky;
