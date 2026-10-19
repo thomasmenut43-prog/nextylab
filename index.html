@@ -202,39 +202,108 @@
       </div>
     </section>
 
-    <section class="section method theme-dark" id="methode" aria-labelledby="methode-titre">
-      <img class="method__motif" src="assets/brand/motif-symbole.svg" alt="" aria-hidden="true" width="640" height="400" loading="lazy">
-
+    <section class="section method theme-light" id="methode" aria-labelledby="methode-titre">
       <div class="method__inner">
         <div class="method__intro">
           <h2 class="section-title" id="methode-titre">Quatre étapes, de la première discussion au logiciel en service.</h2>
           <p class="method__lead">Vous testez chaque étape avant de vous engager.</p>
         </div>
 
-        <ol class="method__steps">
-          <li class="step reveal">
-            <div class="step__head"><span class="step__num">01</span><span class="step__line" aria-hidden="true"></span></div>
-            <span class="step__pill">45 min</span>
-            <h3>Diagnostic</h3>
-            <p>On repère avec vous ce qui peut être automatisé.</p>
+        <!-- Une carte par étape : elles restent collées en haut et s'empilent pendant le défilement -->
+        <ol class="method__cards">
+          <li class="step-card" style="--i: 0">
+            <div class="step-card__text">
+              <div class="step-card__head">
+                <span class="step-card__num" aria-hidden="true">01</span>
+                <span class="step-card__pill">45 min</span>
+              </div>
+              <div class="step-card__body">
+                <h3>Diagnostic</h3>
+                <p>On repère avec vous ce qui peut être automatisé.</p>
+              </div>
+            </div>
+            <div class="step-card__visual" aria-hidden="true">
+              <div class="mock mock-panel mock-audit">
+                <div class="mock__bar"><span>Tâches repérées</span><span class="mock__badge">4</span></div>
+                <ul>
+                  <li><span class="mock__check is-on"></span>Relances clients<span class="mock__tag">À automatiser</span></li>
+                  <li><span class="mock__check is-on"></span>Saisie des factures<span class="mock__tag">À automatiser</span></li>
+                  <li><span class="mock__check is-on"></span>Prise de rendez-vous<span class="mock__tag">À automatiser</span></li>
+                  <li><span class="mock__check"></span>Comptes rendus<span class="mock__tag mock__tag--muted">À étudier</span></li>
+                </ul>
+              </div>
+            </div>
           </li>
-          <li class="step reveal">
-            <div class="step__head"><span class="step__num">02</span><span class="step__line" aria-hidden="true"></span></div>
-            <span class="step__pill">7 jours</span>
-            <h3>Prototype</h3>
-            <p>Une première version que vous testez en conditions réelles.</p>
+          <li class="step-card" style="--i: 1">
+            <div class="step-card__text">
+              <div class="step-card__head">
+                <span class="step-card__num" aria-hidden="true">02</span>
+                <span class="step-card__pill">7 jours</span>
+              </div>
+              <div class="step-card__body">
+                <h3>Prototype</h3>
+                <p>Une première version que vous testez en conditions réelles.</p>
+              </div>
+            </div>
+            <div class="step-card__visual" aria-hidden="true">
+              <div class="mock mock-panel mock-app">
+                <span class="mock-app__badge">Version 1</span>
+                <div class="mock-app__top"><i></i><i></i><i></i></div>
+                <div class="mock-app__body">
+                  <div class="mock-app__side"><i class="sk is-on"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i></div>
+                  <div class="mock-app__main">
+                    <i class="sk sk--title"></i>
+                    <div class="mock-app__tiles"><i class="is-on"></i><i></i><i></i></div>
+                    <i class="sk"></i><i class="sk sk--short"></i><i class="sk"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </li>
-          <li class="step reveal">
-            <div class="step__head"><span class="step__num">03</span><span class="step__line" aria-hidden="true"></span></div>
-            <span class="step__pill">2 à 4 semaines</span>
-            <h3>Déploiement</h3>
-            <p>Branchement à vos outils et formation de l'équipe.</p>
+          <li class="step-card" style="--i: 2">
+            <div class="step-card__text">
+              <div class="step-card__head">
+                <span class="step-card__num" aria-hidden="true">03</span>
+                <span class="step-card__pill">2 à 4 semaines</span>
+              </div>
+              <div class="step-card__body">
+                <h3>Déploiement</h3>
+                <p>Branchement à vos outils et formation de l'équipe.</p>
+              </div>
+            </div>
+            <div class="step-card__visual" aria-hidden="true">
+              <div class="mock mock-sync">
+                <svg class="mock-sync__lines" viewBox="0 0 100 80" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M50 40 L16 14"/><path d="M50 40 L84 14"/><path d="M50 40 L16 66"/><path d="M50 40 L84 66"/>
+                </svg>
+                <span class="mock-sync__chip" style="left: 16%; top: 17.5%"><i></i>Agenda</span>
+                <span class="mock-sync__chip" style="left: 84%; top: 17.5%"><i></i>Caisse</span>
+                <span class="mock-sync__chip" style="left: 16%; top: 82.5%"><i></i>Compta</span>
+                <span class="mock-sync__chip" style="left: 84%; top: 82.5%"><i></i>Mails</span>
+                <span class="mock-sync__hub"><svg viewBox="15 17 60 56" width="34" height="32" aria-hidden="true"><path d="M15.6661 42.5556L34.6109 23.6108C40.3554 17.8663 49.6445 17.8663 55.389 23.6108L62.1113 30.3331L52.3334 40.1111L46.8333 34.611C45.1222 32.8998 42.4332 32.8998 40.7221 34.611L24.2218 51.1113C23.0349 51.4526 21.7782 51.4698 20.5823 51.161C19.3865 50.8523 18.2952 50.2288 17.4219 49.3555C16.5486 48.4822 15.9251 47.3909 15.6164 46.1951C15.3076 44.9992 15.3248 43.7425 15.6661 42.5556Z" fill="#FFFFFF"/><path d="M74.3336 47.4444L55.3889 66.3891C49.6443 72.1337 40.3553 72.1337 34.6108 66.3891L27.8884 59.6668L37.6664 49.8889L43.1665 55.389C44.8776 57.1001 47.5665 57.1001 49.2777 55.389L65.7779 38.8887C66.9649 38.5473 68.2216 38.5301 69.4174 38.8389C70.6133 39.1477 71.7046 39.7711 72.5779 40.6444C73.4512 41.5178 74.0746 42.6091 74.3834 43.8049C74.6922 45.0007 74.675 46.2574 74.3336 47.4444Z" fill="#FF6B2C"/></svg></span>
+              </div>
+            </div>
           </li>
-          <li class="step step--last reveal">
-            <div class="step__head"><span class="step__num step__num--accent">04</span><span class="step__note">puis chaque mois</span></div>
-            <span class="step__pill">En continu</span>
-            <h3>Maintenance</h3>
-            <p>Suivi, corrections et évolutions au fil des mois.</p>
+          <li class="step-card step-card--last theme-dark" style="--i: 3">
+            <div class="step-card__text">
+              <div class="step-card__head">
+                <span class="step-card__num" aria-hidden="true">04</span>
+                <span class="step-card__pill">En continu</span>
+              </div>
+              <div class="step-card__body">
+                <h3>Maintenance</h3>
+                <p>Suivi, corrections et évolutions au fil des mois.</p>
+              </div>
+            </div>
+            <div class="step-card__visual" aria-hidden="true">
+              <div class="mock mock-panel mock-chart">
+                <div class="mock__bar"><span>Évolutions livrées</span><span class="mock-chart__live"><i></i>Suivi en cours</span></div>
+                <div class="mock-chart__bars">
+                  <span style="--h: 38%"></span><span style="--h: 55%"></span><span style="--h: 46%"></span><span style="--h: 70%"></span><span class="is-on" style="--h: 62%"></span><span class="is-on" style="--h: 88%"></span>
+                </div>
+                <div class="mock-chart__months"><span>Mai</span><span>Juin</span><span>Juil.</span><span>Août</span><span>Sept.</span><span>Oct.</span></div>
+              </div>
+            </div>
           </li>
         </ol>
       </div>

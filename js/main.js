@@ -70,6 +70,30 @@ if (offers) {
   }
 }
 
+// Méthode : une carte recouverte par la suivante recule légèrement et s'assombrit
+const stepCards = [...document.querySelectorAll('.step-card')];
+if (stepCards.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  let ticking = false;
+  const stackCards = () => {
+    ticking = false;
+    stepCards.forEach((card, i) => {
+      const next = stepCards[i + 1];
+      if (!next) return;
+      const overlap = card.getBoundingClientRect().bottom - next.getBoundingClientRect().top;
+      const covered = Math.max(0, Math.min(1, overlap / card.offsetHeight));
+      card.style.transform = `scale(${1 - covered * 0.06})`;
+      card.style.filter = `brightness(${1 - covered * 0.12})`;
+    });
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(stackCards);
+    }
+  }, { passive: true });
+  stackCards();
+}
+
 // Chaque bloc .reveal apparaît une fois, quand il entre dans l'écran.
 // Sans IntersectionObserver, les blocs restent simplement visibles.
 if ('IntersectionObserver' in window) {
