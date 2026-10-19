@@ -722,7 +722,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- Méthode ---------- */
 /* Cartes collantes qui s'empilent : texte à gauche, illustration de l'étape à droite */
-.method { background: var(--surface); }
+/* clip-path : la bande de fond du titre figé ne déborde jamais sur la section précédente */
+.method { background: var(--surface); clip-path: inset(0); }
 
 .method__inner {
   max-width: var(--container);
