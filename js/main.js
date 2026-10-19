@@ -408,13 +408,28 @@ if (revealSection) {
   text.replaceChildren(readable, visual);
   text.style.setProperty('--n', index);
 
-  // La révélation commence quand la section arrive à mi-écran et finit un peu avant qu'elle reparte
+  // La révélation commence quand la section arrive à mi-écran et finit un peu avant qu'elle reparte.
+  // Sur mobile, la barre d'adresse qui se replie change innerHeight en plein défilement : on garde donc une
+  // hauteur d'écran fixe, mise à jour seulement quand la largeur change (rotation), pour éviter les à-coups.
+  let viewH = window.innerHeight;
+  let viewW = window.innerWidth;
+  let lastP = -1;
   const updateReveal = () => {
     const rect = revealSection.getBoundingClientRect();
-    const start = window.innerHeight * 0.5;
-    const total = rect.height - window.innerHeight + start;
+    const start = viewH * 0.5;
+    const total = rect.height - viewH + start;
     const progress = Math.min(1, Math.max(0, (start - rect.top) / total));
-    text.style.setProperty('--p', Math.min(1, progress / 0.85).toFixed(4));
+    const p = Math.min(1, progress / 0.85);
+    if (Math.abs(p - lastP) < 0.001) return; // rien n'a bougé : pas de recalcul des 150 lettres
+    lastP = p;
+    text.style.setProperty('--p', p.toFixed(4));
+  };
+  const onResize = () => {
+    if (window.innerWidth !== viewW) {
+      viewW = window.innerWidth;
+      viewH = window.innerHeight;
+    }
+    updateReveal();
   };
   let revealPending = false;
   window.addEventListener('scroll', () => {
@@ -425,7 +440,7 @@ if (revealSection) {
       updateReveal();
     });
   }, { passive: true });
-  window.addEventListener('resize', updateReveal);
+  window.addEventListener('resize', onResize);
   updateReveal();
 }
 

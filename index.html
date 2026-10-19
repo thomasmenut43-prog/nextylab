@@ -594,53 +594,60 @@
           <p class="cta__alt">Vous préférez écrire&nbsp;? <a class="cta__mail" href="mailto:contact@nextylab.com">contact@nextylab.com</a></p>
         </div>
 
-        <!-- Demande de rendez-vous : date, créneau, besoin et coordonnées, envoyés à /api/demande (fonction Vercel).
-             Le calendrier est construit par js/rendez-vous.js ; sans JavaScript, le formulaire reste masqué. -->
+        <!-- Demande de rendez-vous en trois étapes (date, horaire, coordonnées), envoyée à /api/demande (fonction Vercel).
+             Construit par js/rendez-vous.js ; sans JavaScript, le formulaire reste masqué. -->
         <form class="booking" data-booking action="/api/demande" method="post" novalidate>
-          <fieldset class="booking__group">
-            <legend class="booking__legend">Choisissez une date</legend>
-            <div class="booking__cal">
-              <div class="booking__month">
-                <button class="booking__nav" type="button" data-cal-prev aria-label="Mois précédent"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
-                <strong data-cal-title aria-live="polite"></strong>
-                <button class="booking__nav" type="button" data-cal-next aria-label="Mois suivant"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
-              </div>
-              <div class="booking__week" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
-              <div class="booking__days" data-cal-days></div>
+          <ol class="booking__progress" aria-label="Étapes de la demande">
+            <li class="is-active" data-goto="1"><b>1</b>Date</li>
+            <li data-goto="2"><b>2</b>Horaire</li>
+            <li data-goto="3"><b>3</b>Vos infos</li>
+          </ol>
+
+          <!-- Étape 1 : la date -->
+          <fieldset class="booking__panel" data-panel="1">
+            <legend class="booking__legend" tabindex="-1">Choisissez une date</legend>
+            <div class="booking__month">
+              <button class="booking__nav" type="button" data-cal-prev aria-label="Mois précédent"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+              <strong data-cal-title aria-live="polite"></strong>
+              <button class="booking__nav" type="button" data-cal-next aria-label="Mois suivant"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
             </div>
+            <div class="booking__week" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+            <div class="booking__days" data-cal-days></div>
           </fieldset>
 
-          <fieldset class="booking__group">
-            <legend class="booking__legend">Choisissez un horaire</legend>
-            <div class="booking__slots" data-slots>
-              <p class="booking__hint">Sélectionnez d'abord une date.</p>
-            </div>
+          <!-- Étape 2 : l'horaire -->
+          <fieldset class="booking__panel" data-panel="2" hidden>
+            <legend class="booking__legend" tabindex="-1">Choisissez un horaire</legend>
+            <p class="booking__chosen"><span data-chosen-date></span><button class="booking__back" type="button" data-goto="1">Changer la date</button></p>
+            <div class="booking__slots" data-slots></div>
           </fieldset>
 
-          <label class="booking__field">
-            <span>Votre besoin</span>
-            <textarea name="besoin" rows="3" maxlength="2000" required placeholder="Ce qui vous prend du temps, les outils que vous utilisez…"></textarea>
-          </label>
-
-          <div class="booking__row">
+          <!-- Étape 3 : le besoin et les coordonnées -->
+          <fieldset class="booking__panel" data-panel="3" hidden>
+            <legend class="booking__legend" tabindex="-1">Vos informations</legend>
+            <p class="booking__chosen"><span data-chosen-slot></span><button class="booking__back" type="button" data-goto="2">Modifier</button></p>
             <label class="booking__field">
-              <span>Nom et prénom</span>
-              <input type="text" name="nom" autocomplete="name" maxlength="120" required>
+              <span>Votre besoin</span>
+              <textarea name="besoin" rows="3" maxlength="2000" required placeholder="Ce qui vous prend du temps, les outils que vous utilisez…"></textarea>
             </label>
-            <label class="booking__field">
-              <span>Téléphone ou e-mail</span>
-              <input type="text" name="contact" autocomplete="email" maxlength="160" required>
-            </label>
-          </div>
-
-          <!-- Champ piège pour les robots, invisible pour les visiteurs -->
-          <input class="booking__trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <input type="hidden" name="date">
-          <input type="hidden" name="heure">
-
-          <button class="btn btn--primary booking__submit" type="submit" data-submit>Demander ce rendez-vous</button>
-          <p class="booking__status" data-status role="status" aria-live="polite"></p>
-          <p class="booking__note">On vous recontacte pour confirmer le créneau. Vos informations servent uniquement à organiser ce rendez-vous (<a href="/confidentialite.html">confidentialité</a>).</p>
+            <div class="booking__row">
+              <label class="booking__field">
+                <span>Nom et prénom</span>
+                <input type="text" name="nom" autocomplete="name" maxlength="120" required>
+              </label>
+              <label class="booking__field">
+                <span>Téléphone ou e-mail</span>
+                <input type="text" name="contact" autocomplete="email" maxlength="160" required>
+              </label>
+            </div>
+            <!-- Champ piège pour les robots, invisible pour les visiteurs -->
+            <input class="booking__trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <input type="hidden" name="date">
+            <input type="hidden" name="heure">
+            <button class="btn btn--primary booking__submit" type="submit" data-submit>Envoyer la demande</button>
+            <p class="booking__status" data-status role="status" aria-live="polite"></p>
+            <p class="booking__note">On vous recontacte pour confirmer le créneau. Vos informations servent uniquement à organiser ce rendez-vous (<a href="/confidentialite.html">confidentialité</a>).</p>
+          </fieldset>
         </form>
       </div>
     </section>

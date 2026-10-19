@@ -1,5 +1,5 @@
-// CTA final : demande de rendez-vous. Le visiteur choisit un jour ouvré dans les 60 prochains jours, un créneau,
-// décrit son besoin et laisse ses coordonnées ; la demande part en JSON vers /api/demande (fonction Vercel).
+// CTA final : demande de rendez-vous en trois étapes. 1) un jour ouvré dans les 60 prochains jours, 2) un créneau,
+// 3) le besoin et les coordonnées ; la demande part en JSON vers /api/demande (fonction Vercel).
 // C'est une demande : le créneau est confirmé ensuite par Nextylab.
 (() => {
   const form = document.querySelector('[data-booking]');
@@ -7,11 +7,15 @@
 
   const SLOTS = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
   const DAYS_AHEAD = 60;
+  const panels = [...form.querySelectorAll('[data-panel]')];
+  const steps = [...form.querySelectorAll('.booking__progress li')];
   const daysBox = form.querySelector('[data-cal-days]');
   const title = form.querySelector('[data-cal-title]');
   const prev = form.querySelector('[data-cal-prev]');
   const next = form.querySelector('[data-cal-next]');
   const slotsBox = form.querySelector('[data-slots]');
+  const chosenDate = form.querySelector('[data-chosen-date]');
+  const chosenSlot = form.querySelector('[data-chosen-slot]');
   const submit = form.querySelector('[data-submit]');
   const status = form.querySelector('[data-status]');
   const field = (name) => form.elements.namedItem(name);
@@ -20,6 +24,7 @@
   const iso = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   const label = (time) => time.replace(/^0/, '').replace(':00', ' h').replace(':', ' h ');
   const longDate = (value) => new Date(`${value}T12:00:00`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const capital = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -30,6 +35,22 @@
   let view = new Date(first.getFullYear(), first.getMonth(), 1);
   let date = '';
   let time = '';
+  let current = 1;
+
+  // Passe à une étape ; on ne peut aller qu'à une étape déjà débloquée
+  const goTo = (n) => {
+    if ((n >= 2 && !date) || (n >= 3 && !time)) return;
+    current = n;
+    panels.forEach((panel) => { panel.hidden = Number(panel.dataset.panel) !== n; });
+    steps.forEach((step, i) => {
+      step.classList.toggle('is-active', i + 1 === n);
+      step.classList.toggle('is-done', i + 1 < n);
+      if (i + 1 === n) step.setAttribute('aria-current', 'step');
+      else step.removeAttribute('aria-current');
+    });
+    const legend = panels[n - 1].querySelector('legend');
+    if (legend && form.contains(document.activeElement)) legend.focus({ preventScroll: true });
+  };
 
   const bookable = (d) => d >= first && d <= last && d.getDay() !== 0 && d.getDay() !== 6;
 
@@ -56,33 +77,42 @@
   };
 
   const renderSlots = () => {
-    if (!date) return;
     slotsBox.innerHTML = SLOTS.map((value) => `<button class="booking__slot${value === time ? ' is-selected' : ''}" type="button"
       data-time="${value}" aria-pressed="${value === time}">${label(value)}</button>`).join('');
   };
 
-  const updateSubmit = () => {
-    submit.textContent = date && time ? `Demander le ${longDate(date)} à ${label(time)}` : 'Demander ce rendez-vous';
-  };
-
   prev.addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderMonth(); });
   next.addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderMonth(); });
+
+  // Étape 1 : choisir un jour mène directement aux créneaux
   daysBox.addEventListener('click', (event) => {
     const button = event.target.closest('[data-date]');
     if (!button || button.disabled) return;
     date = button.dataset.date;
     field('date').value = date;
+    chosenDate.textContent = capital(longDate(date));
     renderMonth();
     renderSlots();
-    updateSubmit();
+    goTo(2);
   });
+
+  // Étape 2 : choisir un créneau mène aux coordonnées
   slotsBox.addEventListener('click', (event) => {
     const button = event.target.closest('[data-time]');
     if (!button) return;
     time = button.dataset.time;
     field('heure').value = time;
+    chosenSlot.textContent = `${capital(longDate(date))} à ${label(time)}`;
     renderSlots();
-    updateSubmit();
+    goTo(3);
+  });
+
+  // Retour en arrière : liens « Changer » et étapes déjà franchies de l'indicateur
+  form.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-goto]');
+    if (!target) return;
+    const n = Number(target.dataset.goto);
+    if (n < current) goTo(n);
   });
 
   const setStatus = (html, error) => {
@@ -105,8 +135,6 @@
     ['besoin', 'nom', 'contact'].forEach((name) => field(name).removeAttribute('aria-invalid'));
     const contactOk = EMAIL.test(values.contact) || PHONE.test(values.contact);
     const missing = [];
-    if (!values.date) missing.push('une date');
-    if (!values.heure) missing.push('un horaire');
     if (!values.besoin) { missing.push('votre besoin'); field('besoin').setAttribute('aria-invalid', 'true'); }
     if (!values.nom) { missing.push('votre nom'); field('nom').setAttribute('aria-invalid', 'true'); }
     if (!contactOk) { missing.push('un téléphone ou un e-mail valide'); field('contact').setAttribute('aria-invalid', 'true'); }
@@ -136,4 +164,5 @@
   });
 
   renderMonth();
+  goTo(1);
 })();
