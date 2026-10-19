@@ -1480,92 +1480,18 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------- Engagements ---------- */
-/* Une grande tuile sombre pour les données, les trois autres engagements en liste */
+/* Titre à gauche, les trois engagements en liste à droite */
 .pledges__inner {
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 56px;
-}
-
-.pledges__title { max-width: 640px; }
-
-.pledges__layout {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  align-items: stretch;
-  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  gap: clamp(36px, 5vw, 80px);
 }
 
-.pledges__feature {
-  --pad: clamp(28px, 3vw, 44px);
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: var(--pad);
-  border-radius: var(--radius-xl);
-  background: radial-gradient(70% 45% at 50% 100%, rgba(255, 107, 44, 0.22) 0%, rgba(255, 107, 44, 0) 70%), var(--bg);
-  color: var(--ink);
-}
-
-.pledges__feature-text { position: relative; z-index: 1; }
-
-/* Globe centré sur l'Europe, deux fois plus large que le contenu de la tuile et coupé par son bord bas.
-   Les marges sont en % de la largeur : la sphère occupe environ 69 % du canevas et commence à 15,5 % du
-   haut ; on la remonte à 28 px sous le texte et on en montre 58 %. Sans WebGL, l'icône reste affichée. */
-.pledges__globe {
-  --g: 200%;
-  position: relative;
-  flex: none;
-  width: var(--g);
-  aspect-ratio: 1;
-  margin: calc(28px - 0.155 * var(--g)) calc((100% - var(--g)) / 2) calc(-0.445 * var(--g) - var(--pad));
-}
-
-.pledges__globe canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: grab;
-  touch-action: pan-y;
-  transition: opacity 0.8s ease;
-  contain: layout paint size;
-}
-.pledges__globe canvas.is-grabbing { cursor: grabbing; }
-.pledges__globe.is-ready canvas { opacity: 1; }
-
-.pledges__icon {
-  position: absolute;
-  left: 50%;
-  top: 24%;
-  width: 56px;
-  height: 56px;
-  transform: translateX(-50%);
-}
-.pledges__globe.is-ready .pledges__icon { display: none; }
-
-.pledges__feature h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(26px, 2.6vw, 34px);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-.pledges__feature p {
-  max-width: 380px;
-  margin: 12px 0 0;
-  color: var(--ink-2);
-  font-size: 16px;
-  line-height: 25px;
-}
+.pledges__title { max-width: 520px; }
 
 .pledges__list {
   margin: 0;
@@ -1612,13 +1538,83 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 @media (max-width: 960px) {
-  .pledges__layout { grid-template-columns: minmax(0, 1fr); }
-  .pledges__globe { --g: min(200%, 900px); }
+  .pledges__inner { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 600px) {
   .pledges__inner { gap: 36px; }
   .pledge { gap: 16px; padding: 22px 0; }
+}
+
+/* ---------- Données en Europe ---------- */
+/* Texte en haut ; en bas, un grand globe centré sur l'Europe, coupé par la section suivante.
+   --g est la taille du canevas. La sphère en occupe environ 69 % et commence à 15,5 % du haut :
+   on la remonte à 40 px sous le texte et on en montre 58 %. Sans WebGL, l'icône reste affichée. */
+.europe {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  justify-content: space-between;
+  padding-bottom: 0;
+  background: radial-gradient(55% 45% at 50% 100%, rgba(255, 107, 44, 0.16) 0%, rgba(255, 107, 44, 0) 70%), var(--bg);
+}
+
+.europe__intro {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 760px;
+  margin: auto; /* centré dans l'espace laissé au-dessus du globe */
+  text-align: center;
+}
+
+.europe__intro p {
+  max-width: 520px;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.europe__globe {
+  --g: min(1400px, 160vw, 165svh);
+  position: relative;
+  flex: none;
+  align-self: flex-start;
+  width: var(--g);
+  aspect-ratio: 1;
+  margin: calc(40px - 0.155 * var(--g)) 0 calc(-0.445 * var(--g)) calc((100% - var(--g)) / 2);
+}
+
+.europe__globe canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: grab;
+  touch-action: pan-y;
+  transition: opacity 1s ease;
+  contain: layout paint size;
+}
+.europe__globe canvas.is-grabbing { cursor: grabbing; }
+.europe__globe.is-ready canvas { opacity: 1; }
+
+.europe__icon {
+  position: absolute;
+  left: 50%;
+  top: 24%;
+  width: 72px;
+  height: 72px;
+  transform: translateX(-50%);
+}
+.europe__globe.is-ready .europe__icon { display: none; }
+
+@media (max-width: 600px) {
+  .europe__intro p { font-size: 16px; line-height: 25px; }
+  .europe__globe { --g: min(230vw, 120svh); }
 }
 
 /* ---------- FAQ ---------- */

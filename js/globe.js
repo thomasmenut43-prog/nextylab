@@ -1,5 +1,5 @@
-// Engagements : globe en points centré sur l'Europe (bibliothèque cobe, licence MIT).
-// Chargé à l'approche de la tuile, il oscille doucement autour de l'Europe, se fait tourner
+// Données en Europe : globe en points centré sur l'Europe (bibliothèque cobe, licence MIT).
+// Chargé à l'approche de la section, il oscille doucement autour de l'Europe, se fait tourner
 // au glisser puis revient, et ne se redessine plus hors écran. Sans WebGL, l'icône reste affichée.
 const COBE_URL = 'https://cdn.jsdelivr.net/npm/cobe@2.0.1/dist/index.esm.js';
 
@@ -61,22 +61,23 @@ async function startGlobe() {
   let last = 0;
 
   const globe = createGlobe(canvas, {
-    devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+    // Le globe est grand : on plafonne le canevas à 2000 px de côté pour ménager la carte graphique
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2, 2000 / size),
     width: size,
     height: size,
     phi,
     theta: THETA,
     dark: 1,
     diffuse: 1.2,
-    mapSamples: 16000,
+    mapSamples: 24000,
     mapBrightness: 6,
     baseColor: [0.3, 0.3, 0.3],
     markerColor: ORANGE,
     glowColor: [0.13, 0.13, 0.13],
-    markers: Object.values(CITIES).map((location) => ({ location, size: 0.03 })),
+    markers: Object.values(CITIES).map((location) => ({ location, size: 0.016 })),
     arcs: LINKS.map(([from, to]) => ({ from: CITIES[from], to: CITIES[to] })),
     arcColor: ORANGE,
-    arcWidth: 0.5,
+    arcWidth: 0.4,
     arcHeight: 0.22,
     markerElevation: 0.01,
   });
