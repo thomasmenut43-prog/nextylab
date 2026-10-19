@@ -652,7 +652,9 @@ ul { margin: 0; padding: 0; list-style: none; }
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   align-items: center;
   gap: 24px;
-  padding: clamp(28px, 3.5vw, 48px);
+  --pad: clamp(28px, 3.5vw, 48px);
+  padding: var(--pad);
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 32px;
   background: var(--elevated);
@@ -671,13 +673,14 @@ ul { margin: 0; padding: 0; list-style: none; }
 .offer-card__link { margin-top: 22px; }
 .offer-card[aria-hidden="true"] .offer-card__link { pointer-events: none; }
 
+/* Le visuel occupe toute la moitié droite de la carte, jusqu'à ses bords, et la carte le rogne */
 .offer-card__visual {
   position: relative;
-  height: 100%;
+  align-self: stretch;
+  margin: calc(var(--pad) * -1) calc(var(--pad) * -1) calc(var(--pad) * -1) 0;
   container-type: size;
   overflow: hidden;
-  border-radius: 22px;
-  background: radial-gradient(80% 70% at 50% 65%, #FFEBDD 0%, #F7F5F2 72%);
+  background: radial-gradient(75% 70% at 70% 50%, #FFF0E6 0%, rgba(255, 255, 255, 0) 75%);
 }
 
 .offers__nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 32px; }
@@ -710,7 +713,7 @@ ul { margin: 0; padding: 0; list-style: none; }
     grid-template-rows: auto minmax(0, 1fr);
     align-items: stretch;
     gap: 20px;
-    padding: 22px;
+    --pad: 22px;
     border-radius: 26px;
     transform: translateX(-50%) translateX(calc(var(--pos) * 96%)) scale(calc(1 - var(--dist) * 0.1));
   }
@@ -718,106 +721,221 @@ ul { margin: 0; padding: 0; list-style: none; }
   .offer-card__text small { margin-bottom: 8px; }
   .offer-card__text h3 { font-size: 26px; }
   .offer-card__text p { margin-top: 10px; font-size: 15px; line-height: 23px; }
-  .offer-card__visual { border-radius: 18px; }
+  .offer-card__visual { margin: 0 calc(var(--pad) * -1) calc(var(--pad) * -1); }
 }
 
-/* ---------- Scènes d'interface des offres ---------- */
-/* Chaque scène raconte l'offre en trois temps, jouée quand sa carte devient active (.is-active).
-   Reprises par les pages Métiers : le conteneur doit porter container-type: size. */
-.vz {
-  --z-card: #FFFFFF;
-  --z-line: #E7E5E4;
-  --z-ink: #0A0A0A;
-  --z-mute: #71717A;
-  --z-soft: #F4F4F5;
-  --z-shadow: 0 24px 48px -24px rgba(60, 40, 20, 0.28);
+/* ---------- Scènes des offres ---------- */
+/* Une scène par offre, en mouvement continu tant que sa carte est active (.is-active).
+   Reprises par les pages Métiers et Solutions : le conteneur doit porter container-type: size. */
+.vz { position: absolute; inset: 0; overflow: hidden; color: #0A0A0A; font-size: clamp(9px, 2.9cqw, 14px); line-height: 1.3; }
+.offer-card:not(.is-active) .vz * { animation-play-state: paused !important; }
+@keyframes vz-spin { to { rotate: 1turn; } }
+
+/* 1. Agent : une boule qui regarde la souris (main.js pose --lx et --ly entre -1 et 1) et cligne des yeux */
+.vz-orb {
+  --s: min(56cqw, 58cqh);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--s);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+}
+.vz-orb__halo {
+  position: absolute;
+  inset: -32%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 107, 44, 0.28), rgba(255, 107, 44, 0));
+}
+.vz-orb__shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -14%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(120, 50, 10, 0.22), rgba(120, 50, 10, 0));
+  animation: vz-shadow 5s ease-in-out infinite;
+}
+.vz-orb__body {
   position: absolute;
   inset: 0;
-  color: var(--z-ink);
-  font-size: clamp(9px, 2.9cqw, 14px);
-  line-height: 1.3;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #FFB48C 0%, #FF7A3D 34%, #F25C1C 68%, #D9480F 100%);
+  box-shadow: inset calc(var(--s) * -0.05) calc(var(--s) * -0.07) calc(var(--s) * 0.14) rgba(140, 40, 0, 0.35),
+    0 calc(var(--s) * 0.12) calc(var(--s) * 0.24) calc(var(--s) * -0.08) rgba(255, 107, 44, 0.55);
+  animation: vz-float 5s ease-in-out infinite;
 }
-.vz-panel { position: absolute; border: 1px solid var(--z-line); border-radius: 1.2em; background: var(--z-card); box-shadow: var(--z-shadow); }
-.vz-tag { display: inline-flex; align-items: center; gap: 0.5em; padding: 0.35em 0.75em; border-radius: 999px; background: rgba(255, 107, 44, 0.14); color: #C2410C; font-size: 0.82em; font-weight: 600; }
+.vz-orb__eyes {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  display: flex;
+  gap: calc(var(--s) * 0.13);
+  translate: calc(-50% + var(--lx, 0) * var(--s) * 0.17) calc(-50% + var(--ly, 0) * var(--s) * 0.14);
+  transition: translate 0.35s var(--ease-out);
+}
+.vz-orb__eyes i {
+  width: calc(var(--s) * 0.105);
+  height: calc(var(--s) * 0.26);
+  border-radius: 999px;
+  background: #FFFFFF;
+  box-shadow: 0 0 calc(var(--s) * 0.05) rgba(255, 255, 255, 0.55);
+  animation: vz-blink 6.5s infinite;
+}
+@keyframes vz-float { 50% { translate: 0 calc(var(--s) * -0.035); } }
+@keyframes vz-shadow { 50% { scale: 0.88; opacity: 0.75; } }
+@keyframes vz-blink {
+  0%, 46%, 50%, 88%, 91.5%, 95%, 100% { scale: 1 1; }
+  48%, 89.5%, 93.5% { scale: 1 0.08; }
+}
 
-@keyframes vz-in { from { opacity: 0; transform: translateY(0.8em) scale(0.97); } to { opacity: 1; transform: none; } }
-@keyframes vz-pop { 0% { opacity: 0; transform: scale(0.6); } 70% { transform: scale(1.08); } 100% { opacity: 1; transform: none; } }
-.is-active .vz-s1 { animation: vz-in 0.5s var(--ease-out) 0.25s both; }
-.is-active .vz-s2 { animation: vz-in 0.5s var(--ease-out) 1s both; }
-.is-active .vz-s3 { animation: vz-in 0.5s var(--ease-out) 1.75s both; }
-.is-active .vz-s4 { animation: vz-in 0.55s var(--ease-out) 2.5s both; }
-.is-active .vz-s5 { animation: vz-in 0.55s var(--ease-out) 3.2s both; }
-/* Avant que la section soit vue, la scène centrale attend vide pour se jouer devant le visiteur */
-.js .offers__stage:not(.is-seen) :is(.vz-s1, .vz-s2, .vz-s3, .vz-s4, .vz-s5) { opacity: 0; }
+/* 2. Automatisation : vos outils en orbite autour de Nextylab (centre calé sur le bord droit) */
+.vz-orbit { position: absolute; right: 16cqh; top: 50%; width: 0; height: 0; }
+.vz-ring {
+  --t: 40s;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--size);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 2px dotted #D6D3D1;
+  border-radius: 50%;
+  animation: vz-spin var(--t) linear infinite;
+}
+.vz-ring--1 { --size: 46cqh; --t: 26s; }
+.vz-ring--2 { --size: 80cqh; --t: 38s; animation-direction: reverse; }
+.vz-ring--3 { --size: 114cqh; --t: 50s; }
+.vz-tool {
+  position: absolute;
+  left: calc(50% + 50% * cos(var(--a)));
+  top: calc(50% + 50% * sin(var(--a)));
+  width: 3.3em;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0.4em 1em -0.3em rgba(60, 40, 20, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  animation: vz-spin var(--t) linear infinite reverse; /* reste droit pendant que l'anneau tourne */
+}
+.vz-ring--2 .vz-tool { animation-direction: normal; }
+.vz-tool svg { width: 1.55em; height: 1.55em; fill: none; stroke: var(--c); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.vz-orbit__core {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22cqh;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: #0A0A0A;
+  box-shadow: 0 1.2em 2.4em -0.8em rgba(0, 0, 0, 0.45);
+}
+.vz-orbit__core::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 107, 44, 0.5);
+  animation: vz-ping 2.8s var(--ease-out) infinite;
+}
+.vz-orbit__core svg { width: 52%; height: 52%; }
+@keyframes vz-ping { from { scale: 1; opacity: 1; } to { scale: 1.7; opacity: 0; } }
 
-/* 1. Agent : la conversation, la demande qualifiée, le rendez-vous posé */
-.vz-chat { left: 6%; top: 7%; width: 68%; display: flex; flex-direction: column; gap: 0.7em; padding: 1em; }
-.vz-chat__head { display: flex; align-items: center; gap: 0.6em; padding-bottom: 0.7em; border-bottom: 1px solid var(--z-line); }
-.vz-av { width: 2em; height: 2em; flex: none; display: grid; place-items: center; border-radius: 0.6em; background: var(--orange); }
-.vz-av svg { width: 1.3em; height: 1.3em; fill: #fff; }
-.vz-chat__head small { margin-left: auto; display: flex; align-items: center; gap: 0.4em; color: var(--z-mute); font-size: 0.8em; }
-.vz-chat__head small::before { content: ""; width: 0.5em; height: 0.5em; border-radius: 50%; background: #3FA35B; }
-.vz-b { max-width: 82%; margin: 0; padding: 0.65em 0.85em; border-radius: 1em 1em 1em 0.3em; background: var(--z-soft); font-size: 0.92em; line-height: 1.4; }
-.vz-b--out { align-self: flex-end; border-radius: 1em 1em 0.3em 1em; background: var(--orange); color: #fff; }
-.vz-ticket { right: 5%; bottom: 17%; width: 56%; padding: 1em 1.1em; }
-.vz-ticket dl { margin: 0.8em 0 0; display: grid; gap: 0.55em; }
-.vz-ticket dl div { display: flex; justify-content: space-between; gap: 1em; padding-bottom: 0.5em; border-bottom: 1px dashed var(--z-line); font-size: 0.9em; }
-.vz-ticket dl div:last-child { padding-bottom: 0; border-bottom: 0; }
-.vz-ticket dt { color: var(--z-mute); }
-.vz-ticket dd { margin: 0; font-weight: 600; }
-.vz-toast { position: absolute; left: 8%; bottom: 6%; display: flex; align-items: center; gap: 0.6em; padding: 0.7em 1em; border-radius: 0.9em; background: #0A0A0A; color: #fff; font-size: 0.92em; font-weight: 600; box-shadow: var(--z-shadow); }
-.vz-toast i { width: 1.6em; height: 1.6em; display: grid; place-items: center; border-radius: 50%; background: #3FA35B; font-size: 0.85em; font-style: normal; }
+/* 3. Logiciel : un tableau de bord épuré et les curseurs de l'équipe, comme dans Figma */
+.vz-win {
+  position: absolute;
+  left: 9%;
+  top: 13%;
+  right: -10%;
+  bottom: -10%;
+  overflow: hidden;
+  border: 1px solid #E7E5E4;
+  border-radius: 1.3em;
+  background: #FFFFFF;
+  box-shadow: 0 2em 4em -2em rgba(60, 40, 20, 0.3);
+}
+.vz-win__nav { display: flex; align-items: center; gap: 0.7em; height: 3.4em; padding: 0 1.2em; border-bottom: 1px solid #F0EFED; }
+.vz-win__logo { width: 1.3em; height: 1.3em; margin-right: 0.6em; border-radius: 0.4em; background: #FF6B2C; }
+.vz-pill { width: 3.6em; height: 0.6em; border-radius: 1em; background: #ECEBE9; }
+.vz-win__avatars { display: flex; margin-left: auto; padding-right: 10%; }
+.vz-win__avatars i { width: 1.6em; height: 1.6em; margin-left: -0.4em; border: 2px solid #FFFFFF; border-radius: 50%; background: var(--c); }
+.vz-win__dash { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9em; padding: 1.3em 1.2em; padding-right: 12%; }
+.vz-stat { display: flex; flex-direction: column; gap: 0.6em; padding: 1em; border: 1px solid #F0EFED; border-radius: 0.9em; background: #FAFAF9; }
+.vz-stat span { width: 55%; height: 0.5em; border-radius: 1em; background: #E7E5E4; }
+.vz-stat b { width: 75%; height: 1.1em; border-radius: 0.4em; background: #D6D3D1; }
+.vz-stat b.is-accent { background: #FFB48C; }
+.vz-chart {
+  grid-column: span 2;
+  height: 8em;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6em;
+  padding: 1em;
+  border: 1px solid #F0EFED;
+  border-radius: 0.9em;
+  background: #FAFAF9;
+}
+.vz-chart i { flex: 1; height: var(--h); border-radius: 0.35em 0.35em 0.15em 0.15em; background: linear-gradient(#FFB48C, #FFD9C4); }
+.vz-chart i:nth-child(6) { background: linear-gradient(#FF6B2C, #FFA375); }
+.vz-list { display: flex; flex-direction: column; justify-content: space-between; padding: 1em; border: 1px solid #F0EFED; border-radius: 0.9em; background: #FAFAF9; }
+.vz-list span { height: 0.55em; border-radius: 1em; background: #E7E5E4; }
+.vz-list span:nth-child(odd) { width: 80%; }
+.vz-table { grid-column: 1 / -1; border: 1px solid #F0EFED; border-radius: 0.9em; background: #FAFAF9; }
+.vz-table span { display: flex; align-items: center; gap: 0.9em; padding: 0.85em 1em; }
+.vz-table span + span { border-top: 1px solid #F0EFED; }
+.vz-table i { width: 1.6em; height: 1.6em; flex: none; border-radius: 50%; background: var(--c); }
+.vz-table b { width: var(--w); height: 0.6em; border-radius: 1em; background: #E7E5E4; }
+.vz-table em { width: 3.8em; height: 1.2em; margin-left: auto; border-radius: 1em; background: #DCFCE7; }
+.vz-table em.is-wait { background: #FFE4D5; }
 
-/* 2. Automatisation : un déclencheur, puis les actions qui s'enchaînent dans les outils */
-.vz-flow { position: absolute; left: 50%; top: 50%; width: 80%; display: flex; flex-direction: column; gap: 0.75em; transform: translate(-50%, -50%); }
-.vz-flow::before { content: ""; position: absolute; left: 2.55em; top: 3.6em; bottom: 1.6em; width: 2px; background: var(--z-line); }
-.vz-flow__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em; }
-.vz-flow__head small { color: var(--z-mute); font-size: 0.82em; }
-.vz-step { position: relative; display: flex; align-items: center; gap: 0.9em; padding: 0.8em 1em; border: 1px solid var(--z-line); border-radius: 1em; background: var(--z-card); box-shadow: var(--z-shadow); }
-.vz-step--trigger { border-color: rgba(255, 107, 44, 0.5); }
-.vz-app { width: 2.4em; height: 2.4em; flex: none; display: grid; place-items: center; border-radius: 0.7em; background: var(--z-soft); }
-.vz-app svg { width: 1.3em; height: 1.3em; fill: none; stroke: var(--z-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.vz-step--trigger .vz-app { background: var(--orange); }
-.vz-step--trigger .vz-app svg { stroke: #fff; }
-.vz-step div { flex: 1; min-width: 0; }
-.vz-step b { display: block; font-size: 0.95em; }
-.vz-step small { color: var(--z-mute); font-size: 0.8em; }
-.vz-check { width: 1.6em; height: 1.6em; flex: none; display: grid; place-items: center; border-radius: 50%; background: #3FA35B; color: #fff; font-size: 0.8em; font-weight: 700; }
-.is-active .vz-step .vz-check { animation: vz-pop 0.4s var(--ease-out) both; }
-.is-active .vz-s2 .vz-check { animation-delay: 1.35s; }
-.is-active .vz-s3 .vz-check { animation-delay: 2.1s; }
-.is-active .vz-s4 .vz-check { animation-delay: 2.85s; }
-
-/* 3. SaaS : le tableur d'avant, l'outil d'après (rotate à part pour que l'animation ne l'efface pas) */
-.vz-sheet { left: 5%; top: 8%; width: 52%; padding: 0.7em; rotate: -4deg; }
-.vz-sheet__name { display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.6em; color: var(--z-mute); font-size: 0.78em; }
-.vz-sheet__name::before { content: ""; width: 1em; height: 1em; border-radius: 0.25em; background: #2F8F4E; }
-.vz-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-.vz-grid i { height: 1.35em; background: var(--z-soft); }
-.vz-grid i.r { background: rgba(225, 70, 60, 0.35); }
-.vz-grid i.y { background: rgba(240, 190, 60, 0.4); }
-.vz-label { position: absolute; color: var(--z-mute); font-size: 0.78em; font-weight: 600; }
-.vz-label--before { left: 8%; top: 3%; }
-.vz-label--after { right: 6%; bottom: 1.5%; }
-.vz-app-win { right: 5%; bottom: 7%; width: 66%; overflow: hidden; }
-.vz-win__bar { display: flex; align-items: center; gap: 0.4em; padding: 0.6em 0.8em; border-bottom: 1px solid var(--z-line); }
-.vz-win__bar i { width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--z-line); }
-.vz-win__bar b { margin-left: 0.5em; font-size: 0.85em; }
-.vz-win__body { display: grid; grid-template-columns: 26% 1fr; }
-.vz-win__side { display: flex; flex-direction: column; gap: 0.5em; padding: 0.8em 0.7em; border-right: 1px solid var(--z-line); color: var(--z-mute); font-size: 0.78em; }
-.vz-win__side span:first-child { color: #C2410C; font-weight: 600; }
-.vz-win__main { display: flex; flex-direction: column; gap: 0.45em; padding: 0.8em; }
-.vz-win__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em; font-size: 0.9em; font-weight: 700; }
-.vz-win__top em { padding: 0.3em 0.7em; border-radius: 0.5em; background: var(--orange); color: #fff; font-size: 0.8em; font-style: normal; }
-.vz-row { display: flex; align-items: center; gap: 0.6em; padding: 0.45em 0.5em; border-radius: 0.6em; background: var(--z-soft); font-size: 0.82em; }
-.vz-row span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.vz-row em { padding: 0.2em 0.55em; border-radius: 0.4em; background: rgba(63, 163, 91, 0.16); color: #2F8A4A; font-size: 0.85em; font-style: normal; font-weight: 600; }
-.vz-row em.w { background: rgba(255, 107, 44, 0.14); color: #C2410C; }
+.vz-cursor { position: absolute; left: 0; top: 0; display: flex; align-items: flex-start; will-change: translate; }
+.vz-cursor svg { width: 1.5em; height: 1.5em; flex: none; filter: drop-shadow(0 0.15em 0.25em rgba(0, 0, 0, 0.25)); }
+.vz-cursor path { fill: var(--c); stroke: #FFFFFF; stroke-width: 1.5; stroke-linejoin: round; }
+.vz-cursor em {
+  margin: 1.15em 0 0 -0.25em;
+  padding: 0.3em 0.65em;
+  border-radius: 0.2em 0.6em 0.6em 0.6em;
+  background: var(--c);
+  color: #FFFFFF;
+  font-size: 0.85em;
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 0.3em 0.8em -0.2em rgba(0, 0, 0, 0.25);
+}
+.vz-cursor--you { animation: vz-cursor-you 11s infinite; }
+.vz-cursor--a { animation: vz-cursor-a 13s infinite; }
+.vz-cursor--b { animation: vz-cursor-b 15s infinite; }
+@keyframes vz-cursor-you {
+  0%, 6% { translate: 26cqw 62cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  24%, 32% { translate: 50cqw 34cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  52%, 58% { translate: 36cqw 76cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  78%, 86% { translate: 58cqw 58cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  100% { translate: 26cqw 62cqh; }
+}
+@keyframes vz-cursor-a {
+  0%, 8% { translate: 70cqw 30cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  30%, 40% { translate: 56cqw 64cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  62%, 70% { translate: 76cqw 52cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  100% { translate: 70cqw 30cqh; }
+}
+@keyframes vz-cursor-b {
+  0%, 10% { translate: 44cqw 86cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  34%, 44% { translate: 70cqw 80cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  68%, 76% { translate: 18cqw 40cqh; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  100% { translate: 44cqw 86cqh; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .offer-card { transition: none; }
-  .is-active .vz [class*="vz-s"],
-  .is-active .vz-step .vz-check { animation: none; }
+  .vz * { animation: none !important; }
+  .vz-orb__eyes { transition: none; }
 }
 
 /* ---------- Méthode ---------- */

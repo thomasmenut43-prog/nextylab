@@ -60,7 +60,7 @@ onScroll();
 
 // Offres : carte focus. L'offre active est au centre, les deux autres en retrait de chaque côté (--pos, --dist).
 // Flèches, points, clic sur une carte de côté, glisser au doigt et flèches du clavier quand la section est à l'écran.
-// La scène de la carte active se joue quand elle devient active ; la toute première attend que la section soit vue.
+// La scène de la carte active bouge, les autres sont figées ; rien ne bouge avant que la section soit vue.
 // Les offres défilent seules toutes les 8 s tant que la section est à l'écran, en pause au survol, et plus du tout
 // dès que le visiteur a navigué lui-même.
 const offers = document.querySelector('[data-offers]');
@@ -158,6 +158,49 @@ if (offers) {
   } else {
     enter(true);
   }
+}
+
+// Scène de l'agent IA : les yeux suivent la souris. Sans souris (écran tactile) ou après quelques secondes
+// sans mouvement, ils regardent autour d'eux. Le clignement est en CSS.
+const faces = [...document.querySelectorAll('[data-face]')];
+if (faces.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  let pointer = null;
+  let frame = 0;
+  let idleTimer = 0;
+  const look = (face, x, y) => {
+    face.style.setProperty('--lx', x.toFixed(3));
+    face.style.setProperty('--ly', y.toFixed(3));
+  };
+  const follow = () => {
+    frame = 0;
+    if (!pointer) return;
+    faces.forEach((face) => {
+      const box = face.getBoundingClientRect();
+      if (!box.width || box.bottom < 0 || box.top > window.innerHeight) return;
+      const dx = pointer.x - (box.left + box.width / 2);
+      const dy = pointer.y - (box.top + box.height / 2);
+      const distance = Math.hypot(dx, dy) || 1;
+      const reach = Math.min(1, distance / box.width); // regard franc dès que la souris s'éloigne un peu
+      look(face, (dx / distance) * reach, (dy / distance) * reach);
+    });
+  };
+  const wander = () => {
+    pointer = null;
+    faces.forEach((face) => look(face, Math.random() * 1.6 - 0.8, Math.random() * 1.2 - 0.6));
+    idleTimer = setTimeout(wander, 1800 + Math.random() * 1800);
+  };
+  const track = (event) => {
+    if (event.pointerType && event.pointerType !== 'mouse') return;
+    pointer = { x: event.clientX, y: event.clientY };
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(wander, 5000);
+    if (!frame) frame = requestAnimationFrame(follow);
+  };
+  window.addEventListener('pointermove', track, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (pointer && !frame) frame = requestAnimationFrame(follow);
+  }, { passive: true });
+  wander();
 }
 
 // Engagements : chaque engagement pilote l'écran de droite. Quand la barre orange de l'engagement actif est pleine,
