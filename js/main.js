@@ -17,8 +17,30 @@ menu.addEventListener('click', (event) => {
   if (event.target.closest('a')) setMenuOpen(false);
 });
 
+// Menu déroulant « Métiers » : ouverture au clic (et au survol en bureau, en CSS)
+const dropdown = document.querySelector('.nav__dropdown');
+const dropButton = dropdown && dropdown.querySelector('.nav__drop-btn');
+const setDropdownOpen = (open) => {
+  if (!dropdown) return;
+  dropdown.classList.toggle('is-open', open);
+  dropButton.setAttribute('aria-expanded', String(open));
+};
+if (dropdown) {
+  dropButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setDropdownOpen(!dropdown.classList.contains('is-open'));
+  });
+  document.addEventListener('click', (event) => {
+    if (!dropdown.contains(event.target)) setDropdownOpen(false);
+  });
+}
+
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+  if (event.key !== 'Escape') return;
+  if (dropdown && dropdown.classList.contains('is-open')) {
+    setDropdownOpen(false);
+    dropButton.focus();
+  } else if (nav.classList.contains('is-open')) {
     setMenuOpen(false);
     toggle.focus();
   }
@@ -138,6 +160,74 @@ if (stepCards.length > 1) {
     }
   }, { passive: true });
   stackCards();
+}
+
+// Constat : le texte passe du flou au net lettre par lettre, au rythme du défilement.
+// Les lettres découpées sont masquées aux lecteurs d'écran, qui lisent une copie intacte du texte.
+const revealSection = document.querySelector('[data-reveal-section]');
+if (revealSection) {
+  const text = revealSection.querySelector('[data-reveal-text]');
+  const original = text.textContent.replace(/\s+/g, ' ').trim();
+  let index = 0;
+
+  const split = (node) => {
+    const frag = document.createDocumentFragment();
+    node.childNodes.forEach((child) => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        child.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) {
+            frag.append(' ');
+            return;
+          }
+          const word = document.createElement('span');
+          word.className = 'pains__word';
+          for (const char of part) {
+            const letter = document.createElement('span');
+            letter.className = 'pains__char';
+            letter.style.setProperty('--i', index++);
+            letter.textContent = char;
+            word.append(letter);
+          }
+          frag.append(word);
+        });
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        const wrapper = child.cloneNode(false);
+        wrapper.append(split(child));
+        frag.append(wrapper);
+      }
+    });
+    return frag;
+  };
+
+  const visual = document.createElement('span');
+  visual.setAttribute('aria-hidden', 'true');
+  visual.append(split(text));
+  const readable = document.createElement('span');
+  readable.className = 'sr-only';
+  readable.textContent = original;
+  text.replaceChildren(readable, visual);
+  text.style.setProperty('--n', index);
+
+  // La révélation commence quand la section arrive à mi-écran et finit un peu avant qu'elle reparte
+  const updateReveal = () => {
+    const rect = revealSection.getBoundingClientRect();
+    const start = window.innerHeight * 0.5;
+    const total = rect.height - window.innerHeight + start;
+    const progress = Math.min(1, Math.max(0, (start - rect.top) / total));
+    text.style.setProperty('--p', Math.min(1, progress / 0.85).toFixed(4));
+  };
+  let revealPending = false;
+  window.addEventListener('scroll', () => {
+    if (revealPending) return;
+    revealPending = true;
+    requestAnimationFrame(() => {
+      revealPending = false;
+      updateReveal();
+    });
+  }, { passive: true });
+  window.addEventListener('resize', updateReveal);
+  updateReveal();
 }
 
 // Étape 1 : le chronomètre de la visio avance chaque seconde
