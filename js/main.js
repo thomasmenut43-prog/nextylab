@@ -375,6 +375,27 @@ if (window.matchMedia('(hover: hover)').matches) {
   });
 }
 
+// FAQ : une question ouverte à la fois ; à l'ouverture, l'assistant « écrit » un instant puis sa réponse apparaît
+const faq = document.querySelector('[data-faq]');
+if (faq) {
+  const items = [...faq.querySelectorAll('.faq__item')];
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  items.forEach((item) => {
+    item.querySelector('.faq__q').addEventListener('click', () => {
+      const open = !item.classList.contains('is-open');
+      items.forEach((other) => {
+        const on = other === item && open;
+        other.classList.toggle('is-open', on);
+        other.querySelector('.faq__q').setAttribute('aria-expanded', String(on));
+      });
+      if (open && !still) {
+        item.classList.add('is-typing');
+        setTimeout(() => item.classList.remove('is-typing'), 700);
+      }
+    });
+  });
+}
+
 // Étape 1 : le chronomètre de la visio avance chaque seconde
 const callTimer = document.querySelector('[data-call-timer]');
 if (callTimer) {
