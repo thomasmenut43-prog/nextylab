@@ -70,8 +70,20 @@ if (offers) {
   }
 }
 
-// Méthode : une carte recouverte par la suivante recule légèrement et s'assombrit
+// Méthode : les cartes se figent au centre de l'écran (demi-hauteur de la plus grande carte)
 const stepCards = [...document.querySelectorAll('.step-card')];
+if (stepCards.length) {
+  const cardsList = stepCards[0].parentElement;
+  const setCardHalf = () => {
+    const tallest = Math.max(...stepCards.map((card) => card.offsetHeight));
+    cardsList.style.setProperty('--card-half', `${tallest / 2}px`);
+  };
+  setCardHalf();
+  window.addEventListener('resize', setCardHalf);
+  window.addEventListener('load', setCardHalf);
+}
+
+// Méthode : une carte recouverte par la suivante recule légèrement et s'assombrit
 if (stepCards.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   let ticking = false;
   const stackCards = () => {
@@ -92,6 +104,18 @@ if (stepCards.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)
     }
   }, { passive: true });
   stackCards();
+}
+
+// Étape 1 : le chronomètre de la visio avance chaque seconde
+const callTimer = document.querySelector('[data-call-timer]');
+if (callTimer) {
+  let seconds = 12 * 60 + 4;
+  setInterval(() => {
+    seconds += 1;
+    const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const ss = String(seconds % 60).padStart(2, '0');
+    callTimer.textContent = `${mm}:${ss}`;
+  }, 1000);
 }
 
 // Chaque bloc .reveal apparaît une fois, quand il entre dans l'écran.
