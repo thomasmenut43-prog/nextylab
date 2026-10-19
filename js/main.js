@@ -76,7 +76,27 @@ if (offers) {
       }
     });
     images.forEach((img, i) => img.classList.toggle('is-active', i === index));
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
   };
+
+  // Mobile : un glissement horizontal sur l'image passe à l'offre suivante ou précédente
+  const dots = [...offers.querySelectorAll('.offers__dots i')];
+  const visual = offers.querySelector('.offers__visual');
+  let touchStart = null;
+  visual.addEventListener('touchstart', (event) => {
+    const touch = event.touches[0];
+    touchStart = { x: touch.clientX, y: touch.clientY };
+  }, { passive: true });
+  visual.addEventListener('touchend', (event) => {
+    if (!touchStart) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - touchStart.x;
+    const dy = touch.clientY - touchStart.y;
+    touchStart = null;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const current = items.findIndex((item) => item.classList.contains('is-active'));
+    showOffer((current + (dx < 0 ? 1 : -1) + items.length) % items.length);
+  }, { passive: true });
 
   items.forEach((item, i) => {
     item.addEventListener('click', () => showOffer(i));
@@ -228,6 +248,18 @@ if (revealSection) {
   }, { passive: true });
   window.addEventListener('resize', updateReveal);
   updateReveal();
+}
+
+// Logos clients : les versions en couleur (survol) sont préchargées une fois la page chargée
+if (window.matchMedia('(hover: hover)').matches) {
+  window.addEventListener('load', () => {
+    const urls = new Set([...document.querySelectorAll('.clients__group li')]
+      .map((li) => (li.style.getPropertyValue('--logo').match(/url\(['"]?([^'")]+)/) || [])[1])
+      .filter(Boolean));
+    const preload = () => urls.forEach((url) => { new Image().src = url; });
+    if ('requestIdleCallback' in window) requestIdleCallback(preload);
+    else setTimeout(preload, 1500);
+  });
 }
 
 // Étape 1 : le chronomètre de la visio avance chaque seconde
