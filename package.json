@@ -1,0 +1,8 @@
+{
+  "name": "nextylab-site",
+  "private": true,
+  "description": "Site Nextylab : pages statiques et fonction Vercel d'envoi des demandes de rendez-vous (api/demande.js)",
+  "dependencies": {
+    "nodemailer": "7.0.13"
+  }
+}

@@ -220,6 +220,72 @@ document.querySelectorAll('.offer-il').forEach((il) => {
   }
 });
 
+// Engagements : chaque engagement pilote l'écran de droite. Quand la barre orange de l'engagement actif est pleine,
+// on passe au suivant ; le survol de la liste met en pause (CSS) et tout s'arrête hors écran.
+const pledges = document.querySelector('[data-pledges]');
+if (pledges) {
+  const items = [...pledges.querySelectorAll('.pledge')];
+  const screens = [...pledges.querySelectorAll('.pledge-il')];
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let timers = [];
+  let started = false;
+
+  // Les étapes de l'illustration s'allument une à une (les points de saisie s'effacent devant le message)
+  const play = (il) => {
+    timers.forEach(clearTimeout);
+    timers = [];
+    const steps = [...il.querySelectorAll('[data-step]')];
+    steps.forEach((step) => step.classList.remove('is-on'));
+    if (still) {
+      steps.forEach((step) => { if (!step.hasAttribute('data-transient')) step.classList.add('is-on'); });
+      return;
+    }
+    let delay = 350;
+    steps.forEach((step, k) => {
+      timers.push(setTimeout(() => {
+        const prev = steps[k - 1];
+        if (prev && prev.hasAttribute('data-transient')) prev.classList.remove('is-on');
+        step.classList.add('is-on');
+      }, delay));
+      delay += step.hasAttribute('data-transient') ? 1000 : 700;
+    });
+  };
+
+  const show = (index) => {
+    items.forEach((item, i) => {
+      const active = i === index;
+      item.classList.toggle('is-active', active);
+      item.querySelector('.pledge__btn').setAttribute('aria-pressed', String(active));
+      if (active) {
+        // Relance la barre même si l'engagement était déjà actif
+        const bar = item.querySelector('.pledge__bar');
+        bar.style.animation = 'none';
+        void bar.offsetWidth;
+        bar.style.animation = '';
+      }
+    });
+    screens.forEach((screen, i) => screen.classList.toggle('is-active', i === index));
+    play(screens[index]);
+  };
+
+  items.forEach((item, i) => {
+    item.querySelector('.pledge__btn').addEventListener('click', () => show(i));
+    item.querySelector('.pledge__bar').addEventListener('animationend', () => show((i + 1) % items.length));
+  });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      pledges.classList.toggle('is-paused', !entry.isIntersecting);
+      if (entry.isIntersecting && !started) {
+        started = true;
+        show(0);
+      }
+    }, { threshold: 0.3 }).observe(pledges);
+  } else {
+    show(0);
+  }
+}
+
 // Méthode : où les cartes se figent. Si l'écran est assez grand, le titre reste figé en haut et
 // les cartes se centrent dans la place restante ; sinon elles se centrent dans l'écran.
 const stepCards = [...document.querySelectorAll('.step-card')];
@@ -395,6 +461,36 @@ if (faq) {
     });
   });
 }
+
+// Machine à écrire (page Étude de cas) : les textes de data-typewriter s'écrivent puis s'effacent en boucle.
+// Le dernier reste affiché plus longtemps ; sans animation, seul le texte d'origine reste en place.
+document.querySelectorAll('[data-typewriter]').forEach((el) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let words;
+  try { words = JSON.parse(el.dataset.typewriter); } catch { return; }
+  if (!Array.isArray(words) || !words.length) return;
+  let w = words.length - 1;
+  let text = el.textContent;
+  let deleting = true;
+  const tick = () => {
+    const target = words[w];
+    if (deleting) {
+      text = text.slice(0, -1);
+      if (!text) { deleting = false; w = (w + 1) % words.length; }
+    } else {
+      text = target.slice(0, text.length + 1);
+      if (text === target) {
+        deleting = true;
+        el.textContent = text;
+        setTimeout(tick, w === words.length - 1 ? 3200 : 1600);
+        return;
+      }
+    }
+    el.textContent = text;
+    setTimeout(tick, deleting ? 35 : 70);
+  };
+  setTimeout(tick, 2400);
+});
 
 // Étape 1 : le chronomètre de la visio avance chaque seconde
 const callTimer = document.querySelector('[data-call-timer]');
