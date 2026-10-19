@@ -344,6 +344,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   overflow: hidden;
   min-height: calc(100svh - 82px);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
   padding: 0 var(--gutter) 56px;
   background: var(--bg);
@@ -474,6 +475,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   .hero__content { gap: 24px; }
   .hero__lead { font-size: 17px; line-height: 27px; }
   .hero__art { display: none; }
+  /* Mobile : texte centré dans l'espace libre, logos calés en bas de l'écran, bouton pleine largeur */
+  .hero { min-height: calc(100svh - 76px); align-content: stretch; padding-bottom: 28px; }
+  .hero__inner { display: flex; flex-direction: column; gap: 40px; }
+  .hero__content { margin-block: auto; }
+  .hero__actions, .hero__actions .btn { width: 100%; }
+  .hero__actions .btn { height: 52px; font-size: 16px; }
+  .clients { margin-top: 0; }
   .clients__group { gap: 48px; padding-right: 48px; }
   .clients__group img { height: calc(var(--h) * 0.8); }
 }
@@ -738,7 +746,19 @@ ul { margin: 0; padding: 0; list-style: none; }
   line-height: 28px;
 }
 
+/* Bureau assez haut : le titre reste figé en haut, les cartes s'empilent dessous puis glissent sous lui */
+.has-pinned-intro .method__intro {
+  position: sticky;
+  top: 100px;
+  z-index: 2;
+  padding-bottom: 24px;
+  background: var(--surface);
+  box-shadow: 0 0 0 100vmax var(--surface);
+  clip-path: inset(-100vmax -100vmax 0 -100vmax);
+}
+
 .method__cards {
+  --stack-step: 16px;
   margin: 0;
   padding: 0 0 6vh;
   list-style: none;
@@ -749,11 +769,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .step-card {
   position: sticky;
-  top: calc(max(100px, 50svh - var(--card-half, 210px)) + var(--i) * 24px);
+  top: calc(var(--stick-top, 188px) + var(--i) * var(--stack-step));
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: clamp(24px, 4vw, 56px);
-  padding: clamp(24px, 3vw, 40px);
+  padding: clamp(20px, 2.4vw, 32px);
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: var(--elevated);
@@ -824,7 +844,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   position: relative;
   display: grid;
   place-items: center;
-  padding: clamp(20px, 3vw, 40px);
+  padding: clamp(16px, 2vw, 24px);
   border-radius: var(--radius-lg);
   background: var(--surface);
   overflow: hidden;
@@ -857,12 +877,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* Diagnostic : visio façon Apple, trois participants en orbite autour du bouton d'appel actif */
 .mock-call {
-  --r: 112px;
-  --s: 78px;
+  --r: 100px;
+  --s: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
 }
 
 .mock-call__stage {
@@ -944,14 +964,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: translateY(8%) scale(1.02);
 }
 
 .mock-call__avatar.is-speaking .mock-call__face {
   box-shadow: 0 0 0 3px #FF6B2C, 0 12px 24px -10px rgba(10, 10, 10, 0.35);
 }
 
-.mock-call__status {
+.mock-status {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -965,44 +984,227 @@ ul { margin: 0; padding: 0; list-style: none; }
   font-size: 12px;
   font-weight: 600;
 }
-.mock-call__status i {
+.mock-status i {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--orange);
   box-shadow: 0 0 0 4px rgba(255, 107, 44, 0.2);
 }
-.mock-call__status b {
+.mock-status b {
   color: var(--ink-2);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
-/* Prototype : écran d'application en version 1 */
-.mock-app { position: relative; overflow: hidden; }
-.mock-app__badge {
+/* Prototype : téléphone en version 1, les trois participants laissent leurs retours,
+   un tap sur « Valider » fait passer en version 2. Boucle de 10 s ; sans animation, tout reste visible. */
+.mock-proto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.mock-proto__stage {
+  position: relative;
+  width: 400px;
+  max-width: 100%;
+  height: 290px;
+}
+
+.mock-proto__phone {
   position: absolute;
-  top: 8px;
-  right: 10px;
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
-  background: var(--orange);
-  color: var(--on-orange);
+  top: 0;
+  left: 50%;
+  width: 158px;
+  height: 290px;
+  padding: 7px;
+  border-radius: 38px;
+  background: #0A0A0A;
+  box-shadow: inset 0 0 0 1.5px #3A3A42, 0 30px 50px -22px rgba(10, 10, 10, 0.5);
+  transform: translateX(-50%);
+}
+
+.mock-proto__screen {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 34px 12px 12px;
+  overflow: hidden;
+  border-radius: 31px;
+  background: #FFFFFF;
+}
+
+.mock-proto__island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 52px;
+  height: 15px;
+  border-radius: 10px;
+  background: #0A0A0A;
+  transform: translateX(-50%);
+}
+
+.mock-proto__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+.mock-proto__sk { display: block; flex: 1; height: 7px; border-radius: 4px; background: #E4E4E7; }
+.mock-proto__sk--title { flex: 0 0 52%; height: 10px; }
+.mock-proto__sk--short { flex: 0 0 55%; }
+
+.mock-proto__version {
+  position: relative;
+  display: grid;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.mock-proto__version b {
+  grid-area: 1 / 1;
+  padding: 2px 7px;
+  border-radius: 999px;
+  text-align: center;
+}
+.mock-proto__version .is-v1 { background: #F4F4F5; color: #0A0A0A; animation: proto-v1 10s infinite; }
+.mock-proto__version .is-v2 { background: #FF6B2C; color: #0A0A0A; opacity: 0; animation: proto-v2 10s infinite; }
+
+.mock-proto__chart {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 66px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #F4F4F5;
+}
+.mock-proto__chart span { flex: 1; height: var(--h); border-radius: 3px; background: #D4D4D8; }
+.mock-proto__chart span.is-on { background: #FF6B2C; }
+
+.mock-proto__rows { display: flex; flex-direction: column; gap: 10px; }
+.mock-proto__rows div { position: relative; display: flex; align-items: center; gap: 8px; }
+.mock-proto__dot { flex: none; width: 16px; height: 16px; border-radius: 50%; background: #E4E4E7; }
+
+/* Points chauds : là où les retours sont posés */
+.mock-proto__spot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #FF6B2C;
+  box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.25);
+  animation: proto-spot 2s ease-in-out infinite;
+}
+.mock-proto__rows .mock-proto__spot { top: 3px; right: 0; }
+
+@keyframes proto-spot {
+  50% { box-shadow: 0 0 0 6px rgba(255, 107, 44, 0.12); }
+}
+
+.mock-proto__btn {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: grid;
+  place-items: center;
+  height: 30px;
+  border-radius: 10px;
+  background: #FF6B2C;
+  color: #0A0A0A;
   font-size: 11px;
   font-weight: 700;
+  animation: proto-tap 10s infinite;
 }
-.mock-app__top { display: flex; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
-.mock-app__top i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
-.mock-app__body { display: grid; grid-template-columns: 84px 1fr; min-height: 210px; }
-.mock-app__side { display: flex; flex-direction: column; gap: 12px; padding: 16px 14px; border-right: 1px solid var(--line); }
-.mock-app__main { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
-.mock-app .sk { display: block; height: 8px; border-radius: 4px; background: var(--line); }
-.mock-app .sk.is-on { background: rgba(255, 107, 44, 0.45); }
-.mock-app .sk--title { width: 55%; height: 12px; }
-.mock-app .sk--short { width: 70%; }
-.mock-app__tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 4px; }
-.mock-app__tiles i { height: 54px; border-radius: 10px; background: var(--surface); }
-.mock-app__tiles i.is-on { border: 1px solid var(--orange); background: rgba(255, 107, 44, 0.14); }
+
+/* Retours des participants : bulle Memoji + bulle de message */
+.mock-proto__note {
+  position: absolute;
+  top: var(--y);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: proto-note 10s infinite;
+  animation-delay: var(--d);
+}
+.mock-proto__note--right { flex-direction: row-reverse; }
+
+.mock-proto__face {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border: 2.5px solid #FFFFFF;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #FFFFFF 0%, var(--tint) 70%);
+  box-shadow: 0 10px 20px -10px rgba(10, 10, 10, 0.4);
+}
+.mock-proto__face img { width: 100%; height: 100%; object-fit: cover; }
+
+.mock-proto__bubble {
+  padding: 7px 11px;
+  border: 1px solid rgba(10, 10, 10, 0.06);
+  border-radius: 14px 14px 14px 4px;
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 22px -12px rgba(10, 10, 10, 0.35);
+  color: #0A0A0A;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.mock-proto__note--right .mock-proto__bubble { border-radius: 14px 14px 4px 14px; }
+
+.mock-proto__cursor {
+  position: absolute;
+  z-index: 3;
+  top: 252px;
+  left: calc(50% + 6px);
+  opacity: 0;
+  filter: drop-shadow(0 4px 6px rgba(10, 10, 10, 0.3));
+  animation: proto-cursor 10s infinite;
+}
+
+@keyframes proto-note {
+  0%, 4% { opacity: 0; transform: translateY(8px) scale(0.94); }
+  9%, 86% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+
+@keyframes proto-cursor {
+  0%, 44% { opacity: 0; transform: translate(90px, 50px); }
+  50% { opacity: 1; }
+  57% { opacity: 1; transform: translate(0, 0) scale(1); }
+  60% { transform: translate(0, 0) scale(0.82); }
+  63% { transform: translate(0, 0) scale(1); }
+  72% { opacity: 1; transform: translate(0, 0); }
+  80%, 100% { opacity: 0; transform: translate(20px, 18px); }
+}
+
+@keyframes proto-tap {
+  0%, 59% { transform: scale(1); box-shadow: none; }
+  61% { transform: scale(0.94); box-shadow: 0 0 0 6px rgba(255, 107, 44, 0.25); }
+  66%, 100% { transform: scale(1); box-shadow: none; }
+}
+
+@keyframes proto-v1 {
+  0%, 60% { opacity: 1; }
+  63%, 96% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes proto-v2 {
+  0%, 60% { opacity: 0; }
+  63%, 96% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 /* Déploiement : vos outils reliés à Nextylab */
 .mock-sync { position: relative; max-width: 380px; aspect-ratio: 5 / 4; }
@@ -1055,8 +1257,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 .mock-chart__months span { flex: 1; text-align: center; }
 
 @media (max-width: 860px) {
+  .method__cards { --stack-step: 14px; }
   .step-card {
-    top: calc(max(84px, 50svh - var(--card-half, 260px)) + var(--i) * 14px);
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;
   }
@@ -1071,7 +1273,14 @@ ul { margin: 0; padding: 0; list-style: none; }
   .step-card p { font-size: 16px; line-height: 26px; }
   .step-card__visual { min-height: 0; padding: 16px; }
   .mock { font-size: 12px; }
-  .mock-app__body { min-height: 170px; }
+  .mock-proto__stage { width: 100%; height: 284px; }
+  .mock-proto__phone { width: 150px; height: 284px; border-radius: 34px; }
+  .mock-proto__screen { padding-top: 30px; border-radius: 28px; }
+  .mock-proto__note { top: calc(var(--y) * 0.88); }
+  .mock-proto__note--right { display: none; }
+  .mock-proto__face { width: 36px; height: 36px; }
+  .mock-proto__bubble { padding: 5px 9px; font-size: 10.5px; }
+  .mock-proto__cursor { top: 250px; }
   .mock-chart__bars { height: 110px; }
   .mock-call { --r: 88px; --s: 62px; }
   .mock-call__btn, .mock-call__pulse { width: 68px; height: 68px; }

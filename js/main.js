@@ -70,17 +70,31 @@ if (offers) {
   }
 }
 
-// Méthode : les cartes se figent au centre de l'écran (demi-hauteur de la plus grande carte)
+// Méthode : où les cartes se figent. Si l'écran est assez grand, le titre reste figé en haut et
+// les cartes se centrent dans la place restante ; sinon elles se centrent dans l'écran.
 const stepCards = [...document.querySelectorAll('.step-card')];
 if (stepCards.length) {
   const cardsList = stepCards[0].parentElement;
-  const setCardHalf = () => {
+  const methodInner = cardsList.parentElement;
+  const intro = methodInner.querySelector('.method__intro');
+  const INTRO_TOP = 100; // sous la barre de navigation
+  const placeCards = () => {
     const tallest = Math.max(...stepCards.map((card) => card.offsetHeight));
-    cardsList.style.setProperty('--card-half', `${tallest / 2}px`);
+    const step = parseFloat(getComputedStyle(cardsList).getPropertyValue('--stack-step')) || 0;
+    const stack = (stepCards.length - 1) * step;
+    methodInner.classList.remove('has-pinned-intro');
+    const introBottom = INTRO_TOP + intro.offsetHeight + 24;
+    const free = window.innerHeight - introBottom - tallest - stack;
+    const pinned = window.matchMedia('(min-width: 861px)').matches && free >= 16;
+    methodInner.classList.toggle('has-pinned-intro', pinned);
+    const top = pinned
+      ? introBottom + Math.max(16, free / 2)
+      : Math.max(INTRO_TOP - 16, (window.innerHeight - tallest - stack) / 2);
+    cardsList.style.setProperty('--stick-top', `${Math.round(top)}px`);
   };
-  setCardHalf();
-  window.addEventListener('resize', setCardHalf);
-  window.addEventListener('load', setCardHalf);
+  placeCards();
+  window.addEventListener('resize', placeCards);
+  window.addEventListener('load', placeCards);
 }
 
 // Méthode : une carte recouverte par la suivante recule légèrement et s'assombrit
