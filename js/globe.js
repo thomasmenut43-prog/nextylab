@@ -68,6 +68,7 @@ async function startGlobe() {
     phi,
     theta: THETA,
     dark: 1,
+    opacity: 0.6, // sphère seule : marqueurs et arcs restent à pleine opacité
     diffuse: 1.2,
     mapSamples: 24000,
     mapBrightness: 6,

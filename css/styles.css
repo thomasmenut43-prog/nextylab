@@ -1654,7 +1654,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* ---------- Données en Europe ---------- */
 /* Texte en haut ; en bas, un grand globe centré sur l'Europe, coupé par la section suivante.
    --g est la taille du canevas. La sphère en occupe environ 69 % et commence à 15,5 % du haut :
-   on la remonte à 40 px sous le texte et on en montre 58 %. Sans WebGL, l'icône reste affichée. */
+   on la place au moins 40 px sous le texte et on en montre la moitié. Sans WebGL, l'icône reste affichée. */
 .europe {
   position: relative;
   overflow: hidden;
@@ -1691,7 +1691,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   align-self: flex-start;
   width: var(--g);
   aspect-ratio: 1;
-  margin: calc(40px - 0.155 * var(--g)) 0 calc(-0.445 * var(--g)) calc((100% - var(--g)) / 2);
+  margin: calc(40px - 0.155 * var(--g)) 0 calc(-0.5 * var(--g)) calc((100% - var(--g)) / 2);
 }
 
 .europe__globe canvas {
@@ -1705,7 +1705,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   contain: layout paint size;
 }
 .europe__globe canvas.is-grabbing { cursor: grabbing; }
-.europe__globe.is-ready canvas { opacity: 0.72; }
+.europe__globe.is-ready canvas { opacity: 1; } /* la sphère est atténuée dans js/globe.js, l'orange reste plein */
 
 .europe__icon {
   position: absolute;
