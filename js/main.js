@@ -533,3 +533,19 @@ if ('IntersectionObserver' in window) {
   document.documentElement.classList.add('js');
   document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 }
+
+// Arrivée depuis une autre page sur une ancre (par exemple /#contact) : on attend que la mise en page soit stable
+// (cartes de la Méthode, polices), puis on va directement à la section, sans défilement animé sur toute la page.
+if (location.hash.length > 1) {
+  const anchorTarget = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (anchorTarget) {
+    window.addEventListener('load', () => {
+      requestAnimationFrame(() => {
+        const root = document.documentElement;
+        root.style.scrollBehavior = 'auto';
+        anchorTarget.scrollIntoView();
+        root.style.removeProperty('scroll-behavior');
+      });
+    });
+  }
+}
