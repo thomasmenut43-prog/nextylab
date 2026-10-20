@@ -40,8 +40,11 @@ module.exports = async (req, res) => {
     contact: clean(body.contact, 160),
   };
 
-  // Champ piège rempli : un robot, on fait comme si tout allait bien
-  if (clean(body.site, 200)) return res.status(200).json({ ok: true });
+  // Champ piège rempli : un robot, on fait comme si tout allait bien, mais on le note dans les journaux
+  if (clean(body.site, 200)) {
+    console.warn('Demande écartée : champ piège rempli (robot probable)');
+    return res.status(200).json({ ok: true });
+  }
 
   const day = new Date(`${data.date}T12:00:00Z`);
   const valid = /^\d{4}-\d{2}-\d{2}$/.test(data.date) && !Number.isNaN(day.getTime())

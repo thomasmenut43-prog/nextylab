@@ -131,7 +131,7 @@
       nom: field('nom').value.trim(),
       entreprise: field('entreprise').value.trim(),
       contact: field('contact').value.trim(),
-      site: field('site').value,
+      site: field('nx_trap') ? field('nx_trap').value : '',
     };
     ['besoin', 'nom', 'entreprise', 'contact'].forEach((name) => field(name).removeAttribute('aria-invalid'));
     const contactOk = EMAIL.test(values.contact) || PHONE.test(values.contact);

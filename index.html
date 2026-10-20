@@ -754,8 +754,9 @@
               <span>Téléphone ou e-mail</span>
               <input type="text" name="contact" autocomplete="email" maxlength="160" required>
             </label>
-            <!-- Champ piège pour les robots, invisible pour les visiteurs -->
-            <input class="booking__trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <!-- Champ piège pour les robots : masqué (hidden) pour que ni le remplissage automatique du navigateur
+                 ni un gestionnaire de mots de passe ne le complète, avec un nom qu'aucun d'eux ne reconnaît -->
+            <div class="booking__trap" hidden><input type="text" name="nx_trap" tabindex="-1" autocomplete="off"></div>
             <input type="hidden" name="date">
             <input type="hidden" name="heure">
             <button class="btn btn--primary booking__submit" type="submit" data-submit>Envoyer la demande</button>
