@@ -1540,120 +1540,115 @@ ul { margin: 0; padding: 0; list-style: none; }
   100% { opacity: 0; }
 }
 
-/* Déploiement : vos outils en icônes d'app, reliés à Nextylab par des flux, l'équipe formée */
-.mock-deploy {
+/* Proposition : le document avec son devis, la maquette du futur outil posée devant, puis le devis accepté.
+   Boucle de 8 s ; sans animation, tout reste visible. */
+.mock-offer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
 }
-
-.mock-deploy__stage {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  aspect-ratio: 400 / 290;
-}
-
-.mock-deploy__flows {
+.mock-offer__stage { position: relative; width: 400px; max-width: 100%; height: 290px; }
+.mock-offer__doc {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.mock-deploy__lines path {
-  fill: none;
-  stroke: #D4D4D8;
-  stroke-width: 1.5;
-  stroke-dasharray: 4 5;
-}
-.mock-deploy__packets circle {
-  fill: #FF6B2C;
-  filter: drop-shadow(0 0 4px rgba(255, 107, 44, 0.8));
-}
-
-.mock-deploy__hub {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 68px;
-  height: 68px;
-  border-radius: 19px;
-  background: linear-gradient(180deg, #1F1F23 0%, #0A0A0A 100%);
-  box-shadow: 0 0 0 8px rgba(255, 107, 44, 0.12), 0 16px 30px -12px rgba(10, 10, 10, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transform: translate(-50%, -50%);
-}
-
-.mock-deploy__app {
-  position: absolute;
+  left: 4%;
+  top: 3%;
+  width: 52%;
+  height: 92%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  transform: translate(-50%, -50%);
+  gap: 9px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--elevated);
+  box-shadow: 0 18px 40px -22px rgba(10, 10, 10, 0.35);
+  rotate: -3deg;
 }
-
-/* Icône d'app façon iPhone : tuile blanche bombée, pastille orange « connecté » */
-.mock-deploy__icon {
-  position: relative;
+.mock-offer__head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.mock-offer__head b { font-size: 13px; font-weight: 600; }
+.mock-offer__logo { width: 24px; height: 24px; flex: none; display: grid; place-items: center; border-radius: 7px; background: #0A0A0A; }
+.mock-offer__sk { height: 6px; border-radius: 4px; background: #E7E5E4; }
+.mock-offer__sk--short { width: 62%; }
+.mock-offer__quote { display: flex; flex-direction: column; gap: 7px; margin-top: 6px; padding: 10px; border-radius: 10px; background: var(--surface); }
+.mock-offer__label { color: var(--ink-2); font-size: 10.5px; font-weight: 600; }
+.mock-offer__line { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.mock-offer__line i { height: 5px; border-radius: 3px; background: #E2E0DD; }
+.mock-offer__line i:first-child { width: 52%; }
+.mock-offer__line i:last-child { width: 22%; }
+.mock-offer__line--total { padding-top: 7px; border-top: 1px dashed #D6D3D1; }
+.mock-offer__line--total b { font-size: 11px; font-weight: 600; }
+.mock-offer__line--total i:last-child { width: 30%; height: 7px; background: #FFB48C; }
+.mock-offer__btn {
   display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 15px;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F3 100%);
-  box-shadow: 0 10px 22px -10px rgba(10, 10, 10, 0.35), inset 0 0 0 1px rgba(10, 10, 10, 0.05), inset 0 1px 0 #FFFFFF;
-}
-.mock-deploy__icon i {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 14px;
-  height: 14px;
-  border: 2.5px solid var(--surface);
-  border-radius: 50%;
-  background: #FF6B2C;
-}
-
-.mock-deploy__label {
-  color: var(--ink-2);
-  font-size: 11px;
+  margin-top: auto;
+  padding: 7px 0;
+  border-radius: 8px;
+  background: var(--orange);
+  color: #FFFFFF;
+  font-size: 11.5px;
   font-weight: 600;
+  text-align: center;
+  animation: offer-press 8s infinite;
 }
-
-.mock-deploy__team {
+.mock-offer__btn span { grid-area: 1 / 1; }
+.mock-offer__btn .is-a { animation: offer-label-a 8s infinite; }
+.mock-offer__btn .is-b { opacity: 0; animation: offer-label-b 8s infinite; }
+.mock-offer__mockup {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px 5px 5px;
-  border: 1px solid rgba(10, 10, 10, 0.06);
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.85);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 20px -12px rgba(10, 10, 10, 0.35);
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  transform: translateX(-50%);
-}
-.mock-deploy__faces { display: flex; }
-.mock-deploy__faces span {
-  width: 30px;
-  height: 30px;
+  right: 2%;
+  bottom: 16%;
+  width: 46%;
   overflow: hidden;
-  border: 2px solid #FFFFFF;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 35%, #FFFFFF 0%, var(--tint) 70%);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--elevated);
+  box-shadow: 0 24px 48px -24px rgba(10, 10, 10, 0.4);
+  rotate: 3deg;
+  animation: offer-float 8s ease-in-out infinite;
 }
-.mock-deploy__faces span + span { margin-left: -9px; }
-.mock-deploy__faces img { width: 100%; height: 100%; object-fit: cover; }
+.mock-offer__bar { display: flex; align-items: center; gap: 4px; padding: 7px 9px; border-bottom: 1px solid var(--line); }
+.mock-offer__bar i { width: 6px; height: 6px; border-radius: 50%; background: #E2E0DD; }
+.mock-offer__bar span { margin-left: 6px; color: var(--ink-2); font-size: 10.5px; font-weight: 600; }
+.mock-offer__screen { display: grid; grid-template-columns: 26% 1fr; height: 124px; }
+.mock-offer__side { display: flex; flex-direction: column; gap: 8px; padding: 11px 8px; border-right: 1px solid var(--line); }
+.mock-offer__side i { height: 5px; border-radius: 3px; background: #E7E5E4; }
+.mock-offer__side i:first-child { background: #FFB48C; }
+.mock-offer__main { display: flex; flex-direction: column; gap: 8px; padding: 10px; }
+.mock-offer__cards { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.mock-offer__cards i { height: 28px; border: 1px solid #F0EFED; border-radius: 6px; background: var(--surface); }
+.mock-offer__chart { flex: 1; display: flex; align-items: flex-end; gap: 5px; padding: 6px; border-radius: 6px; background: var(--surface); }
+.mock-offer__chart i { flex: 1; height: var(--h); border-radius: 3px 3px 1px 1px; background: #FFD9C4; }
+.mock-offer__chart i:nth-child(4) { background: #FF8A55; }
+.mock-offer__cursor {
+  position: absolute;
+  z-index: 3;
+  left: 30%;
+  top: 84%;
+  opacity: 0;
+  filter: drop-shadow(0 4px 6px rgba(10, 10, 10, 0.3));
+  animation: offer-cursor 8s infinite;
+}
+@keyframes offer-float { 50% { translate: 0 -6px; } }
+@keyframes offer-cursor {
+  0%, 30% { opacity: 0; translate: 150px 30px; }
+  42% { opacity: 1; }
+  58%, 72% { opacity: 1; translate: 0 0; scale: 1; }
+  63% { scale: 0.85; }
+  82%, 100% { opacity: 0; translate: 0 0; }
+}
+@keyframes offer-press {
+  0%, 60% { scale: 1; box-shadow: none; }
+  63% { scale: 0.96; }
+  68%, 92% { scale: 1; box-shadow: 0 0 0 5px rgba(255, 107, 44, 0.22); }
+  100% { box-shadow: none; }
+}
+@keyframes offer-label-a { 0%, 63% { opacity: 1; } 66%, 95% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes offer-label-b { 0%, 63% { opacity: 0; } 66%, 95% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .mock-offer * { animation: none !important; }
+  .mock-offer__cursor { display: none; }
+}
 
 /* Maintenance : écran verrouillé, les notifications Nextylab arrivent l'une après l'autre */
 .mock-lock {
@@ -1751,11 +1746,9 @@ ul { margin: 0; padding: 0; list-style: none; }
   .mock-proto__face { width: 36px; height: 36px; }
   .mock-proto__bubble { padding: 5px 9px; font-size: 10.5px; }
   .mock-proto__cursor { top: 250px; }
-  .mock-deploy__icon { width: 44px; height: 44px; border-radius: 12px; }
-  .mock-deploy__icon svg { width: 20px; height: 20px; }
-  .mock-deploy__hub { width: 54px; height: 54px; border-radius: 15px; }
-  .mock-deploy__team { font-size: 11px; }
-  .mock-deploy__faces span { width: 26px; height: 26px; }
+  .mock-offer__stage { width: 100%; height: 270px; }
+  .mock-offer__doc { width: 56%; padding: 13px; }
+  .mock-offer__mockup { width: 48%; }
   .mock-lock__clock b { font-size: 40px; }
   .mock-call { --r: 88px; --s: 62px; }
   .mock-call__btn, .mock-call__pulse { width: 68px; height: 68px; }
