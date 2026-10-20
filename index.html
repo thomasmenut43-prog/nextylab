@@ -531,20 +531,35 @@
       </div>
     </section>
 
-    <section class="section savings theme-dark" id="simulateur" aria-labelledby="simulateur-titre" data-savings>
+    <section class="section savings theme-light" id="simulateur" aria-labelledby="simulateur-titre" data-savings>
       <div class="savings__inner">
+        <h2 class="section-title savings__title" id="simulateur-titre" data-blur-title>Combien de temps vous prend une tâche répétitive&nbsp;?</h2>
+
+        <fieldset class="savings__tabs">
+          <legend class="sr-only">La tâche</legend>
+          <span class="savings__glide" aria-hidden="true"></span>
+          <label><input type="radio" name="tache" value="répondre aux mêmes questions" checked><span>Répondre aux mêmes questions</span></label>
+          <label><input type="radio" name="tache" value="ressaisir des données"><span>Ressaisir des données</span></label>
+          <label><input type="radio" name="tache" value="relancer des clients"><span>Relancer des clients</span></label>
+          <label><input type="radio" name="tache" value="mettre à jour un planning"><span>Mettre à jour un planning</span></label>
+        </fieldset>
+
+        <!-- Le temps par mois au centre ; l'anneau montre la part d'un mois de travail à temps plein -->
+        <div class="savings__dial">
+          <svg class="savings__ring" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><linearGradient id="savingsGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB48C"/><stop offset="1" stop-color="#FF6B2C"/></linearGradient></defs>
+            <circle class="savings__track" cx="100" cy="100" r="88"/>
+            <circle class="savings__arc" cx="100" cy="100" r="88"/>
+          </svg>
+          <div class="savings__center">
+            <p class="savings__total" data-savings-total aria-hidden="true">17 h 30</p>
+            <span class="savings__unit">par mois</span>
+          </div>
+        </div>
+        <p class="sr-only" aria-live="polite" data-savings-live></p>
+        <p class="savings__caption">à <b data-savings-task>répondre aux mêmes questions</b>, soit <b class="is-share" data-savings-share>12 %</b> d'un mois à temps plein</p>
+
         <div class="savings__controls">
-          <h2 class="section-title" id="simulateur-titre">Combien de temps vous prend une tâche répétitive&nbsp;?</h2>
-          <p class="savings__lead">Choisissez une tâche, puis réglez les curseurs selon une journée habituelle.</p>
-
-          <fieldset class="savings__tasks">
-            <legend class="sr-only">La tâche</legend>
-            <label><input type="radio" name="tache" value="répondre aux mêmes questions" checked><span>Répondre aux mêmes questions</span></label>
-            <label><input type="radio" name="tache" value="ressaisir des données"><span>Ressaisir des données</span></label>
-            <label><input type="radio" name="tache" value="relancer des clients"><span>Relancer des clients</span></label>
-            <label><input type="radio" name="tache" value="mettre à jour un planning"><span>Mettre à jour un planning</span></label>
-          </fieldset>
-
           <div class="savings__field">
             <div class="savings__row">
               <label for="sim-nombre">Nombre de fois par jour</label>
@@ -552,7 +567,6 @@
             </div>
             <input class="savings__range" id="sim-nombre" type="range" min="1" max="30" step="1" value="10" data-savings-in="nombre">
           </div>
-
           <div class="savings__field">
             <div class="savings__row">
               <label for="sim-minutes">Temps à chaque fois</label>
@@ -562,16 +576,14 @@
           </div>
         </div>
 
-        <div class="savings__result" aria-live="polite">
-          <p class="savings__label">Temps passé chaque mois à <span data-savings-task>répondre aux mêmes questions</span></p>
-          <p class="savings__total" data-savings-total>17 h 30</p>
-          <ul class="savings__details">
-            <li>Soit <b data-savings-day>50 min</b> par jour</li>
-            <li>Et environ <b data-savings-year>30 jours de travail</b> par an</li>
-          </ul>
-          <a class="btn btn--primary savings__cta" href="#contact" data-savings-cta>Automatiser cette tâche</a>
-          <p class="savings__note">Calcul sur 21 jours travaillés par mois et des journées de 7&nbsp;heures.</p>
+        <div class="savings__foot">
+          <p>Soit <b data-savings-day>50 min</b> par jour et environ <b data-savings-year>30 jours de travail</b> par an.</p>
+          <a class="btn btn--primary savings__cta" href="#contact" data-savings-cta>
+            <span class="savings__cta-label">Automatiser cette tâche</span>
+            <span class="savings__cta-done" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="m3.5 8.3 2.8 2.8 6.2-6.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Ajoutée à votre demande</span>
+          </a>
         </div>
+        <p class="savings__note">Calcul sur 21 jours travaillés par mois et des journées de 7&nbsp;heures.</p>
       </div>
     </section>
 

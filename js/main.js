@@ -492,56 +492,176 @@ if (window.matchMedia('(hover: hover)').matches) {
 }
 
 // Simulateur : fois par jour × minutes à chaque fois, ramené au mois (21 jours travaillés) et à l'année
-// (journées de 7 h). Le bouton mène au formulaire et y note la tâche, si le visiteur n'a rien écrit lui-même.
+// (journées de 7 h) ; l'anneau montre la part d'un mois de travail à temps plein.
+// Micro-interactions d'après la bibliothèque Arc : les chiffres roulent jusqu'à la nouvelle valeur, l'anneau se
+// redessine, le surlignage glisse d'une tâche à l'autre, un curseur poussé au-delà de sa butée résiste puis
+// revient, et le bouton confirme avant d'amener au formulaire, où il note la tâche si le visiteur n'a rien écrit.
+// Tout se joue la première fois que la section entre à l'écran.
 const savings = document.querySelector('[data-savings]');
 if (savings) {
   const DAYS_PER_MONTH = 21;
   const HOURS_PER_DAY = 7;
+  const CIRCLE = 2 * Math.PI * 88;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const inputs = {
     nombre: savings.querySelector('[data-savings-in="nombre"]'),
     minutes: savings.querySelector('[data-savings-in="minutes"]'),
   };
   const out = (name) => savings.querySelector(`[data-savings-out="${name}"]`);
   const pick = (name) => savings.querySelector(`[data-savings-${name}]`);
+  const arc = savings.querySelector('.savings__arc');
+  const tabs = savings.querySelector('.savings__tabs');
+  const glide = savings.querySelector('.savings__glide');
   const duration = (minutes) => {
     const h = Math.floor(minutes / 60);
     const m = Math.round(minutes % 60);
     if (!h) return `${m} min`;
     return m ? `${h} h ${String(m).padStart(2, '0')}` : `${h} h`;
   };
-  let summary = '';
 
+  // Chiffres qui roulent : une colonne 0 à 9 par chiffre, décalée jusqu'au bon chiffre
+  const DIGITS = '0123456789'.split('').map((d) => `<span>${d}</span>`).join('');
+  const roll = (el, text) => {
+    const chars = [...text];
+    const shape = chars.map((c) => (/\d/.test(c) ? '#' : c)).join('');
+    if (el.dataset.shape !== shape) {
+      el.dataset.shape = shape;
+      el.innerHTML = chars.map((c) => {
+        if (/\d/.test(c)) return `<span class="roll"><span class="roll__strip">${DIGITS}</span></span>`;
+        if (c === ' ') return '<span class="roll__space"> </span>';
+        return `<span class="roll__unit">${c}</span>`;
+      }).join('');
+      el.getBoundingClientRect(); // une nouvelle forme part de 0 et roule jusqu'à sa valeur
+    }
+    let k = 0;
+    const strips = el.querySelectorAll('.roll__strip');
+    chars.forEach((c) => {
+      if (!/\d/.test(c)) return;
+      strips[k].style.transitionDelay = `${k * 45}ms`;
+      strips[k].style.transform = `translateY(${-Number(c) * 10}%)`;
+      k += 1;
+    });
+  };
+
+  const moveGlide = () => {
+    const label = savings.querySelector('input[name="tache"]:checked').closest('label');
+    glide.style.width = `${label.offsetWidth}px`;
+    glide.style.height = `${label.offsetHeight}px`;
+    glide.style.transform = `translate(${label.offsetLeft}px, ${label.offsetTop}px)`;
+  };
+
+  let seen = false;
+  let summary = '';
+  let liveTimer = 0;
+  const atLimit = {};
   const update = () => {
     const nombre = Number(inputs.nombre.value);
     const minutes = Number(inputs.minutes.value);
     const task = savings.querySelector('input[name="tache"]:checked').value;
-    Object.values(inputs).forEach((input) => {
-      const p = ((input.value - input.min) / (input.max - input.min)) * 100;
-      input.style.setProperty('--p', `${p}%`);
+    Object.entries(inputs).forEach(([name, input]) => {
+      input.style.setProperty('--p', `${((input.value - input.min) / (input.max - input.min)) * 100}%`);
+      // Arrivé en butée, la valeur le signale d'un léger rebond
+      const limit = input.value === input.min || input.value === input.max;
+      if (limit && !atLimit[name] && seen) {
+        const field = input.closest('.savings__field');
+        field.classList.add('is-limit');
+        setTimeout(() => field.classList.remove('is-limit'), 450);
+      }
+      atLimit[name] = limit;
     });
     out('nombre').textContent = `${nombre} fois`;
     out('minutes').textContent = duration(minutes);
+    moveGlide();
 
     const perDay = nombre * minutes;
     const perMonth = perDay * DAYS_PER_MONTH;
     const days = Math.round((perMonth * 12) / 60 / HOURS_PER_DAY);
+    const share = perMonth / 60 / (DAYS_PER_MONTH * HOURS_PER_DAY);
     pick('task').textContent = task;
-    pick('total').textContent = duration(perMonth);
+    pick('share').textContent = `${Math.round(share * 100)} %`;
     pick('day').textContent = duration(perDay);
     pick('year').textContent = days < 1 ? "moins d'un jour de travail" : `${days} jour${days > 1 ? 's' : ''} de travail`;
     summary = `Automatiser une tâche : ${task}, environ ${nombre} fois par jour, ${duration(minutes)} à chaque fois (soit ${duration(perMonth)} par mois).`;
+    if (!seen) return;
+    roll(pick('total'), duration(perMonth));
+    arc.style.strokeDashoffset = (CIRCLE * (1 - Math.max(0.015, Math.min(1, share)))).toFixed(2);
+    clearTimeout(liveTimer);
+    liveTimer = setTimeout(() => { pick('live').textContent = `${duration(perMonth)} par mois à ${task}.`; }, 600);
   };
 
   savings.addEventListener('input', update);
-  pick('cta').addEventListener('click', () => {
+  window.addEventListener('resize', moveGlide, { passive: true });
+
+  // Butée élastique : tant qu'on tire au-delà du bout du curseur, il suit un peu, puis revient au relâchement
+  Object.values(inputs).forEach((input) => {
+    const field = input.closest('.savings__field');
+    let dragging = false;
+    const release = () => {
+      if (!dragging) return;
+      dragging = false;
+      input.classList.remove('is-pulling');
+      input.style.setProperty('--pull', '0px');
+      field.classList.remove('is-limit');
+    };
+    input.addEventListener('pointerdown', () => { dragging = !still; });
+    window.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      const box = input.getBoundingClientRect();
+      let over = 0;
+      if (event.clientX > box.right && input.value === input.max) over = event.clientX - box.right;
+      if (event.clientX < box.left && input.value === input.min) over = event.clientX - box.left;
+      const pull = Math.sign(over) * Math.min(14, Math.sqrt(Math.abs(over)) * 1.6); // plus on tire, moins il suit
+      input.classList.toggle('is-pulling', over !== 0);
+      input.style.setProperty('--pull', `${pull.toFixed(1)}px`);
+      field.classList.toggle('is-limit', over !== 0);
+    }, { passive: true });
+    window.addEventListener('pointerup', release);
+    window.addEventListener('pointercancel', release);
+  });
+
+  // Bouton : confirmation sur place, puis le formulaire, avec la tâche notée dans le besoin
+  const cta = pick('cta');
+  cta.addEventListener('click', (event) => {
     const besoin = document.querySelector('textarea[name="besoin"]');
     if (besoin && (!besoin.value.trim() || besoin.dataset.fromSimulator === 'true')) {
       besoin.value = summary;
       besoin.dataset.fromSimulator = 'true';
       besoin.addEventListener('input', () => { besoin.dataset.fromSimulator = 'false'; }, { once: true });
     }
+    if (still) return;
+    event.preventDefault();
+    cta.classList.add('is-done');
+    setTimeout(() => {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => cta.classList.remove('is-done'), 1500);
+    }, 750);
   });
+
+  // Première apparition : le titre se dévoile mot à mot, l'anneau se dessine et le total roule depuis zéro
+  const title = savings.querySelector('[data-blur-title]');
+  if (!still) {
+    const words = title.textContent.trim().split(' ');
+    title.innerHTML = words.map((word, i) => `<span class="bw" style="--w: ${i}">${word}</span>`).join(' ');
+  }
+  roll(pick('total'), pick('total').textContent.replace(/\d/g, '0'));
   update();
+  requestAnimationFrame(() => tabs.classList.add('is-ready'));
+  const enter = () => {
+    if (seen) return;
+    seen = true;
+    title.classList.add('is-in');
+    update();
+  };
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      enter();
+      observer.disconnect();
+    }, { threshold: 0.3 });
+    observer.observe(savings);
+  } else {
+    enter();
+  }
 }
 
 // FAQ : une question ouverte à la fois ; à l'ouverture, l'assistant « écrit » un instant puis sa réponse apparaît
