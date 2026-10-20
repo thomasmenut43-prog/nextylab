@@ -395,6 +395,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   gap: 12px;
   padding-top: 4px;
 }
+/* Sous le bouton : ce que le visiteur réserve (durée, format, gratuité) */
+.hero__note { flex-basis: 100%; margin: 2px 0 0; color: var(--ink-2); font-size: 14px; line-height: 20px; }
 
 .hero__art {
   position: relative;
@@ -673,7 +675,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .offers__stage a { -webkit-user-drag: none; }
 
 .offer-card__text { padding-right: 8px; }
-.offer-card__text small { display: block; margin-bottom: 12px; color: var(--orange-text); font-size: 14px; font-weight: 600; }
 .offer-card__text h3 { margin: 0; font-size: clamp(28px, 3vw, 40px); font-weight: 600; line-height: 1.08; letter-spacing: -0.025em; }
 .offer-card__text p { margin: 14px 0 0; color: var(--ink-2); font-size: 17px; line-height: 27px; }
 /* Pertinent si : les situations où l'offre a du sens, pour choisir entre les trois */
@@ -745,7 +746,6 @@ ul { margin: 0; padding: 0; list-style: none; }
     transform: translateX(-50%) translateX(calc(var(--pos) * 96%)) scale(calc(1 - min(var(--dist), 1) * 0.1));
   }
   .offer-card__text { padding-right: 0; }
-  .offer-card__text small { margin-bottom: 8px; }
   .offer-card__text h3 { font-size: 26px; }
   .offer-card__text p { margin-top: 10px; font-size: 15px; line-height: 23px; }
   .offer-card__fit-label { margin-top: 16px; font-size: 13px; }

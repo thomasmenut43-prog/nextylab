@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/solutions/saas-sur-mesure.html", "destination": "/solutions/logiciel-sur-mesure.html", "permanent": true }
+  ]
+}
