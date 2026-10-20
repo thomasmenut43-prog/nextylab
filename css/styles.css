@@ -341,8 +341,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------- Écran d'accueil ---------- */
-/* D'après l'intro de PeakLab : un fond plein écran (ici un horizon qui s'éclaire en orange sur la trame de points
-   du hero), le symbole dont les deux pièces s'emboîtent, le nom qui s'écrit, puis tout remonte (2,1 s puis 0,95 s).
+/* D'après l'intro de PeakLab : un fond plein écran (la photo aux lamelles orange, avec un léger zoom arrière),
+   le symbole dont les deux pièces s'emboîtent, le nom qui s'écrit, puis tout remonte (2,1 s puis 0,95 s).
    Entièrement en CSS : même sans main.js, l'écran se retire seul. */
 .intro-screen { display: none; }
 html.intro .intro-screen {
@@ -355,38 +355,19 @@ html.intro .intro-screen {
   background: #060607;
   animation: intro-lift 0.95s cubic-bezier(0.76, 0, 0.24, 1) 2.1s forwards;
 }
-.intro-screen__dots {
+.intro-screen__photo {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.13) 1px, transparent 1.6px) 0 0 / 18px 18px;
-  -webkit-mask-image: radial-gradient(70% 60% at 50% 55%, #000, transparent);
-  mask-image: radial-gradient(70% 60% at 50% 55%, #000, transparent);
-  animation: intro-fade 1.6s ease-out both;
+  background: url('/assets/fonds/fond-orange.webp') center / cover no-repeat;
+  animation: intro-photo 3.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.intro-screen__glow {
+/* Assombrit le centre pour que le logo blanc et orange se lise sur les lamelles claires */
+.intro-screen__shade {
   position: absolute;
-  left: 50%;
-  bottom: -48vmax;
-  width: 150vmax;
-  height: 90vmax;
-  translate: -50% 0;
-  border-radius: 50%;
+  inset: 0;
   background:
-    radial-gradient(closest-side, rgba(255, 214, 190, 0.55), rgba(255, 214, 190, 0) 22%),
-    radial-gradient(closest-side, rgba(255, 107, 44, 0.75), rgba(255, 107, 44, 0.22) 45%, rgba(255, 107, 44, 0) 72%);
-  filter: blur(18px);
-  animation: intro-dawn 2.2s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.intro-screen__horizon {
-  position: absolute;
-  left: 50%;
-  bottom: 26vh;
-  width: 72vw;
-  height: 1px;
-  translate: -50% 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 196, 160, 0.9), transparent);
-  box-shadow: 0 0 24px 2px rgba(255, 107, 44, 0.45);
-  animation: intro-horizon 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    radial-gradient(38% 34% at 50% 50%, rgba(6, 6, 7, 0.78), rgba(6, 6, 7, 0) 100%),
+    rgba(6, 6, 7, 0.28);
 }
 .intro-screen__logo {
   position: relative;
@@ -421,13 +402,10 @@ html.intro .clients { animation-delay: 2.75s; }
   .intro-screen__logo { gap: 14px; }
   .intro-screen__symbol { width: 46px; }
   .intro-screen__word { font-size: 34px; }
-  .intro-screen__horizon { width: 86vw; }
 }
 @keyframes intro-lift { to { transform: translateY(-100%); visibility: hidden; } }
 @keyframes intro-logo-out { to { opacity: 0; transform: translateY(-48px); } }
-@keyframes intro-fade { from { opacity: 0; } }
-@keyframes intro-dawn { from { opacity: 0; transform: translateY(12%) scale(0.92); } }
-@keyframes intro-horizon { from { opacity: 0; width: 0; } }
+@keyframes intro-photo { from { opacity: 0; transform: scale(1.12); } }
 @keyframes intro-join { from { opacity: 0; translate: var(--from); } }
 @keyframes intro-letter { from { opacity: 0; filter: blur(8px); transform: translateY(0.35em); } }
 
@@ -2432,6 +2410,11 @@ html.intro .clients { animation-delay: 2.75s; }
   background: linear-gradient(90deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0.78) 34%, rgba(10, 10, 10, 0.3) 54%, rgba(10, 10, 10, 0) 72%);
 }
 .cta:not(.has-shader) .cta__veil { display: none; }
+
+/* Landing : la photo aux lamelles orange remplace le fond animé ; le voile garde le texte lisible */
+.cta__photo { position: absolute; inset: 0; pointer-events: none; background: url('/assets/fonds/fond-orange.webp') center / cover no-repeat; }
+.cta.cta--photo .cta__glow { display: none; }
+.cta.cta--photo .cta__veil { display: block; }
 
 .cta__inner {
   position: relative;

@@ -1,4 +1,14 @@
 // Menu mobile, ombre de la barre de navigation et apparition des blocs au défilement.
+
+// Une page rechargée repart toujours du haut : le navigateur ne restaure plus la position de défilement, et une
+// ancre restée dans l'adresse (#methode après un clic dans le menu) est oubliée. Une arrivée depuis un lien
+// (par exemple /#contact depuis une autre page) va toujours à sa section.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+const navigationEntry = performance.getEntriesByType('navigation')[0];
+if (navigationEntry && navigationEntry.type === 'reload') {
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  window.scrollTo(0, 0);
+}
 const header = document.querySelector('.site-header');
 const nav = header.querySelector('.nav');
 const toggle = header.querySelector('.nav__toggle');
