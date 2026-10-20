@@ -790,7 +790,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   48%, 89.5%, 93.5% { scale: 1 0.08; }
 }
 
-/* 2. Automatisation : vos outils en orbite autour de Nextylab (centre calé sur le bord droit) */
+/* 2. Automatisation : les applications du quotidien en orbite autour de Nextylab (centre calé sur le bord droit).
+   Logos Simple Icons 10.4.0 chargés depuis jsDelivr : les versions récentes n'ont plus Microsoft ni Slack. */
 .vz-orbit { position: absolute; right: 16cqh; top: 50%; width: 0; height: 0; }
 .vz-ring {
   --t: 40s;
@@ -811,7 +812,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   position: absolute;
   left: calc(50% + 50% * cos(var(--a)));
   top: calc(50% + 50% * sin(var(--a)));
-  width: 3.3em;
+  width: 3.7em;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -822,7 +823,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   animation: vz-spin var(--t) linear infinite reverse; /* reste droit pendant que l'anneau tourne */
 }
 .vz-ring--2 .vz-tool { animation-direction: normal; }
-.vz-tool svg { width: 1.55em; height: 1.55em; fill: none; stroke: var(--c); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* Logo monochrome de l'application (Simple Icons) teinté de sa couleur officielle */
+.vz-tool b { width: 1.75em; height: 1.75em; background: var(--c); -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat; }
 .vz-orbit__core {
   position: absolute;
   left: 0;
