@@ -658,13 +658,19 @@ ul { margin: 0; padding: 0; list-style: none; }
   border: 1px solid var(--line);
   border-radius: 32px;
   background: var(--elevated);
-  transform: translateX(-50%) translateX(calc(var(--pos) * 68%)) scale(calc(1 - var(--dist) * 0.16));
-  opacity: calc(1 - var(--dist) * 0.55);
+  transform: translateX(-50%) translateX(calc(var(--pos) * 68%)) scale(calc(1 - min(var(--dist), 1) * 0.16));
+  /* Au-delà d'une position, la carte s'efface : pendant un glisser, elle passe d'un bord à l'autre sans se voir */
+  opacity: calc((1 - min(var(--dist), 1) * 0.55) * clamp(0, (1.5 - var(--dist)) * 2, 1));
   z-index: calc(3 - var(--dist));
   transition: transform 0.6s var(--ease-out), opacity 0.6s var(--ease-out), box-shadow 0.6s;
   cursor: pointer;
 }
-.offer-card.is-active { cursor: default; box-shadow: 0 40px 80px -40px rgba(10, 10, 10, 0.3); }
+.offer-card.is-active { cursor: grab; box-shadow: 0 40px 80px -40px rgba(10, 10, 10, 0.3); }
+/* Pendant le glisser, les cartes suivent le pointeur sans délai */
+.offers__stage.is-dragging .offer-card { transition: none; }
+.offers__stage.is-dragging,
+.offers__stage.is-dragging * { cursor: grabbing; }
+.offers__stage a { -webkit-user-drag: none; }
 
 .offer-card__text { padding-right: 8px; }
 .offer-card__text small { display: block; margin-bottom: 12px; color: var(--orange-text); font-size: 14px; font-weight: 600; }
@@ -715,7 +721,7 @@ ul { margin: 0; padding: 0; list-style: none; }
     gap: 20px;
     --pad: 22px;
     border-radius: 26px;
-    transform: translateX(-50%) translateX(calc(var(--pos) * 96%)) scale(calc(1 - var(--dist) * 0.1));
+    transform: translateX(-50%) translateX(calc(var(--pos) * 96%)) scale(calc(1 - min(var(--dist), 1) * 0.1));
   }
   .offer-card__text { padding-right: 0; }
   .offer-card__text small { margin-bottom: 8px; }

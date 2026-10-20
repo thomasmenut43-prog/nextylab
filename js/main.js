@@ -59,7 +59,8 @@ window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
 // Offres : carte focus. L'offre active est au centre, les deux autres en retrait de chaque côté (--pos, --dist).
-// Flèches, points, clic sur une carte de côté, glisser au doigt et flèches du clavier quand la section est à l'écran.
+// Flèches, points, clic sur une carte de côté, flèches du clavier, et glisser à la souris ou au doigt : pendant le
+// geste les cartes suivent le pointeur en temps réel, puis se calent sur l'offre la plus proche au relâchement.
 // La scène de la carte active bouge, les autres sont figées ; rien ne bouge avant que la section soit vue.
 // Les offres défilent seules toutes les 8 s tant que la section est à l'écran, en pause au survol, et plus du tout
 // dès que le visiteur a navigué lui-même.
@@ -69,7 +70,9 @@ if (offers) {
   const cards = [...stage.querySelectorAll('.offer-card')];
   const dots = [...offers.querySelectorAll('[data-offers-dots] button')];
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const narrow = window.matchMedia('(max-width: 760px)');
   const DELAY = 8000;
+  const half = cards.length / 2;
   let active = 0;
   let seen = false;
   let inView = false;
@@ -77,14 +80,27 @@ if (offers) {
   let manual = false;
   let timer = 0;
 
+  // Position ramenée entre -1,5 et 1,5 (pour 3 cartes) : au-delà de 1, la carte s'efface (CSS)
+  const wrap = (pos) => ((((pos + half) % cards.length) + cards.length) % cards.length) - half;
+  const place = (card, pos) => {
+    card.dataset.pos = pos;
+    card.style.setProperty('--pos', pos.toFixed(4));
+    card.style.setProperty('--dist', Math.abs(pos).toFixed(4));
+  };
+
   const show = (n) => {
     active = (n + cards.length) % cards.length;
     cards.forEach((card, i) => {
-      let pos = i - active;
-      if (pos > 1) pos -= cards.length;
-      if (pos < -1) pos += cards.length;
-      card.style.setProperty('--pos', pos);
-      card.style.setProperty('--dist', Math.abs(pos));
+      const pos = Math.round(wrap(i - active));
+      const from = Number(card.dataset.pos);
+      // Une carte qui change de bord fait le tour par l'extérieur, effacée, au lieu de traverser le centre
+      if (!Number.isNaN(from) && Math.abs(pos - from) > half) {
+        card.style.transition = 'none';
+        place(card, from + (pos > from ? cards.length : -cards.length));
+        card.getBoundingClientRect();
+        card.style.removeProperty('transition');
+      }
+      place(card, pos);
       card.classList.toggle('is-active', seen && pos === 0);
       card.setAttribute('aria-hidden', String(pos !== 0));
       card.querySelectorAll('a').forEach((link) => { link.tabIndex = pos === 0 ? 0 : -1; });
@@ -112,23 +128,59 @@ if (offers) {
   offers.querySelector('[data-offers-next]').addEventListener('click', () => go(active + 1));
   dots.forEach((dot, i) => dot.addEventListener('click', () => go(i)));
 
-  // Glisser : au-delà de 50 px on change d'offre, et le clic qui suit le geste est ignoré
-  let startX = null;
-  let swiped = false;
-  stage.addEventListener('pointerdown', (event) => { startX = event.clientX; swiped = false; });
-  stage.addEventListener('pointerup', (event) => {
-    if (startX === null) return;
-    const dx = event.clientX - startX;
-    startX = null;
-    if (Math.abs(dx) > 50) {
-      swiped = true;
-      go(active + (dx < 0 ? 1 : -1));
-    }
+  // Glisser : un pas de carrousel vaut le décalage d'une carte de côté (68 % de sa largeur, 96 % sur mobile)
+  let drag = null;
+  let dragged = false;
+  stage.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0) return;
+    if (event.pointerType === 'mouse') event.preventDefault(); // pas de sélection de texte pendant le geste
+    drag = {
+      id: event.pointerId,
+      x: event.clientX,
+      t: performance.now(),
+      step: cards[0].offsetWidth * (narrow.matches ? 0.96 : 0.68),
+      progress: 0,
+    };
+    dragged = false;
   });
-  stage.addEventListener('pointercancel', () => { startX = null; });
+  stage.addEventListener('pointermove', (event) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const dx = event.clientX - drag.x;
+    if (!dragged) {
+      if (Math.abs(dx) < 6) return; // en dessous, c'est un clic
+      dragged = true;
+      manual = true;
+      clearTimeout(timer);
+      stage.setPointerCapture(event.pointerId);
+      stage.classList.add('is-dragging');
+    }
+    drag.progress = dx / drag.step;
+    cards.forEach((card, i) => place(card, wrap(i - active + drag.progress)));
+  });
+  const release = (event) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const { progress, t } = drag;
+    drag = null;
+    if (!dragged) return;
+    stage.classList.remove('is-dragging');
+    // Au-delà d'un demi-pas on passe à l'offre suivante ; un petit geste vif suffit aussi
+    let steps = Math.round(progress);
+    const flick = performance.now() - t < 300 && Math.abs(progress) > 0.08;
+    if (!steps && (Math.abs(progress) > 0.2 || flick)) steps = progress < 0 ? -1 : 1;
+    show(active - steps);
+  };
+  stage.addEventListener('pointerup', release);
+  stage.addEventListener('pointercancel', release);
+  stage.addEventListener('dragstart', (event) => event.preventDefault());
+  // Le clic qui termine un glisser n'ouvre ni une carte ni un lien
+  stage.addEventListener('click', (event) => {
+    if (!dragged) return;
+    event.preventDefault();
+    event.stopPropagation();
+    dragged = false;
+  }, true);
   cards.forEach((card, i) => card.addEventListener('click', () => {
-    if (swiped || i === active) return;
-    go(i);
+    if (i !== active) go(i);
   }));
 
   document.addEventListener('keydown', (event) => {
