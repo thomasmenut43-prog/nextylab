@@ -19,6 +19,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <!-- Écran d'accueil : une fois par visite, sauf arrivée sur une ancre ou animations réduites -->
+  <script>try{if(!sessionStorage.getItem('nextylab-intro')&&!location.hash&&matchMedia('(prefers-reduced-motion: no-preference)').matches){document.documentElement.classList.add('intro');sessionStorage.setItem('nextylab-intro','1')}}catch(e){}</script>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
   <script src="js/halftone.js" defer></script>
@@ -27,6 +29,18 @@
   <script src="js/rendez-vous.js" defer></script>
 </head>
 <body class="theme-light">
+  <!-- Écran d'accueil (une fois par visite) : le symbole s'assemble, le nom s'écrit, puis tout
+       remonte pour dévoiler le site. Affiché seulement si le script de l'en-tête a posé la classe « intro ». -->
+  <div class="intro-screen" aria-hidden="true">
+    <div class="intro-screen__dots"></div>
+    <div class="intro-screen__glow"></div>
+    <div class="intro-screen__horizon"></div>
+    <div class="intro-screen__logo">
+      <svg class="intro-screen__symbol" viewBox="47 28 37 35" width="60" height="57"><path class="is-a" d="M48.4663 44.0997L59.4807 33.0853C62.8206 29.7455 68.2212 29.7455 71.561 33.0853L75.4694 36.9936L69.7845 42.6785L66.5868 39.4808C65.5919 38.4859 64.0286 38.4859 63.0338 39.4808L53.4406 49.0739C52.7505 49.2724 52.0198 49.2824 51.3246 49.1029C50.6293 48.9234 49.9949 48.5609 49.4871 48.0532C48.9794 47.5454 48.6169 46.9109 48.4374 46.2157C48.2579 45.5204 48.2679 44.7898 48.4663 44.0997Z" fill="#FFFFFF"/><path class="is-b" d="M82.5753 46.942L71.5609 57.9564C68.221 61.2963 62.8204 61.2963 59.4806 57.9564L55.5723 54.0481L61.2571 48.3632L64.4548 51.561C65.4497 52.5558 67.013 52.5558 68.0079 51.561L77.601 41.9678C78.2911 41.7693 79.0218 41.7593 79.717 41.9389C80.4123 42.1184 81.0468 42.4808 81.5545 42.9886C82.0622 43.4963 82.4247 44.1308 82.6042 44.8261C82.7837 45.5213 82.7737 46.252 82.5753 46.942Z" fill="#FF6B2C"/></svg>
+      <span class="intro-screen__word"><span style="--i: 0">N</span><span style="--i: 1">e</span><span style="--i: 2">x</span><span style="--i: 3">t</span><span style="--i: 4">y</span><span style="--i: 5">l</span><span style="--i: 6">a</span><span style="--i: 7">b</span></span>
+    </div>
+  </div>
+
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="site-header theme-dark">

@@ -12,6 +12,26 @@ function setMenuOpen(open) {
 
 toggle.addEventListener('click', () => setMenuOpen(!nav.classList.contains('is-open')));
 
+// Écran d'accueil : retiré une fois remonté ; un clic, la molette ou une touche le font remonter tout de suite
+const intro = document.querySelector('.intro-screen');
+if (intro) {
+  if (!document.documentElement.classList.contains('intro')) {
+    intro.remove();
+  } else {
+    intro.addEventListener('animationend', (event) => {
+      if (event.animationName === 'intro-lift') intro.remove();
+    });
+    const skip = () => {
+      if (!intro.isConnected) return;
+      intro.classList.add('is-skip');
+      document.documentElement.classList.add('intro-skip');
+    };
+    intro.addEventListener('click', skip);
+    window.addEventListener('keydown', skip, { once: true });
+    window.addEventListener('wheel', skip, { once: true, passive: true });
+  }
+}
+
 // Un lien choisi referme le menu
 menu.addEventListener('click', (event) => {
   if (event.target.closest('a')) setMenuOpen(false);
