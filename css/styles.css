@@ -731,12 +731,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 .offer-card:not(.is-active) .vz * { animation-play-state: paused !important; }
 @keyframes vz-spin { to { rotate: 1turn; } }
 
-/* 1. Agent : une boule qui regarde la souris (main.js pose --lx et --ly entre -1 et 1) et cligne des yeux */
+/* 1. Agent : la boule est l'agent (le programme, avec sa mémoire et vos outils), branchée à un modèle d'IA qui change
+   sans qu'elle perde rien ; en haut, la machine où elle tourne. Les yeux suivent la souris (main.js pose --lx et --ly). */
+.vz--agent { --s: min(38cqw, 36cqh); }
 .vz-orb {
-  --s: min(56cqw, 58cqh);
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 42%;
   width: var(--s);
   aspect-ratio: 1;
   translate: -50% -50%;
@@ -746,16 +747,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   inset: -32%;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(255, 107, 44, 0.28), rgba(255, 107, 44, 0));
-}
-.vz-orb__shadow {
-  position: absolute;
-  left: 18%;
-  right: 18%;
-  bottom: -14%;
-  height: 9%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(120, 50, 10, 0.22), rgba(120, 50, 10, 0));
-  animation: vz-shadow 5s ease-in-out infinite;
 }
 .vz-orb__body {
   position: absolute;
@@ -784,11 +775,87 @@ ul { margin: 0; padding: 0; list-style: none; }
   animation: vz-blink 6.5s infinite;
 }
 @keyframes vz-float { 50% { translate: 0 calc(var(--s) * -0.035); } }
-@keyframes vz-shadow { 50% { scale: 0.88; opacity: 0.75; } }
 @keyframes vz-blink {
   0%, 46%, 50%, 88%, 91.5%, 95%, 100% { scale: 1 1; }
   48%, 89.5%, 93.5% { scale: 1 0.08; }
 }
+
+.vz-host,
+.vz-model {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  translate: -50% 0;
+  padding: 0.55em 0.9em;
+  border: 1px solid #EFE6E0;
+  border-radius: 0.9em;
+  background: #FFFFFF;
+  box-shadow: 0 0.8em 1.6em -0.8em rgba(60, 40, 20, 0.3);
+  white-space: nowrap;
+}
+.vz-host { top: 7%; }
+.vz-host small,
+.vz-model small { color: #71717A; font-size: 0.82em; }
+.vz-host .vz-swap,
+.vz-model .vz-swap { font-weight: 600; }
+.vz-model { bottom: 9%; padding: 0.7em 1.1em; animation: vz-model 12s infinite; }
+.vz-model .vz-swap span { color: #C2410C; }
+
+/* Valeurs qui défilent verticalement : la dernière répète la première pour boucler sans saut */
+.vz-swap { display: inline-block; height: 1.3em; overflow: hidden; line-height: 1.3em; vertical-align: bottom; }
+.vz-swap span { display: block; }
+.vz-swap--2 span { animation: vz-swap-2 9s infinite; }
+.vz-swap--4 span { animation: vz-swap-4 12s infinite; }
+@keyframes vz-swap-2 {
+  0%, 42% { translate: 0 0; animation-timing-function: var(--ease-out); }
+  50%, 92% { translate: 0 -1.3em; animation-timing-function: var(--ease-out); }
+  100% { translate: 0 -2.6em; }
+}
+@keyframes vz-swap-4 {
+  0%, 20% { translate: 0 0; animation-timing-function: var(--ease-out); }
+  25%, 45% { translate: 0 -1.3em; animation-timing-function: var(--ease-out); }
+  50%, 70% { translate: 0 -2.6em; animation-timing-function: var(--ease-out); }
+  75%, 95% { translate: 0 -3.9em; animation-timing-function: var(--ease-out); }
+  100% { translate: 0 -5.2em; }
+}
+/* À chaque changement de modèle, la carte s'allume brièvement */
+@keyframes vz-model {
+  0%, 21%, 30%, 46%, 55%, 71%, 80%, 96%, 100% { border-color: #EFE6E0; }
+  24%, 49%, 74%, 99% { border-color: #FF6B2C; }
+}
+
+/* Le fil qui relie l'agent à son modèle */
+.vz-link {
+  position: absolute;
+  left: 50%;
+  top: calc(42% + var(--s) * 0.55);
+  bottom: calc(9% + 3em);
+  border-left: 2px dashed #F2C7AE;
+}
+
+.vz-chip {
+  position: absolute;
+  top: 42%;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  translate: 0 -50%;
+  padding: 0.45em 0.8em;
+  border: 1px solid #EFE6E0;
+  border-radius: 999px;
+  background: #FFFFFF;
+  box-shadow: 0 0.6em 1.2em -0.6em rgba(60, 40, 20, 0.28);
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: vz-bob 4.5s ease-in-out infinite;
+}
+.vz-chip::before { content: ""; width: 0.5em; height: 0.5em; border-radius: 50%; background: #FF6B2C; }
+.vz-chip--mem { right: calc(50% + var(--s) * 0.68); }
+.vz-chip--tools { left: calc(50% + var(--s) * 0.68); animation-delay: -2.2s; }
+@keyframes vz-bob { 50% { translate: 0 calc(-50% - 0.35em); } }
 
 /* 2. Automatisation : les applications du quotidien en orbite autour de Nextylab (centre calé sur le bord droit).
    Logos Simple Icons 10.4.0 chargés depuis jsDelivr : les versions récentes n'ont plus Microsoft ni Slack. */
@@ -2920,6 +2987,37 @@ ul { margin: 0; padding: 0; list-style: none; }
 .offer-others__icon { width: 38px; height: 38px; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--surface); }
 .offer-others b { display: block; font-size: 15px; font-weight: 600; line-height: 20px; }
 .offer-others small { display: block; color: var(--ink-2); font-size: 13px; line-height: 18px; }
+
+/* Page Agents IA : l'agent (le programme) et le modèle (le cerveau), et où peut tourner chacun */
+.offer-split { background: var(--surface); }
+.offer-split__inner { width: 100%; max-width: var(--container); margin: 0 auto; display: flex; flex-direction: column; gap: 48px; }
+.offer-split__head { max-width: 760px; }
+.offer-split__head p { margin: 16px 0 0; color: var(--ink-2); font-size: 18px; line-height: 28px; }
+.offer-split__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.offer-split__col { padding: clamp(24px, 3vw, 40px); border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--elevated); }
+.offer-split__col:nth-child(2) { transition-delay: 0.06s; }
+.offer-split__icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; background: rgba(255, 107, 44, 0.12); }
+.offer-split__icon svg { width: 22px; height: 22px; fill: none; stroke: var(--orange-text); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.offer-split__col h3 { margin: 20px 0 0; font-size: 24px; font-weight: 600; line-height: 32px; letter-spacing: -0.01em; }
+.offer-split__col > p { margin: 10px 0 0; color: var(--ink-2); font-size: 16px; line-height: 25px; }
+.offer-split__col h4 { margin: 28px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 15px; font-weight: 600; line-height: 22px; }
+.offer-split__col ul { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.offer-split__col li { display: flex; gap: 12px; color: var(--ink-2); font-size: 16px; line-height: 24px; }
+.offer-split__col li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 9px; border-radius: 50%; background: var(--orange); }
+.offer-split__note {
+  max-width: 900px;
+  margin: 0;
+  padding: 24px 28px;
+  border-left: 3px solid var(--orange);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: var(--elevated);
+  font-size: 18px;
+  line-height: 28px;
+}
+@media (max-width: 760px) {
+  .offer-split__cols { grid-template-columns: minmax(0, 1fr); }
+  .offer-split__note { padding: 20px 22px; font-size: 16px; line-height: 25px; }
+}
 
 @media (max-width: 960px) {
   .offer-model__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
