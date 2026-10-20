@@ -635,7 +635,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   position: relative;
   width: 100%;
   max-width: 1240px;
-  height: clamp(460px, 60vh, 540px);
+  height: clamp(520px, 66vh, 600px);
   margin: 0 auto;
   touch-action: pan-y;
 }
@@ -676,6 +676,23 @@ ul { margin: 0; padding: 0; list-style: none; }
 .offer-card__text small { display: block; margin-bottom: 12px; color: var(--orange-text); font-size: 14px; font-weight: 600; }
 .offer-card__text h3 { margin: 0; font-size: clamp(28px, 3vw, 40px); font-weight: 600; line-height: 1.08; letter-spacing: -0.025em; }
 .offer-card__text p { margin: 14px 0 0; color: var(--ink-2); font-size: 17px; line-height: 27px; }
+/* Pertinent si : les situations où l'offre a du sens, pour choisir entre les trois */
+.offer-card__fit-label { margin: 22px 0 0; color: var(--ink); font-size: 14px; font-weight: 600; line-height: 20px; }
+.trade-hero__fit-label { margin: 24px 0 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 22px; }
+.trade-hero__fit { max-width: 540px; margin: 10px 0 8px; padding: 0; list-style: none; display: grid; gap: 8px; }
+.offer-card__fit { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.offer-card__fit li,
+.trade-hero__fit li { display: flex; gap: 10px; color: var(--ink-2); font-size: 15px; line-height: 22px; }
+.offer-card__fit li::before,
+.trade-hero__fit li::before {
+  content: "";
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: rgba(255, 107, 44, 0.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m3 6.2 2 2 4-4.4' fill='none' stroke='%23C2410C' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat;
+}
 .offer-card__link { margin-top: 22px; }
 .offer-card[aria-hidden="true"] .offer-card__link { pointer-events: none; }
 
@@ -711,8 +728,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 .offers__dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; background: #D4D4D8; cursor: pointer; transition: width 0.3s, background 0.3s; }
 .offers__dots button.is-active { width: 28px; background: var(--orange); }
 
-@media (max-width: 760px) {
+/* Tablette : colonnes plus étroites, le texte prend plus de lignes */
+@media (max-width: 1100px) {
   .offers__stage { height: 600px; }
+}
+@media (max-width: 760px) {
+  .offers__stage { height: 760px; }
   .offer-card {
     width: 84vw;
     grid-template-columns: minmax(0, 1fr);
@@ -727,6 +748,9 @@ ul { margin: 0; padding: 0; list-style: none; }
   .offer-card__text small { margin-bottom: 8px; }
   .offer-card__text h3 { font-size: 26px; }
   .offer-card__text p { margin-top: 10px; font-size: 15px; line-height: 23px; }
+  .offer-card__fit-label { margin-top: 16px; font-size: 13px; }
+  .offer-card__fit li { font-size: 14px; line-height: 20px; }
+  .offer-card__link { margin-top: 16px; }
   .offer-card__visual { margin: 0 calc(var(--pad) * -1) calc(var(--pad) * -1); }
 }
 
