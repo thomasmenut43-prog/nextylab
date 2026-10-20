@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({ host, port, secure: port === 465, auth: { user: SMTP_USER, pass: SMTP_PASS } });
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `"Site Nextylab" <${SMTP_USER}>`,
       to,
       replyTo: EMAIL.test(data.contact) ? data.contact : undefined,
@@ -77,7 +77,11 @@ module.exports = async (req, res) => {
       text,
       html,
     });
-  } catch {
+    // Trace dans les journaux Vercel (sans données personnelles) : réponse du serveur SMTP, pour suivre la livraison
+    console.log('Demande transmise au serveur SMTP', { messageId: info.messageId, response: info.response, accepted: info.accepted.length, rejected: info.rejected.length });
+  } catch (error) {
+    // Envoi refusé : code et réponse du serveur SMTP dans les journaux Vercel (jamais le mot de passe)
+    console.error('Envoi de la demande impossible', { code: error.code, command: error.command, responseCode: error.responseCode, response: error.response });
     return res.status(502).json({ ok: false, error: 'envoi' });
   }
   return res.status(200).json({ ok: true });
