@@ -542,22 +542,21 @@
           <label><input type="radio" name="tache" value="ressaisir des données"><span>Ressaisir des données</span></label>
           <label><input type="radio" name="tache" value="relancer des clients"><span>Relancer des clients</span></label>
           <label><input type="radio" name="tache" value="mettre à jour un planning"><span>Mettre à jour un planning</span></label>
+          <label><input type="radio" name="tache" value="" data-savings-other><span>Autre tâche</span></label>
         </fieldset>
-
-        <!-- Le temps par mois au centre ; l'anneau montre la part d'un mois de travail à temps plein -->
-        <div class="savings__dial">
-          <svg class="savings__ring" viewBox="0 0 200 200" aria-hidden="true">
-            <defs><linearGradient id="savingsGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB48C"/><stop offset="1" stop-color="#FF6B2C"/></linearGradient></defs>
-            <circle class="savings__track" cx="100" cy="100" r="88"/>
-            <circle class="savings__arc" cx="100" cy="100" r="88"/>
-          </svg>
-          <div class="savings__center">
-            <p class="savings__total" data-savings-total aria-hidden="true">17 h 30</p>
-            <span class="savings__unit">par mois</span>
+        <!-- Tâche absente des suggestions : le champ s'ouvre sous les options -->
+        <div class="savings__name" data-savings-name>
+          <div>
+            <label class="sr-only" for="sim-tache">Nom de votre tâche</label>
+            <input class="savings__name-input" id="sim-tache" type="text" maxlength="60" autocomplete="off" placeholder="Nommez votre tâche, ex. : les devis" tabindex="-1">
           </div>
         </div>
+
+        <div class="savings__number">
+          <p class="savings__total" data-savings-total aria-hidden="true">17 h 30</p>
+          <p class="savings__caption">chaque mois <span data-savings-phrase>à <b>répondre aux mêmes questions</b></span></p>
+        </div>
         <p class="sr-only" aria-live="polite" data-savings-live></p>
-        <p class="savings__caption">à <b data-savings-task>répondre aux mêmes questions</b>, soit <b class="is-share" data-savings-share>12 %</b> d'un mois à temps plein</p>
 
         <div class="savings__controls">
           <div class="savings__field">
@@ -565,14 +564,14 @@
               <label for="sim-nombre">Nombre de fois par jour</label>
               <output for="sim-nombre" data-savings-out="nombre">10 fois</output>
             </div>
-            <input class="savings__range" id="sim-nombre" type="range" min="1" max="30" step="1" value="10" data-savings-in="nombre">
+            <input class="savings__range" id="sim-nombre" type="range" min="1" max="30" step="any" value="10" data-savings-in="nombre">
           </div>
           <div class="savings__field">
             <div class="savings__row">
               <label for="sim-minutes">Temps à chaque fois</label>
               <output for="sim-minutes" data-savings-out="minutes">5 min</output>
             </div>
-            <input class="savings__range" id="sim-minutes" type="range" min="1" max="120" step="1" value="5" data-savings-in="minutes">
+            <input class="savings__range" id="sim-minutes" type="range" min="1" max="120" step="any" value="5" data-savings-in="minutes">
           </div>
         </div>
 

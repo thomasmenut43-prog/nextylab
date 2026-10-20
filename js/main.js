@@ -492,16 +492,15 @@ if (window.matchMedia('(hover: hover)').matches) {
 }
 
 // Simulateur : fois par jour × minutes à chaque fois, ramené au mois (21 jours travaillés) et à l'année
-// (journées de 7 h) ; l'anneau montre la part d'un mois de travail à temps plein.
-// Micro-interactions d'après la bibliothèque Arc : les chiffres roulent jusqu'à la nouvelle valeur, l'anneau se
-// redessine, le surlignage glisse d'une tâche à l'autre, un curseur poussé au-delà de sa butée résiste puis
-// revient, et le bouton confirme avant d'amener au formulaire, où il note la tâche si le visiteur n'a rien écrit.
-// Tout se joue la première fois que la section entre à l'écran.
+// (journées de 7 h). Les curseurs sont continus (sans cran) ; les valeurs affichées sont arrondies.
+// Micro-interactions d'après la bibliothèque Arc : les chiffres roulent jusqu'à la nouvelle valeur, le surlignage
+// glisse d'une tâche à l'autre, « Autre tâche » ouvre un champ pour nommer la sienne, un curseur poussé au-delà de
+// sa butée résiste puis revient, et le bouton confirme avant d'amener au formulaire, où il note la tâche si le
+// visiteur n'a rien écrit. Tout se joue la première fois que la section entre à l'écran.
 const savings = document.querySelector('[data-savings]');
 if (savings) {
   const DAYS_PER_MONTH = 21;
   const HOURS_PER_DAY = 7;
-  const CIRCLE = 2 * Math.PI * 88;
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const inputs = {
     nombre: savings.querySelector('[data-savings-in="nombre"]'),
@@ -509,37 +508,37 @@ if (savings) {
   };
   const out = (name) => savings.querySelector(`[data-savings-out="${name}"]`);
   const pick = (name) => savings.querySelector(`[data-savings-${name}]`);
-  const arc = savings.querySelector('.savings__arc');
   const tabs = savings.querySelector('.savings__tabs');
   const glide = savings.querySelector('.savings__glide');
+  const other = pick('other');
+  const namePanel = pick('name');
+  const nameInput = namePanel.querySelector('input');
   const duration = (minutes) => {
     const h = Math.floor(minutes / 60);
     const m = Math.round(minutes % 60);
     if (!h) return `${m} min`;
     return m ? `${h} h ${String(m).padStart(2, '0')}` : `${h} h`;
   };
+  const valueOf = (input) => Math.round(Number(input.value));
 
   // Chiffres qui roulent : une colonne 0 à 9 par chiffre, décalée jusqu'au bon chiffre
   const DIGITS = '0123456789'.split('').map((d) => `<span>${d}</span>`).join('');
   const roll = (el, text) => {
-    const chars = [...text];
-    const shape = chars.map((c) => (/\d/.test(c) ? '#' : c)).join('');
+    const tokens = text.match(/\d|\s|[^\d\s]+/g);
+    const shape = tokens.map((t) => (/\d/.test(t) ? '#' : t)).join('');
     if (el.dataset.shape !== shape) {
       el.dataset.shape = shape;
-      el.innerHTML = chars.map((c) => {
-        if (/\d/.test(c)) return `<span class="roll"><span class="roll__strip">${DIGITS}</span></span>`;
-        if (c === ' ') return '<span class="roll__space"> </span>';
-        return `<span class="roll__unit">${c}</span>`;
+      el.innerHTML = tokens.map((t) => {
+        if (/\d/.test(t)) return `<span class="roll"><span class="roll__strip">${DIGITS}</span></span>`;
+        if (/\s/.test(t)) return '<span class="roll__space"> </span>';
+        return `<span class="roll__unit">${t}</span>`;
       }).join('');
       el.getBoundingClientRect(); // une nouvelle forme part de 0 et roule jusqu'à sa valeur
     }
-    let k = 0;
     const strips = el.querySelectorAll('.roll__strip');
-    chars.forEach((c) => {
-      if (!/\d/.test(c)) return;
-      strips[k].style.transitionDelay = `${k * 45}ms`;
-      strips[k].style.transform = `translateY(${-Number(c) * 10}%)`;
-      k += 1;
+    tokens.filter((t) => /\d/.test(t)).forEach((d, k) => {
+      strips[k].style.transitionDelay = `${k * 30}ms`;
+      strips[k].style.transform = `translateY(${-Number(d) * 10}%)`;
     });
   };
 
@@ -550,51 +549,83 @@ if (savings) {
     glide.style.transform = `translate(${label.offsetLeft}px, ${label.offsetTop}px)`;
   };
 
+  // La tâche : une suggestion (« à relancer des clients ») ou le nom donné par le visiteur (« sur « … » »)
+  const customName = () => nameInput.value.trim();
+  const phrase = () => {
+    const el = pick('phrase');
+    const b = document.createElement('b');
+    if (other.checked) {
+      b.textContent = customName() ? `« ${customName()} »` : 'cette tâche';
+      el.replaceChildren(customName() ? 'sur ' : 'pour ', b);
+    } else {
+      b.textContent = savings.querySelector('input[name="tache"]:checked').value;
+      el.replaceChildren('à ', b);
+    }
+  };
+  const taskLabel = () => {
+    if (!other.checked) return savings.querySelector('input[name="tache"]:checked').value;
+    return customName() || 'une tâche répétitive';
+  };
+
   let seen = false;
   let summary = '';
   let liveTimer = 0;
   const atLimit = {};
   const update = () => {
-    const nombre = Number(inputs.nombre.value);
-    const minutes = Number(inputs.minutes.value);
-    const task = savings.querySelector('input[name="tache"]:checked').value;
+    const nombre = valueOf(inputs.nombre);
+    const minutes = valueOf(inputs.minutes);
     Object.entries(inputs).forEach(([name, input]) => {
       input.style.setProperty('--p', `${((input.value - input.min) / (input.max - input.min)) * 100}%`);
-      // Arrivé en butée, la valeur le signale d'un léger rebond
-      const limit = input.value === input.min || input.value === input.max;
+      // Arrivé en butée, la valeur le signale d'une légère pulsation
+      const limit = Number(input.value) <= Number(input.min) || Number(input.value) >= Number(input.max);
       if (limit && !atLimit[name] && seen) {
         const field = input.closest('.savings__field');
         field.classList.add('is-limit');
-        setTimeout(() => field.classList.remove('is-limit'), 450);
+        setTimeout(() => field.classList.remove('is-limit'), 500);
       }
       atLimit[name] = limit;
     });
     out('nombre').textContent = `${nombre} fois`;
     out('minutes').textContent = duration(minutes);
+    namePanel.classList.toggle('is-open', other.checked);
+    nameInput.tabIndex = other.checked ? 0 : -1;
+    phrase();
     moveGlide();
 
     const perDay = nombre * minutes;
     const perMonth = perDay * DAYS_PER_MONTH;
     const days = Math.round((perMonth * 12) / 60 / HOURS_PER_DAY);
-    const share = perMonth / 60 / (DAYS_PER_MONTH * HOURS_PER_DAY);
-    pick('task').textContent = task;
-    pick('share').textContent = `${Math.round(share * 100)} %`;
     pick('day').textContent = duration(perDay);
     pick('year').textContent = days < 1 ? "moins d'un jour de travail" : `${days} jour${days > 1 ? 's' : ''} de travail`;
-    summary = `Automatiser une tâche : ${task}, environ ${nombre} fois par jour, ${duration(minutes)} à chaque fois (soit ${duration(perMonth)} par mois).`;
+    summary = `Automatiser une tâche : ${taskLabel()}, environ ${nombre} fois par jour, ${duration(minutes)} à chaque fois (soit ${duration(perMonth)} par mois).`;
     if (!seen) return;
     roll(pick('total'), duration(perMonth));
-    arc.style.strokeDashoffset = (CIRCLE * (1 - Math.max(0.015, Math.min(1, share)))).toFixed(2);
     clearTimeout(liveTimer);
-    liveTimer = setTimeout(() => { pick('live').textContent = `${duration(perMonth)} par mois à ${task}.`; }, 600);
+    liveTimer = setTimeout(() => { pick('live').textContent = `${duration(perMonth)} par mois.`; }, 600);
   };
 
   savings.addEventListener('input', update);
   window.addEventListener('resize', moveGlide, { passive: true });
+  other.addEventListener('change', () => {
+    if (other.checked) setTimeout(() => nameInput.focus({ preventScroll: true }), 250);
+  });
 
-  // Butée élastique : tant qu'on tire au-delà du bout du curseur, il suit un peu, puis revient au relâchement
   Object.values(inputs).forEach((input) => {
     const field = input.closest('.savings__field');
+    // Clavier : un pas d'une unité (cinq avec Page précédente / suivante), puisque le curseur est continu
+    input.addEventListener('keydown', (event) => {
+      const steps = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1, PageUp: 5, PageDown: -5 };
+      let next = null;
+      if (event.key in steps) next = valueOf(input) + steps[event.key];
+      if (event.key === 'Home') next = Number(input.min);
+      if (event.key === 'End') next = Number(input.max);
+      if (next === null) return;
+      event.preventDefault();
+      input.value = Math.min(Number(input.max), Math.max(Number(input.min), next));
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    // Butée élastique : tant qu'on tire au-delà du bout du curseur, il suit un peu, puis revient au relâchement
     let dragging = false;
     const release = () => {
       if (!dragging) return;
@@ -608,8 +639,8 @@ if (savings) {
       if (!dragging) return;
       const box = input.getBoundingClientRect();
       let over = 0;
-      if (event.clientX > box.right && input.value === input.max) over = event.clientX - box.right;
-      if (event.clientX < box.left && input.value === input.min) over = event.clientX - box.left;
+      if (event.clientX > box.right && Number(input.value) >= Number(input.max)) over = event.clientX - box.right;
+      if (event.clientX < box.left && Number(input.value) <= Number(input.min)) over = event.clientX - box.left;
       const pull = Math.sign(over) * Math.min(14, Math.sqrt(Math.abs(over)) * 1.6); // plus on tire, moins il suit
       input.classList.toggle('is-pulling', over !== 0);
       input.style.setProperty('--pull', `${pull.toFixed(1)}px`);
@@ -637,7 +668,7 @@ if (savings) {
     }, 750);
   });
 
-  // Première apparition : le titre se dévoile mot à mot, l'anneau se dessine et le total roule depuis zéro
+  // Première apparition : le titre se dévoile mot à mot et le total roule depuis zéro
   const title = savings.querySelector('[data-blur-title]');
   if (!still) {
     const words = title.textContent.trim().split(' ');
