@@ -148,3 +148,19 @@
   .blog-editorial .article-hero__image,.blog-editorial .article-toc,.blog-editorial .article-contact { display: none; }
   .blog-editorial .article-layout { display: block; margin-top: 20px; }
 }
+
+/* Clear routes from editorial reading to Nextylab's landing page. */
+.blog-editorial .article-hero__actions,
+.blog-editorial .blog-index__actions { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:24px; }
+.blog-editorial .article-hero__actions a,
+.blog-editorial .blog-index__actions a { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 17px; border:1px solid #9d998f; border-radius:9px; color:#20201f; background:transparent; text-decoration:none; font-size:12px; line-height:1.45; font-weight:600; transition:background .18s,border-color .18s; }
+.blog-editorial .article-hero__actions .article-hero__primary,
+.blog-editorial .blog-index__actions .article-hero__primary { background:#ff6b2c; border-color:#ff6b2c; color:#171715; }
+.blog-editorial .article-hero__actions a:hover,
+.blog-editorial .blog-index__actions a:hover { background:#eae7df; border-color:#69665e; }
+.blog-editorial .article-hero__actions .article-hero__primary:hover,
+.blog-editorial .blog-index__actions .article-hero__primary:hover { background:#ff8551; border-color:#ff8551; }
+@media (max-width:420px) {
+ .blog-editorial .article-hero__actions, .blog-editorial .blog-index__actions { gap:9px; }
+ .blog-editorial .article-hero__actions a, .blog-editorial .blog-index__actions a { font-size:11px; padding:11px 13px; }
+}
