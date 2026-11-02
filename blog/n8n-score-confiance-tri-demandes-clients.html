@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tri des demandes par IA : que prouve le nouveau score de confiance n8n ? | Nextylab</title><meta name="description" content="n8n propose un score de confiance pour classer les textes. Avant de lui confier le tri des demandes clients, distinguez indication du modèle et justesse vérifiée.">
+<link rel="canonical" href="https://www.nextylab.fr/blog/n8n-score-confiance-tri-demandes-clients.html"><meta property="og:type" content="article"><meta property="og:title" content="Tri des demandes par IA : que prouve le nouveau score de confiance n8n ?"><meta property="og:description" content="n8n propose un score de confiance pour classer les textes. Avant de lui confier le tri des demandes clients, distinguez indication du modèle et justesse vérifiée."><meta property="og:url" content="https://www.nextylab.fr/blog/n8n-score-confiance-tri-demandes-clients.html"><meta property="og:image" content="https://www.nextylab.fr/assets/blog/articles/n8n-score-confiance-tri-demandes-clients.webp"><meta property="og:image:width" content="1536"><meta property="og:image:height" content="864">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/blog-editorial.css"><script src="/js/main.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Tri des demandes par IA : que prouve le nouveau score de confiance n8n ?", "description": "n8n propose un score de confiance pour classer les textes. Avant de lui confier le tri des demandes clients, distinguez indication du modèle et justesse vérifiée.", "datePublished": "2026-11-02", "dateModified": "2026-11-02", "author": {"@type": "Organization", "name": "Nextylab"}, "inLanguage": "fr-FR", "mainEntityOfPage": "https://www.nextylab.fr/blog/n8n-score-confiance-tri-demandes-clients.html", "image": "https://www.nextylab.fr/assets/blog/articles/n8n-score-confiance-tri-demandes-clients.webp"}</script></head>
+<body class="theme-light blog-editorial"><a class="skip-link" href="#contenu">Aller au contenu</a><header class="site-header theme-dark">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__brand" href="/" aria-label="Nextylab, accueil">
+        <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35">
+      </a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Ouvrir le menu">
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__links">
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-solutions">Solutions<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-solutions">
+              <p class="nav__sub-label">Sur-mesure</p>
+              <a class="nav__sub-link" href="/solutions/agents-ia.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6.5 4.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4 3.5v-3.5h-.5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1.1" fill="currentColor"/><circle cx="12" cy="10.5" r="1.1" fill="currentColor"/><circle cx="15" cy="10.5" r="1.1" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Agent IA</b><small>Répondre, qualifier, prendre les rendez-vous</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/automatisations.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="6" rx="1.6" fill="#FF6B2C"/><rect x="13.5" y="14.5" width="7" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 9.5v4.5a3.5 3.5 0 0 0 3.5 3.5h3M11.5 15.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="nav__sub-text"><b>Automatisations métier</b><small>Vos outils échangent leurs données</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/logiciel-sur-mesure.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 8.5h17M9 8.5v11" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="11.5" y="11" width="6" height="2.4" rx="1.2" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Logiciel sur mesure</b><small>Le logiciel qui remplace vos tableurs</small></span>
+              </a>
+            </div>
+          </li>
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-metiers">Métiers<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-metiers">
+              <a class="nav__sub-link" href="/metiers/hebergement-tourisme.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 18.5v-9M3.5 14h17v4.5M20.5 18.5V14a3 3 0 0 0-3-3H11v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.2" cy="11.6" r="1.9" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Hébergement et tourisme</b><small>Réservations, accueil, facturation</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/collectivites.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 20h17M5 20v-8.5M9.7 20v-8.5M14.3 20v-8.5M19 20v-8.5M3.5 9.5 12 4l8.5 5.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7.6" r="1.3" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Collectivités</b><small>Équipements, usagers, services</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/bien-etre-spa.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19.5c-4.4 0-7.5-2.6-7.5-6 2.6 0 5.2 1.2 7.5 3.6 2.3-2.4 4.9-3.6 7.5-3.6 0 3.4-3.1 6-7.5 6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 16.6c-1.7-2.2-2.3-4.5-1.6-7.1.4-1.5 1-2.7 1.6-3.6.6.9 1.2 2.1 1.6 3.6.7 2.6.1 4.9-1.6 7.1z" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Bien-être et spa</b><small>Rendez-vous, rappels, fidélisation</small></span>
+              </a>
+            </div>
+          </li>
+          <li><a href="/#methode">Comment ça marche</a></li>
+          <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+        </ul>
+        <a class="btn btn--light btn--sm nav__cta" href="/#contact">
+          Réserver un diagnostic
+        </a>
+      </div>
+    </nav>
+  </header>
+<main id="contenu" class="article-editorial"><article>
+<header class="article-hero"><nav class="article-breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span><a href="/blog/">Le journal</a><span aria-hidden="true">/</span><span>Actualité</span></nav>
+<div class="article-hero__grid"><div class="article-hero__copy"><p class="article-eyebrow"><span aria-hidden="true"></span>Actualité</p>
+<h1 class="article-title">Tri des demandes par IA : que prouve le nouveau score de confiance n8n ?</h1><p class="article-hero__description">n8n propose un score de confiance pour classer les textes. Avant de lui confier le tri des demandes clients, distinguez indication du modèle et justesse vérifiée.</p>
+<div class="article-hero__actions"><a class="article-hero__secondary" href="/#methode">Découvrir notre méthode <span aria-hidden="true">↗</span></a><a class="article-hero__primary" href="/#contact">Réserver un diagnostic</a></div>
+<div class="article-meta"><span class="article-meta__author"><span class="article-meta__avatar" aria-hidden="true">N.</span>Nextylab</span><time datetime="2026-11-02">2 novembre 2026</time><span>4 min de lecture</span></div></div>
+<div class="article-hero__image"><img src="/assets/blog/articles/n8n-score-confiance-tri-demandes-clients.webp" alt="Balance, message orange et loupe évoquant la vérification du classement des demandes" width="1536" height="864" fetchpriority="high" decoding="async"></div></div></header>
+<div class="article-layout"><aside class="article-toc"><p class="article-eyebrow">Dans cet article</p><nav aria-label="Sommaire de l’article"><ol><li><a href="#section-1"><span>01</span>Ce que n8n a annoncé le 20 octobre</a></li><li><a href="#section-2"><span>02</span>Évaluer la décision métier, pas seulement le nombre affiché</a></li><li><a href="#section-3"><span>03</span>Ne pas laisser disparaître les demandes non classées</a></li><li><a href="#section-4"><span>04</span>Quand avancer et quoi préparer pour le diagnostic</a></li></ol></nav><a class="article-toc__back" href="/blog/">← Tous les articles</a></aside>
+<div class="article-content"><p class="article-lead">Non, le score de confiance d’un classement IA ne suffit pas à autoriser le traitement automatique d’une demande client. Dans ses notes de version du 20 octobre 2026, n8n annonce une option de score pour son classifieur de textes. Pour le responsable d’une boîte client partagée, cette information peut aider à examiner les catégories proposées ; elle ne remplace pas la comparaison avec les décisions de votre équipe. Avant d’élargir le tri automatique, définissez les erreurs acceptables, les demandes à vérifier et le sort des messages sans catégorie claire.</p><section class="article-section" aria-labelledby="section-1"><h2 id="section-1">Ce que n8n a annoncé le 20 octobre</h2><p>L’entrée de n8n 2.45 décrit une option « Include Confidence Scores », désactivée par défaut. Lorsqu’elle est activée, chaque élément orienté reçoit un objet contenant sa catégorie, le score de confiance du modèle pour cette catégorie et une comparaison des scores entre catégories. Selon l’éditeur, le comportement reste inchangé lorsque l’option est désactivée. Il s’agit d’une annonce de fonctionnalité, pas d’un test Nextylab.</p><p>La page de versions avertit que certaines fonctions peuvent dépendre d’une activation particulière ou d’un déploiement progressif. Vérifiez donc leur présence dans votre environnement. La nouveauté utile n’est pas une garantie de bon classement : c’est une information supplémentaire à examiner lorsque vous préparez les règles d’orientation.</p></section><section class="article-section" aria-labelledby="section-2"><h2 id="section-2">Évaluer la décision métier, pas seulement le nombre affiché</h2><p>Distinguez trois questions. Les catégories sont-elles compréhensibles par deux personnes de l’équipe ? Quel dommage provoquerait une mauvaise orientation ? Le classement proposé correspond-il à celui qu’un responsable retient après lecture ? Un score produit par le modèle ne constitue pas, à lui seul, une fréquence d’erreurs mesurée dans votre entreprise.</p><p>Voici une grille de décision. Un motif explicite dans un formulaire peut suivre une règle sans IA. Un texte ambigu avec une conséquence limitée peut recevoir une suggestion à valider. Une réclamation, une annulation ou un engagement commercial appelle un examen adapté même si le modèle paraît sûr de lui. Ne choisissez pas un seuil universel : examinez les désaccords par catégorie et la gravité de leurs effets avant de décider d’une règle de passage.</p></section><section class="article-section" aria-labelledby="section-3"><h2 id="section-3">Ne pas laisser disparaître les demandes non classées</h2><p>La documentation actuelle du classifieur prévoit un cas sans correspondance claire. Elle distingue l’abandon de l’élément, présenté comme le comportement par défaut de cette option, et sa sortie vers une branche « Other ». Pour un circuit de demandes clients, faites vérifier ce comportement : une absence de catégorie ne doit pas devenir une absence de suivi. Une file générale surveillée constitue une décision d’organisation, pas une qualité que le score ajoute automatiquement.</p><p>Dans un exemple hypothétique, une PME reçoit : « Je veux modifier ma commande et le dernier montant ne correspond pas au devis. » Le message mêle modification et contestation. Le ranger seulement dans « modification » peut masquer la question commerciale. L’équipe doit définir si plusieurs catégories sont utiles ou si ce mélange impose une reprise humaine. Le nombre affiché n’arbitre pas cette responsabilité à sa place.</p></section><section class="article-section" aria-labelledby="section-4"><h2 id="section-4">Quand avancer et quoi préparer pour le diagnostic</h2><p>Avancez sur un périmètre limité si les catégories, le responsable des messages non classés et le contrôle des erreurs sont définis. Attendez si l’équipe n’est pas d’accord sur les destinations ou si une catégorie déclenche déjà une réponse engageante sans validation. Un tri manuel ou des règles de messagerie restent des alternatives sans IA pour les motifs explicites.</p><p>Préparez des messages entièrement fictifs : une demande simple, une demande à plusieurs motifs, un texte incomplet et une demande sensible. Pour chacun, notez la destination attendue et l’action interdite sans accord humain. Au diagnostic, apportez cette grille et les rôles des destinataires, sans exporter votre boîte mail. Le responsable métier valide les catégories ; la personne chargée de l’intégration doit montrer comment les cas non reconnus restent visibles.</p></section><section class="article-resources" aria-labelledby="article-resources-title"><p class="article-eyebrow">Pour aller plus loin</p><h2 id="article-resources-title">À explorer aussi</h2><ul><li><a href="/solutions/agents-ia.html">Cadrer un agent qui comprend et transmet les demandes<span aria-hidden="true">↗</span></a></li><li><a href="/blog/integrer-ia-pme-par-ou-commencer.html">Choisir un premier périmètre IA dans une PME<span aria-hidden="true">↗</span></a></li></ul></section><section class="article-sources" aria-labelledby="article-sources-title"><h2 id="article-sources-title">Sources</h2><ul><li><a href="https://docs.n8n.io/changelog/release-notes#n8n245" target="_blank" rel="noopener noreferrer">n8n — Release notes — n8n 2.45, 20 octobre 2026</a><span>Publié le 20 octobre 2026 · consulté le 2 novembre 2026</span></li><li><a href="https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.text-classifier" target="_blank" rel="noopener noreferrer">n8n — Text Classifier — catégories et absence de correspondance</a><span>Consulté le 2 novembre 2026</span></li></ul></section></div></div>
+<aside class="article-contact"><div><p class="article-eyebrow">Et dans votre organisation ?</p><h2>Passons de l’idée<br>au concret.</h2><p>On regarde ensemble ce qui peut être simplifié dans votre organisation.</p></div><a class="article-contact__button" href="/#contact">Réserver un diagnostic <span aria-hidden="true">↗</span></a></aside>
+</article></main><footer class="site-footer theme-dark">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35" loading="lazy">
+          <p>Un flux maîtrisé. Une étape d'avance. Automatisations, agents IA et logiciels métier, conçus au Puy-en-Velay.</p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Pied de page">
+          <div class="footer__col">
+            <h2 class="footer__title">Solutions</h2>
+            <ul>
+              <li><a href="/solutions/agents-ia.html">Agent IA</a></li>
+              <li><a href="/solutions/automatisations.html">Automatisations</a></li>
+              <li><a href="/solutions/logiciel-sur-mesure.html">Logiciel sur mesure</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Métiers</h2>
+            <ul>
+              <li><a href="/metiers/hebergement-tourisme.html">Hébergement et tourisme</a></li>
+              <li><a href="/metiers/collectivites.html">Collectivités</a></li>
+              <li><a href="/metiers/bien-etre-spa.html">Bien-être et spa</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Ressources</h2>
+            <ul>
+              <li><a href="/blog/">Conseils et tutoriels</a></li>
+              <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Contact</h2>
+            <ul>
+              <li><a href="/#contact">Réserver un diagnostic</a></li>
+              <li><a href="mailto:contact@nextylab.com">contact@nextylab.com</a></li>
+              <li>Le Puy-en-Velay (43)</li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Nextylab SAS · SIRET 130 993 884 00019</span>
+        <span class="footer__legal"><a href="/mentions-legales.html">Mentions légales</a><a href="/confidentialite.html">Confidentialité</a><a href="/cgv.html">CGV</a></span>
+      </div>
+    </div>
+  </footer></body></html>
