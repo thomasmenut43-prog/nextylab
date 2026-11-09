@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enrichissement CRM : une adresse professionnelle déduite n’est pas un contact validé | Nextylab</title><meta name="description" content="La CNIL précise le cadre des adresses professionnelles reconstituées. Avant de compléter votre CRM, séparez donnée déduite, usage autorisé et coordonnées confirmées.">
+<link rel="canonical" href="https://www.nextylab.fr/blog/enrichissement-crm-adresse-deduite-cnil.html"><meta property="og:type" content="article"><meta property="og:title" content="Enrichissement CRM : une adresse professionnelle déduite n’est pas un contact validé"><meta property="og:description" content="La CNIL précise le cadre des adresses professionnelles reconstituées. Avant de compléter votre CRM, séparez donnée déduite, usage autorisé et coordonnées confirmées."><meta property="og:url" content="https://www.nextylab.fr/blog/enrichissement-crm-adresse-deduite-cnil.html"><meta property="og:image" content="https://www.nextylab.fr/assets/blog/articles/enrichissement-crm-adresse-deduite-cnil.webp"><meta property="og:image:width" content="1536"><meta property="og:image:height" content="864">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/blog-editorial.css"><script src="/js/main.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Enrichissement CRM : une adresse professionnelle déduite n’est pas un contact validé", "description": "La CNIL précise le cadre des adresses professionnelles reconstituées. Avant de compléter votre CRM, séparez donnée déduite, usage autorisé et coordonnées confirmées.", "datePublished": "2026-11-09", "dateModified": "2026-11-09", "author": {"@type": "Organization", "name": "Nextylab"}, "inLanguage": "fr-FR", "mainEntityOfPage": "https://www.nextylab.fr/blog/enrichissement-crm-adresse-deduite-cnil.html", "image": "https://www.nextylab.fr/assets/blog/articles/enrichissement-crm-adresse-deduite-cnil.webp"}</script></head>
+<body class="theme-light blog-editorial"><a class="skip-link" href="#contenu">Aller au contenu</a><header class="site-header theme-dark">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__brand" href="/" aria-label="Nextylab, accueil">
+        <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35">
+      </a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Ouvrir le menu">
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__links">
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-solutions">Solutions<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-solutions">
+              <p class="nav__sub-label">Sur-mesure</p>
+              <a class="nav__sub-link" href="/solutions/agents-ia.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6.5 4.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4 3.5v-3.5h-.5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1.1" fill="currentColor"/><circle cx="12" cy="10.5" r="1.1" fill="currentColor"/><circle cx="15" cy="10.5" r="1.1" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Agent IA</b><small>Répondre, qualifier, prendre les rendez-vous</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/automatisations.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="6" rx="1.6" fill="#FF6B2C"/><rect x="13.5" y="14.5" width="7" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 9.5v4.5a3.5 3.5 0 0 0 3.5 3.5h3M11.5 15.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="nav__sub-text"><b>Automatisations métier</b><small>Vos outils échangent leurs données</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/logiciel-sur-mesure.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 8.5h17M9 8.5v11" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="11.5" y="11" width="6" height="2.4" rx="1.2" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Logiciel sur mesure</b><small>Le logiciel qui remplace vos tableurs</small></span>
+              </a>
+            </div>
+          </li>
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-metiers">Métiers<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-metiers">
+              <a class="nav__sub-link" href="/metiers/hebergement-tourisme.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 18.5v-9M3.5 14h17v4.5M20.5 18.5V14a3 3 0 0 0-3-3H11v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.2" cy="11.6" r="1.9" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Hébergement et tourisme</b><small>Réservations, accueil, facturation</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/collectivites.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 20h17M5 20v-8.5M9.7 20v-8.5M14.3 20v-8.5M19 20v-8.5M3.5 9.5 12 4l8.5 5.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7.6" r="1.3" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Collectivités</b><small>Équipements, usagers, services</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/bien-etre-spa.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19.5c-4.4 0-7.5-2.6-7.5-6 2.6 0 5.2 1.2 7.5 3.6 2.3-2.4 4.9-3.6 7.5-3.6 0 3.4-3.1 6-7.5 6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 16.6c-1.7-2.2-2.3-4.5-1.6-7.1.4-1.5 1-2.7 1.6-3.6.6.9 1.2 2.1 1.6 3.6.7 2.6.1 4.9-1.6 7.1z" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Bien-être et spa</b><small>Rendez-vous, rappels, fidélisation</small></span>
+              </a>
+            </div>
+          </li>
+          <li><a href="/#methode">Comment ça marche</a></li>
+          <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+        </ul>
+        <a class="btn btn--light btn--sm nav__cta" href="/#contact">
+          Réserver un diagnostic
+        </a>
+      </div>
+    </nav>
+  </header>
+<main id="contenu" class="article-editorial"><article>
+<header class="article-hero"><nav class="article-breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span><a href="/blog/">Le journal</a><span aria-hidden="true">/</span><span>Actualité</span></nav>
+<div class="article-hero__grid"><div class="article-hero__copy"><p class="article-eyebrow"><span aria-hidden="true"></span>Actualité</p>
+<h1 class="article-title">Enrichissement CRM : une adresse professionnelle déduite n’est pas un contact validé</h1><p class="article-hero__description">La CNIL précise le cadre des adresses professionnelles reconstituées. Avant de compléter votre CRM, séparez donnée déduite, usage autorisé et coordonnées confirmées.</p>
+<div class="article-hero__actions"><a class="article-hero__secondary" href="/#methode">Découvrir notre méthode <span aria-hidden="true">↗</span></a><a class="article-hero__primary" href="/#contact">Réserver un diagnostic</a></div>
+<div class="article-meta"><span class="article-meta__author"><span class="article-meta__avatar" aria-hidden="true">N.</span>Nextylab</span><time datetime="2026-11-09">9 novembre 2026</time><span>5 min de lecture</span></div></div>
+<div class="article-hero__image"><img src="/assets/blog/articles/enrichissement-crm-adresse-deduite-cnil.webp" alt="Microscope examinant une étiquette orange ajourée avant une fiche à valider" width="1536" height="864" fetchpriority="high" decoding="async"></div></div></header>
+<div class="article-layout"><aside class="article-toc"><p class="article-eyebrow">Dans cet article</p><nav aria-label="Sommaire de l’article"><ol><li><a href="#section-1"><span>01</span>Ce que la publication du 16 octobre précise</a></li><li><a href="#section-2"><span>02</span>Trois questions avant de remplir le champ email</a></li><li><a href="#section-3"><span>03</span>Un exemple hypothétique de fiche commerciale enrichie</a></li><li><a href="#section-4"><span>04</span>Empêcher qu’une opposition soit annulée par le prochain import</a></li><li><a href="#section-5"><span>05</span>Agir, attendre et préparer le diagnostic</a></li></ol></nav><a class="article-toc__back" href="/blog/">← Tous les articles</a></aside>
+<div class="article-content"><p class="article-lead">Ne faites pas entrer une adresse professionnelle déduite dans vos envois comme une coordonnée déjà confirmée. Dans sa publication du 16 octobre 2026, la CNIL rappelle que reconstituer une adresse à partir de données en ligne reste encadré et que le recours à l’intérêt légitime n’est pas automatique. Pour le responsable commercial, la décision est de séparer l’hypothèse technique, l’examen de son usage et la donnée effectivement utilisable dans le suivi. Une automatisation ne doit pas effacer cette différence en remplissant simplement un champ vide.</p><section class="article-section" aria-labelledby="section-1"><h2 id="section-1">Ce que la publication du 16 octobre précise</h2><p>La CNIL décrit une pratique qui consiste à deviner une adresse professionnelle à partir d’éléments accessibles en ligne, notamment le nom, le prénom et l’organisme employeur. Elle indique que l’accessibilité des données sur Internet ne dispense pas de respecter les règles applicables. Ce n’est donc pas parce qu’un service sait produire une adresse plausible que votre organisation peut automatiquement l’utiliser.</p><p>L’autorité explique que l’intérêt légitime peut être envisagé dans certains cas, après examen de la finalité, des attentes raisonnables des personnes et des garanties. Elle insiste sur le caractère non automatique de cette appréciation. Cette publication n’instaure pas une permission générale d’enrichir les fichiers ; elle donne des critères à examiner avec la personne compétente. Notre grille ci-dessous est une proposition d’organisation, pas une certification de conformité.</p></section><section class="article-section" aria-labelledby="section-2"><h2 id="section-2">Trois questions avant de remplir le champ email</h2><p>Provenance : la coordonnée a-t-elle été fournie par la personne, publiée pour cet usage ou déduite d’autres informations ? Vérification : sait-on seulement qu’un format paraît plausible, ou dispose-t-on d’un élément permettant de rattacher la coordonnée à la bonne personne ? Usage : pour quelle action précise cette information serait-elle conservée et utilisée, après quel examen ? Une réponse positive à une seule de ces questions ne répond pas aux deux autres.</p><p>Votre grille peut distinguer trois décisions. Provenance et usage non établis : ne pas injecter la donnée dans les circuits d’envoi. Hypothèse à examiner : la garder, si ce traitement lui-même est justifié, dans un état distinct qui n’autorise aucune sollicitation. Coordonnée et usage examinés : autoriser uniquement le circuit prévu, selon les règles validées. Un champ « vérifié » sans définition commune n’est pas une preuve ; il faut savoir qui le renseigne et sur quoi il s’appuie.</p></section><section class="article-section" aria-labelledby="section-3"><h2 id="section-3">Un exemple hypothétique de fiche commerciale enrichie</h2><p>Imaginons une PME qui possède le nom d’un interlocuteur mais pas son adresse directe. Un service propose une adresse construite à partir du format supposé de l’entreprise. Le responsable ne la remplace pas silencieusement dans le champ qui alimente ses relances. Il fait d’abord examiner le contexte et l’usage envisagé ; l’équipe distingue une proposition technique d’une coordonnée fournie par l’interlocuteur.</p><p>Si la personne a choisi de passer par un formulaire plutôt que d’afficher une adresse directe, cet élément mérite l’examen recommandé par la CNIL sur la maîtrise de sa joignabilité. L’équipe peut conserver le canal de contact publié plutôt que chercher à contourner cette préférence. L’exemple est fictif : aucune adresse réelle n’est générée, aucun outil d’enrichissement n’est testé et aucun résultat commercial n’est annoncé.</p></section><section class="article-section" aria-labelledby="section-4"><h2 id="section-4">Empêcher qu’une opposition soit annulée par le prochain import</h2><p>La CNIL recommande notamment de limiter strictement la conservation et de prévoir qu’une opposition exclue immédiatement les données des traitements ultérieurs de reconstitution. Pour cadrer le circuit, demandez donc ce qu’il advient d’une fiche écartée lorsqu’un nouvel import arrive. Une suppression dans un tableau ne démontre pas que tous les prochains enrichissements tiendront compte du refus.</p><p>Le responsable du traitement et les personnes compétentes définissent le cadre applicable, l’information, les droits, la conservation et la sécurité. Le commercial précise l’usage réellement nécessaire ; la personne chargée de l’intégration montre comment le statut et les exclusions sont respectés entre les outils. Ni une case à cocher ni l’étiquette « B to B » ne suffisent à valider tout le dispositif.</p></section><section class="article-section" aria-labelledby="section-5"><h2 id="section-5">Agir, attendre et préparer le diagnostic</h2><p>Examinez ce sujet si vous prévoyez un enrichissement automatique ou si des adresses déduites se mêlent déjà aux coordonnées confirmées. Attendez avant d’élargir le circuit lorsque la provenance est inconnue ou que personne ne maîtrise les exclusions. Une demande directe de coordonnées, un canal professionnel publié pour l’échange ou un suivi manuel peuvent constituer des alternatives, sans IA ni reconstitution systématique.</p><p>Pour le diagnostic, préparez une fiche entièrement fictive, la liste des champs et les circuits qui utilisent l’adresse : notification interne, suivi ou sollicitation. Ajoutez le cas d’une opposition suivie d’un nouvel import. La prochaine décision porte sur les données que le circuit a le droit d’admettre et d’utiliser, pas sur le nombre de champs que l’on peut remplir. Le guide ne donne aucune garantie juridique, de délivrabilité ou de conversion.</p></section><section class="article-resources" aria-labelledby="article-resources-title"><p class="article-eyebrow">Pour aller plus loin</p><h2 id="article-resources-title">À explorer aussi</h2><ul><li><a href="/solutions/automatisations.html">Relier les outils avec des règles d’admission explicites<span aria-hidden="true">↗</span></a></li><li><a href="/blog/synchroniser-crm-facturation-donnee-reference.html">Choisir la référence des données déjà présentes dans vos outils<span aria-hidden="true">↗</span></a></li><li><a href="/blog/formulaire-site-crm-demande-attribuee.html">Organiser les demandes reçues volontairement depuis votre site<span aria-hidden="true">↗</span></a></li></ul></section><section class="article-sources" aria-labelledby="article-sources-title"><h2 id="article-sources-title">Sources</h2><ul><li><a href="https://cnil.fr/fr/reconstitution-adresses-professionnelles-quel-cadre" target="_blank" rel="noopener noreferrer">CNIL — Reconstitution d’adresses électroniques professionnelles : dans quel cadre est-ce autorisé ?</a><span>Publié le 16 octobre 2026 · consulté le 9 novembre 2026</span></li></ul></section></div></div>
+<aside class="article-contact"><div><p class="article-eyebrow">Et dans votre organisation ?</p><h2>Passons de l’idée<br>au concret.</h2><p>On regarde ensemble ce qui peut être simplifié dans votre organisation.</p></div><a class="article-contact__button" href="/#contact">Réserver un diagnostic <span aria-hidden="true">↗</span></a></aside>
+</article></main><footer class="site-footer theme-dark">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35" loading="lazy">
+          <p>Un flux maîtrisé. Une étape d'avance. Automatisations, agents IA et logiciels métier, conçus au Puy-en-Velay.</p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Pied de page">
+          <div class="footer__col">
+            <h2 class="footer__title">Solutions</h2>
+            <ul>
+              <li><a href="/solutions/agents-ia.html">Agent IA</a></li>
+              <li><a href="/solutions/automatisations.html">Automatisations</a></li>
+              <li><a href="/solutions/logiciel-sur-mesure.html">Logiciel sur mesure</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Métiers</h2>
+            <ul>
+              <li><a href="/metiers/hebergement-tourisme.html">Hébergement et tourisme</a></li>
+              <li><a href="/metiers/collectivites.html">Collectivités</a></li>
+              <li><a href="/metiers/bien-etre-spa.html">Bien-être et spa</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Ressources</h2>
+            <ul>
+              <li><a href="/blog/">Conseils et tutoriels</a></li>
+              <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Contact</h2>
+            <ul>
+              <li><a href="/#contact">Réserver un diagnostic</a></li>
+              <li><a href="mailto:contact@nextylab.com">contact@nextylab.com</a></li>
+              <li>Le Puy-en-Velay (43)</li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Nextylab SAS · SIRET 130 993 884 00019</span>
+        <span class="footer__legal"><a href="/mentions-legales.html">Mentions légales</a><a href="/confidentialite.html">Confidentialité</a><a href="/cgv.html">CGV</a></span>
+      </div>
+    </div>
+  </footer></body></html>
