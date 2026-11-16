@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent n8n et Microsoft Agent 365 : qui décide d’envoyer les traces de conversation à Microsoft ? | Nextylab</title><meta name="description" content="n8n 3.1 envoie les traces de conversation du nœud Microsoft Agent 365 vers un service externe. Voici qui doit en décider avant de mettre un agent en service.">
+<link rel="canonical" href="https://www.nextylab.fr/blog/n8n-agent-365-traces-conversation-qui-decide.html"><meta property="og:type" content="article"><meta property="og:title" content="Agent n8n et Microsoft Agent 365 : qui décide d’envoyer les traces de conversation à Microsoft ?"><meta property="og:description" content="n8n 3.1 envoie les traces de conversation du nœud Microsoft Agent 365 vers un service externe. Voici qui doit en décider avant de mettre un agent en service."><meta property="og:url" content="https://www.nextylab.fr/blog/n8n-agent-365-traces-conversation-qui-decide.html"><meta property="og:image" content="https://www.nextylab.fr/assets/blog/articles/n8n-agent-365-traces-conversation-qui-decide.webp"><meta property="og:image:width" content="1536"><meta property="og:image:height" content="655">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/blog-editorial.css"><script src="/js/main.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Agent n8n et Microsoft Agent 365 : qui décide d’envoyer les traces de conversation à Microsoft ?", "description": "n8n 3.1 envoie les traces de conversation du nœud Microsoft Agent 365 vers un service externe. Voici qui doit en décider avant de mettre un agent en service.", "datePublished": "2026-11-16", "dateModified": "2026-11-16", "author": {"@type": "Organization", "name": "Nextylab"}, "inLanguage": "fr-FR", "mainEntityOfPage": "https://www.nextylab.fr/blog/n8n-agent-365-traces-conversation-qui-decide.html", "image": "https://www.nextylab.fr/assets/blog/articles/n8n-agent-365-traces-conversation-qui-decide.webp"}</script></head>
+<body class="theme-light blog-editorial"><a class="skip-link" href="#contenu">Aller au contenu</a><header class="site-header theme-dark">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__brand" href="/" aria-label="Nextylab, accueil">
+        <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35">
+      </a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Ouvrir le menu">
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__links">
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-solutions">Solutions<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-solutions">
+              <p class="nav__sub-label">Sur-mesure</p>
+              <a class="nav__sub-link" href="/solutions/agents-ia.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6.5 4.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4 3.5v-3.5h-.5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1.1" fill="currentColor"/><circle cx="12" cy="10.5" r="1.1" fill="currentColor"/><circle cx="15" cy="10.5" r="1.1" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Agent IA</b><small>Répondre, qualifier, prendre les rendez-vous</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/automatisations.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="6" rx="1.6" fill="#FF6B2C"/><rect x="13.5" y="14.5" width="7" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 9.5v4.5a3.5 3.5 0 0 0 3.5 3.5h3M11.5 15.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="nav__sub-text"><b>Automatisations métier</b><small>Vos outils échangent leurs données</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/logiciel-sur-mesure.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 8.5h17M9 8.5v11" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="11.5" y="11" width="6" height="2.4" rx="1.2" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Logiciel sur mesure</b><small>Le logiciel qui remplace vos tableurs</small></span>
+              </a>
+            </div>
+          </li>
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-metiers">Métiers<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-metiers">
+              <a class="nav__sub-link" href="/metiers/hebergement-tourisme.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 18.5v-9M3.5 14h17v4.5M20.5 18.5V14a3 3 0 0 0-3-3H11v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.2" cy="11.6" r="1.9" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Hébergement et tourisme</b><small>Réservations, accueil, facturation</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/collectivites.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 20h17M5 20v-8.5M9.7 20v-8.5M14.3 20v-8.5M19 20v-8.5M3.5 9.5 12 4l8.5 5.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7.6" r="1.3" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Collectivités</b><small>Équipements, usagers, services</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/bien-etre-spa.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19.5c-4.4 0-7.5-2.6-7.5-6 2.6 0 5.2 1.2 7.5 3.6 2.3-2.4 4.9-3.6 7.5-3.6 0 3.4-3.1 6-7.5 6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 16.6c-1.7-2.2-2.3-4.5-1.6-7.1.4-1.5 1-2.7 1.6-3.6.6.9 1.2 2.1 1.6 3.6.7 2.6.1 4.9-1.6 7.1z" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Bien-être et spa</b><small>Rendez-vous, rappels, fidélisation</small></span>
+              </a>
+            </div>
+          </li>
+          <li><a href="/#methode">Comment ça marche</a></li>
+          <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+        </ul>
+        <a class="btn btn--light btn--sm nav__cta" href="/#contact">
+          Réserver un diagnostic
+        </a>
+      </div>
+    </nav>
+  </header>
+<main id="contenu" class="article-editorial"><article>
+<header class="article-hero"><nav class="article-breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span><a href="/blog/">Le journal</a><span aria-hidden="true">/</span><span>Actualité</span></nav>
+<div class="article-hero__grid"><div class="article-hero__copy"><p class="article-eyebrow"><span aria-hidden="true"></span>Actualité</p>
+<h1 class="article-title">Agent n8n et Microsoft Agent 365 : qui décide d’envoyer les traces de conversation à Microsoft ?</h1><p class="article-hero__description">n8n 3.1 envoie les traces de conversation du nœud Microsoft Agent 365 vers un service externe. Voici qui doit en décider avant de mettre un agent en service.</p>
+<div class="article-hero__actions"><a class="article-hero__secondary" href="/#methode">Découvrir notre méthode <span aria-hidden="true">↗</span></a><a class="article-hero__primary" href="/#contact">Réserver un diagnostic</a></div>
+<div class="article-meta"><span class="article-meta__author"><span class="article-meta__avatar" aria-hidden="true">N.</span>Nextylab</span><time datetime="2026-11-16">16 novembre 2026</time><span>4 min de lecture</span></div></div>
+<div class="article-hero__image"><img src="/assets/blog/articles/n8n-agent-365-traces-conversation-qui-decide.webp" alt="Tuyau de verre sortant d&#x27;une armoire avec un robinet orange avant un bâtiment extérieur" width="1536" height="655" fetchpriority="high" decoding="async"></div></div></header>
+<div class="article-layout"><aside class="article-toc"><p class="article-eyebrow">Dans cet article</p><nav aria-label="Sommaire de l’article"><ol><li><a href="#section-1"><span>01</span>Ce que n8n indique dans la version 3.1</a></li><li><a href="#section-2"><span>02</span>Quatre questions avant de laisser l’export actif</a></li><li><a href="#section-3"><span>03</span>Exemple hypothétique : l’accueil d’un office de tourisme</a></li><li><a href="#section-4"><span>04</span>Laisser actif, limiter ou couper : une grille de décision</a></li><li><a href="#section-5"><span>05</span>À préparer pour le diagnostic</a></li></ol></nav><a class="article-toc__back" href="/blog/">← Tous les articles</a></aside>
+<div class="article-content"><p class="article-lead">Les notes de version n8n 3.1 du 3 novembre 2026 indiquent que le nœud Microsoft Agent 365 envoie des traces de conversation au service d’observabilité de Microsoft, et que cet envoi reste activé par défaut. Avant de mettre un agent en service, nommez la personne qui accepte cet envoi, faites préciser ce que contiennent ces traces et sachez qui peut l’interrompre.</p><section class="article-section" aria-labelledby="section-1"><h2 id="section-1">Ce que n8n indique dans la version 3.1</h2><p>L’entrée consacrée à n8n 3.1 précise que le nœud Microsoft Agent 365 envoie désormais de façon fiable ses traces de conversation vers le service d’observabilité de Microsoft, en passant par le dispositif de suivi technique de n8n. Cela ne fonctionnait auparavant que sur certaines installations auto-hébergées ; l’envoi concerne maintenant aussi n8n Cloud.</p><p>La page indique que cet export reste activé par défaut et qu’un réglage permet de le désactiver. Une option distincte permet aussi de transmettre ces traces vers un point de collecte choisi par l’entreprise. Il s’agit d’une annonce de l’éditeur : la page prévient qu’une fonction publiée peut être déployée progressivement ou nécessiter une activation. Nextylab n’a pas testé ce nœud et la page ne détaille pas le contenu exact des traces.</p></section><section class="article-section" aria-labelledby="section-2"><h2 id="section-2">Quatre questions avant de laisser l’export actif</h2><p>Qui accepte, au nom de l’organisation, que des traces de conversation quittent l’outil ? Ce n’est pas une décision réservée à la personne qui construit le flux : elle engage aussi le responsable des données et, selon le cas, la direction.</p><p>Que contiennent ces traces ? La documentation parle de « conversation spans », c’est-à-dire de traces de conversation. Tant que le contenu exact n’est pas précisé par l’éditeur ou le prestataire, considérez qu’elles peuvent refléter ce que les usagers ou clients écrivent à l’agent.</p><p>Qui peut couper l’envoi et comment le vérifie-t-on ? Un réglage existe, mais seule une personne qui connaît l’installation sait s’il est appliqué. Enfin, la personne chargée de la protection des données sait-elle que ce flux existe ? Elle doit pouvoir l’inscrire dans sa liste des traitements.</p></section><section class="article-section" aria-labelledby="section-3"><h2 id="section-3">Exemple hypothétique : l’accueil d’un office de tourisme</h2><p>Imaginons un office qui teste un agent pour répondre aux questions sur les horaires et les animations. L’équipe technique active le nœud pour disposer d’un suivi. Quelques semaines plus tard, la responsable de la communication apprend que les conversations de visiteurs, y compris celles où une personne indique sa situation familiale ou ses dates de séjour, sont suivies par un service extérieur.</p><p>Avec une fiche simple, remplie avant la mise en service, la décision aurait été prise en connaissance de cause : conserver l’export parce qu’il aide à contrôler l’agent, le limiter à des essais sans vrais usagers, ou le couper. Aucun chiffre n’est supposé ici ; l’exemple montre seulement ce qui manque quand personne n’est désigné.</p></section><section class="article-section" aria-labelledby="section-4"><h2 id="section-4">Laisser actif, limiter ou couper : une grille de décision</h2><p>Laisser l’export actif peut se justifier si l’agent ne traite que des questions générales, si le contenu des traces est connu et accepté, et si une personne relit régulièrement ce qu’elles montrent. Limiter l’export convient quand l’agent est en phase d’essai avec des messages fictifs. Couper l’export est plus prudent si des demandes peuvent contenir des informations de santé, des difficultés personnelles ou des données d’identification, tant que la question n’est pas tranchée.</p><p>Agissez maintenant si un agent est déjà en ligne : demandez à la personne qui l’administre de vous dire où se trouve ce réglage. Attendez avant de déployer si personne ne sait répondre. Une solution sans suivi externe reste acceptable : une relecture régulière d’un échantillon de conversations conservées dans votre propre outil, avec un responsable désigné.</p></section><section class="article-section" aria-labelledby="section-5"><h2 id="section-5">À préparer pour le diagnostic</h2><p>Avant un échange, listez les agents déjà utilisés ou envisagés, le type de messages qu’ils reçoivent, l’outil qui les héberge, la personne qui l’administre et celle qui répond des données. Ajoutez la façon dont vous souhaitez contrôler la qualité des réponses. Au diagnostic, ces éléments permettent de décider quel suivi est utile, lequel doit rester interne et quelles conversations ne doivent pas être traitées par un agent, sans promesse de résultat avant examen.</p></section><section class="article-resources" aria-labelledby="article-resources-title"><p class="article-eyebrow">Pour aller plus loin</p><h2 id="article-resources-title">À explorer aussi</h2><ul><li><a href="/solutions/agents-ia.html">Délimiter le périmètre et le suivi d’un agent IA<span aria-hidden="true">↗</span></a></li><li><a href="/metiers/collectivites.html">L’accueil des usagers en collectivité<span aria-hidden="true">↗</span></a></li><li><a href="/blog/n8n-assistant-ia-activation-qui-decide.html">Qui décide d’activer l’assistant IA de votre outil d’automatisation<span aria-hidden="true">↗</span></a></li></ul></section><section class="article-sources" aria-labelledby="article-sources-title"><h2 id="article-sources-title">Sources</h2><ul><li><a href="https://docs.n8n.io/changelog/release-notes#n8n31" target="_blank" rel="noopener noreferrer">n8n — Release notes — n8n 3.1, traces du nœud Microsoft Agent 365</a><span>Publié le 3 novembre 2026 · consulté le 16 novembre 2026</span></li><li><a href="https://docs.n8n.io/changelog/release-notes#n8n31" target="_blank" rel="noopener noreferrer">n8n — Release notes — n8n 3.1, export activé par défaut</a><span>Publié le 3 novembre 2026 · consulté le 16 novembre 2026</span></li></ul></section></div></div>
+<aside class="article-contact"><div><p class="article-eyebrow">Et dans votre organisation ?</p><h2>Passons de l’idée<br>au concret.</h2><p>On regarde ensemble ce qui peut être simplifié dans votre organisation.</p></div><a class="article-contact__button" href="/#contact">Réserver un diagnostic <span aria-hidden="true">↗</span></a></aside>
+</article></main><footer class="site-footer theme-dark">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35" loading="lazy">
+          <p>Un flux maîtrisé. Une étape d'avance. Automatisations, agents IA et logiciels métier, conçus au Puy-en-Velay.</p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Pied de page">
+          <div class="footer__col">
+            <h2 class="footer__title">Solutions</h2>
+            <ul>
+              <li><a href="/solutions/agents-ia.html">Agent IA</a></li>
+              <li><a href="/solutions/automatisations.html">Automatisations</a></li>
+              <li><a href="/solutions/logiciel-sur-mesure.html">Logiciel sur mesure</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Métiers</h2>
+            <ul>
+              <li><a href="/metiers/hebergement-tourisme.html">Hébergement et tourisme</a></li>
+              <li><a href="/metiers/collectivites.html">Collectivités</a></li>
+              <li><a href="/metiers/bien-etre-spa.html">Bien-être et spa</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Ressources</h2>
+            <ul>
+              <li><a href="/blog/">Conseils et tutoriels</a></li>
+              <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Contact</h2>
+            <ul>
+              <li><a href="/#contact">Réserver un diagnostic</a></li>
+              <li><a href="mailto:contact@nextylab.com">contact@nextylab.com</a></li>
+              <li>Le Puy-en-Velay (43)</li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Nextylab SAS · SIRET 130 993 884 00019</span>
+        <span class="footer__legal"><a href="/mentions-legales.html">Mentions légales</a><a href="/confidentialite.html">Confidentialité</a><a href="/cgv.html">CGV</a></span>
+      </div>
+    </div>
+  </footer></body></html>
