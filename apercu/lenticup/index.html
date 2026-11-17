@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#163c20">
+  <meta name="description" content="Découvrez les six recettes LENTICUP, des lentilles instantanées à préparer avec de l’eau chaude.">
+  <title>LENTICUP • Les lentilles, autrement.</title>
+  <link rel="icon" href="./assets/logo.png">
+  <link rel="preload" as="image" href="./assets/meadow.webp" fetchpriority="high">
+  <link rel="stylesheet" href="./vendor/icons/style.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/"}}</script>
+</head>
+<body>
+  <a class="skip-link" href="#discover">Découvrir notre histoire</a>
+  <main>
+    <section class="hero-scroll" id="accueil" aria-label="LENTICUP, les lentilles autrement">
+      <div class="hero" id="hero">
+        <div class="landscape" aria-hidden="true">
+          <div class="sky"></div>
+          <div class="hills-motion" id="hills-motion"><img class="hills" src="./assets/meadow.webp" alt="" fetchpriority="high" width="3200" height="1594"></div>
+          <div class="light-wash"></div>
+        </div>
+
+        <header class="header">
+          <a class="brand" href="#accueil" aria-label="LENTICUP, accueil"><img src="./assets/logo.png" alt="LENTICUP" width="360" height="112"></a>
+          <nav class="header-actions" aria-label="Navigation principale">
+            <button class="pill nav-recipes" data-open="recipes">Nos recettes</button>
+            <button class="circle selection-button" data-open="cart" aria-label="Ouvrir le panier"><i class="ph ph-bag" aria-hidden="true"></i><span id="selection-count" hidden>0</span></button>
+            <button class="circle" id="menu-button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-dialog"><i class="ph ph-list" aria-hidden="true"></i></button>
+          </nav>
+        </header>
+
+        <h1 class="sr-only">Les lentilles, autrement. Découvrez les six recettes LENTICUP.</h1>
+        <div class="product-shadows" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="products-stage" id="products-stage" aria-label="Les six pots LENTICUP en 3D" aria-busy="true">
+          <canvas id="products-canvas" aria-hidden="true"></canvas>
+          <div class="loading-state" id="loading-state" role="status"><span class="loading-line"></span><span>La prairie se prépare<span aria-hidden="true">…</span></span></div>
+          <div class="error-state" id="error-state" hidden role="status"><p>Les produits n’ont pas pu s’afficher.</p><button class="pill" id="retry-button">Réessayer</button></div>
+          <div class="product-hitboxes" id="product-hitboxes" aria-label="Explorer une recette"></div>
+        </div>
+
+        <div class="grass-motion grass-mid grass-back" id="grass-mid" aria-hidden="true"><div class="grass-track"></div></div>
+        <div class="grass-motion grass-front" id="grass-front" aria-hidden="true"><div class="grass-track"></div></div>
+
+        <div class="mobile-product-nav" aria-label="Changer de recette">
+          <button class="circle" id="previous-product" aria-label="Recette précédente"><i class="ph ph-arrow-left" aria-hidden="true"></i></button>
+          <button class="mobile-current" id="mobile-current"><strong>La Caliente</strong><span>Arrabbiata</span></button>
+          <button class="circle" id="next-product" aria-label="Recette suivante"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+        </div>
+        <div class="hero-bottom">
+          <button class="scroll-hint" id="scroll-hint" aria-label="Faire défiler les produits"><span class="circle"><i class="ph ph-arrow-right" aria-hidden="true"></i></span><span>Faites défiler</span></button>
+          <a class="pill discover" id="discover" href="./notre-histoire.html">Notre histoire & fabrication<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+            <button class="motion-button circle" id="motion-button" aria-label="Mettre la parallaxe en pause" aria-pressed="false"><i class="ph ph-pause" aria-hidden="true"></i></button>
+        </div>
+        <div class="product-tooltip" id="product-tooltip" aria-hidden="true"></div>
+        <section class="product-focus" id="product-focus" aria-labelledby="product-title" tabindex="-1" hidden>
+          <button class="pill product-close" id="product-close"><i class="ph ph-arrow-left" aria-hidden="true"></i>Retour aux recettes</button>
+          <div class="focus-heading">
+            <p class="eyebrow">À chacun sa cup.</p>
+            <h2 id="product-title">La Caliente</h2>
+            <p class="product-flavor" id="product-flavor">Arrabbiata</p>
+          </div>
+          <div class="product-actions" aria-label="Explorer ce produit">
+            <button class="product-action" id="product-description" aria-pressed="false" aria-controls="focus-information"><span><i class="ph ph-text-align-left" aria-hidden="true"></i></span><b>Description</b></button>
+            <button class="product-action" id="product-composition" aria-pressed="false" aria-controls="focus-information"><span><i class="ph ph-leaf" aria-hidden="true"></i></span><b>Composition</b></button>
+            <button class="product-action add-to-cart" id="product-add"><span><i class="ph ph-bag-simple" aria-hidden="true"></i></span><b>Ajouter au panier</b></button>
+          </div>
+          <button class="pill product-turn" id="product-turn"><i class="ph ph-arrow-clockwise" aria-hidden="true"></i><span>Voir le verso</span></button>
+          <div class="focus-information" id="focus-information" hidden>
+            <button class="panel-close" id="product-panel-close" aria-label="Fermer les informations"><i class="ph ph-x" aria-hidden="true"></i></button>
+            <div class="product-panel" id="product-panel" aria-live="polite"></div>
+          </div>
+          <p class="cart-feedback" id="cart-feedback" role="status"></p>
+          <p class="sr-only" id="focus-status" role="status"></p>
+        </section>
+        <noscript><p class="no-script">Activez JavaScript pour explorer les produits 3D et les recettes.</p></noscript>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="recipe-dialog" id="recipes-dialog" aria-labelledby="recipes-title">
+    <div class="dialog-heading"><div><p class="eyebrow">À chacun sa cup.</p><h2 id="recipes-title">Trouvez votre recette.</h2></div><button class="circle close-dialog" aria-label="Fermer les recettes"><i class="ph ph-x" aria-hidden="true"></i></button></div>
+    <div class="recipe-list" id="recipe-list"></div>
+    <div class="recipe-detail" id="recipe-detail" aria-live="polite"></div>
+  </dialog>
+  <dialog class="menu-dialog" id="menu-dialog" aria-labelledby="menu-title">
+    <div class="dialog-heading"><h2 id="menu-title">Bienvenue chez LENTICUP.</h2><button class="circle close-dialog" aria-label="Fermer le menu"><i class="ph ph-x" aria-hidden="true"></i></button></div>
+    <nav aria-label="Explorer LENTICUP"><button data-route="recipes">Nos recettes<i class="ph ph-arrow-up-right" aria-hidden="true"></i></button><a href="./notre-histoire.html">Notre histoire & fabrication<i class="ph ph-arrow-up-right" aria-hidden="true"></i></a><button data-route="preparation">La préparation<i class="ph ph-arrow-up-right" aria-hidden="true"></i></button><button data-route="cart">Mon panier<i class="ph ph-arrow-up-right" aria-hidden="true"></i></button></nav>
+    <p class="menu-signature">Les lentilles, autrement.</p>
+  </dialog>
+  <dialog class="small-dialog" id="preparation-dialog" aria-labelledby="preparation-title"><div class="dialog-heading"><h2 id="preparation-title">Un peu d’eau chaude.<br>Et c’est parti.</h2><button class="circle close-dialog" aria-label="Fermer la préparation"><i class="ph ph-x" aria-hidden="true"></i></button></div><p>Ajoutez de l’eau chaude à votre cup et suivez les indications de préparation sur le pot.</p><button class="text-link" data-route="recipes">Choisir une recette<i class="ph ph-arrow-right" aria-hidden="true"></i></button></dialog>
+  <dialog class="small-dialog cart-dialog" id="cart-dialog" aria-labelledby="cart-title"><div class="dialog-heading"><div><p class="eyebrow" id="cart-total"></p><h2 id="cart-title">Mon panier.</h2></div><button class="circle close-dialog" aria-label="Fermer le panier"><i class="ph ph-x" aria-hidden="true"></i></button></div><div id="cart-list"></div><button class="text-link" data-route="recipes">Continuer à découvrir<i class="ph ph-arrow-right" aria-hidden="true"></i></button></dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
