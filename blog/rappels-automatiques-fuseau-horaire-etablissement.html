@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rappels automatiques : à quelle heure partent-ils vraiment, et selon quel fuseau horaire ? | Nextylab</title><meta name="description" content="Un message prévu à 8 h peut partir à une autre heure si le fuseau de l’outil n’est pas celui de l’établissement. Définissez l’heure de référence avant d’automatiser.">
+<link rel="canonical" href="https://www.nextylab.fr/blog/rappels-automatiques-fuseau-horaire-etablissement.html"><meta property="og:type" content="article"><meta property="og:title" content="Rappels automatiques : à quelle heure partent-ils vraiment, et selon quel fuseau horaire ?"><meta property="og:description" content="Un message prévu à 8 h peut partir à une autre heure si le fuseau de l’outil n’est pas celui de l’établissement. Définissez l’heure de référence avant d’automatiser."><meta property="og:url" content="https://www.nextylab.fr/blog/rappels-automatiques-fuseau-horaire-etablissement.html"><meta property="og:image" content="https://www.nextylab.fr/assets/blog/articles/rappels-automatiques-fuseau-horaire-etablissement.webp"><meta property="og:image:width" content="1536"><meta property="og:image:height" content="1024">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/blog-editorial.css"><script src="/js/main.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Rappels automatiques : à quelle heure partent-ils vraiment, et selon quel fuseau horaire ?", "description": "Un message prévu à 8 h peut partir à une autre heure si le fuseau de l’outil n’est pas celui de l’établissement. Définissez l’heure de référence avant d’automatiser.", "datePublished": "2026-11-20", "dateModified": "2026-11-20", "author": {"@type": "Organization", "name": "Nextylab"}, "inLanguage": "fr-FR", "mainEntityOfPage": "https://www.nextylab.fr/blog/rappels-automatiques-fuseau-horaire-etablissement.html", "image": "https://www.nextylab.fr/assets/blog/articles/rappels-automatiques-fuseau-horaire-etablissement.webp"}</script></head>
+<body class="theme-light blog-editorial"><a class="skip-link" href="#contenu">Aller au contenu</a><header class="site-header theme-dark">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__brand" href="/" aria-label="Nextylab, accueil">
+        <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35">
+      </a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Ouvrir le menu">
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__links">
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-solutions">Solutions<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-solutions">
+              <p class="nav__sub-label">Sur-mesure</p>
+              <a class="nav__sub-link" href="/solutions/agents-ia.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6.5 4.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4 3.5v-3.5h-.5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1.1" fill="currentColor"/><circle cx="12" cy="10.5" r="1.1" fill="currentColor"/><circle cx="15" cy="10.5" r="1.1" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Agent IA</b><small>Répondre, qualifier, prendre les rendez-vous</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/automatisations.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="6" rx="1.6" fill="#FF6B2C"/><rect x="13.5" y="14.5" width="7" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 9.5v4.5a3.5 3.5 0 0 0 3.5 3.5h3M11.5 15.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="nav__sub-text"><b>Automatisations métier</b><small>Vos outils échangent leurs données</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/logiciel-sur-mesure.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 8.5h17M9 8.5v11" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="11.5" y="11" width="6" height="2.4" rx="1.2" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Logiciel sur mesure</b><small>Le logiciel qui remplace vos tableurs</small></span>
+              </a>
+            </div>
+          </li>
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-metiers">Métiers<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-metiers">
+              <a class="nav__sub-link" href="/metiers/hebergement-tourisme.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 18.5v-9M3.5 14h17v4.5M20.5 18.5V14a3 3 0 0 0-3-3H11v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.2" cy="11.6" r="1.9" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Hébergement et tourisme</b><small>Réservations, accueil, facturation</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/collectivites.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 20h17M5 20v-8.5M9.7 20v-8.5M14.3 20v-8.5M19 20v-8.5M3.5 9.5 12 4l8.5 5.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7.6" r="1.3" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Collectivités</b><small>Équipements, usagers, services</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/bien-etre-spa.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19.5c-4.4 0-7.5-2.6-7.5-6 2.6 0 5.2 1.2 7.5 3.6 2.3-2.4 4.9-3.6 7.5-3.6 0 3.4-3.1 6-7.5 6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 16.6c-1.7-2.2-2.3-4.5-1.6-7.1.4-1.5 1-2.7 1.6-3.6.6.9 1.2 2.1 1.6 3.6.7 2.6.1 4.9-1.6 7.1z" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Bien-être et spa</b><small>Rendez-vous, rappels, fidélisation</small></span>
+              </a>
+            </div>
+          </li>
+          <li><a href="/#methode">Comment ça marche</a></li>
+          <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+        </ul>
+        <a class="btn btn--light btn--sm nav__cta" href="/#contact">
+          Réserver un diagnostic
+        </a>
+      </div>
+    </nav>
+  </header>
+<main id="contenu" class="article-editorial"><article>
+<header class="article-hero"><nav class="article-breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span><a href="/blog/">Le journal</a><span aria-hidden="true">/</span><span>Guide pratique</span></nav>
+<div class="article-hero__grid"><div class="article-hero__copy"><p class="article-eyebrow"><span aria-hidden="true"></span>Guide pratique</p>
+<h1 class="article-title">Rappels automatiques : à quelle heure partent-ils vraiment, et selon quel fuseau horaire ?</h1><p class="article-hero__description">Un message prévu à 8 h peut partir à une autre heure si le fuseau de l’outil n’est pas celui de l’établissement. Définissez l’heure de référence avant d’automatiser.</p>
+<div class="article-hero__actions"><a class="article-hero__secondary" href="/#methode">Découvrir notre méthode <span aria-hidden="true">↗</span></a><a class="article-hero__primary" href="/#contact">Réserver un diagnostic</a></div>
+<div class="article-meta"><span class="article-meta__author"><span class="article-meta__avatar" aria-hidden="true">N.</span>Nextylab</span><time datetime="2026-11-20">20 novembre 2026</time><span>4 min de lecture</span></div></div>
+<div class="article-hero__image"><img src="/assets/blog/articles/rappels-automatiques-fuseau-horaire-etablissement.webp" alt="Deux horloges de reception indiquant des heures differentes et des enveloppes sur un convoyeur" width="1536" height="1024" fetchpriority="high" decoding="async"></div></div></header>
+<div class="article-layout"><aside class="article-toc"><p class="article-eyebrow">Dans cet article</p><nav aria-label="Sommaire de l’article"><ol><li><a href="#section-1"><span>01</span>Trois heures différentes peuvent coexister</a></li><li><a href="#section-2"><span>02</span>Choisir l’heure qui fait foi pour chaque message</a></li><li><a href="#section-3"><span>03</span>Exemple hypothétique : un message du matin qui part en pleine nuit</a></li><li><a href="#section-4"><span>04</span>Prévoir le changement d’heure et les cas limites</a></li><li><a href="#section-5"><span>05</span>Agir maintenant, attendre ou garder un envoi manuel</a></li></ol></nav><a class="article-toc__back" href="/blog/">← Tous les articles</a></aside>
+<div class="article-content"><p class="article-lead">Un rappel automatique part à l’heure de l’outil qui le déclenche, pas forcément à celle de votre établissement. Dans la documentation de n8n pour les instances auto-hébergées, le fuseau de l’instance est réglé par une variable dont la valeur par défaut est America/New_York, et la page précise qu’il est important pour les nœuds de planification. Avant d’automatiser un message du matin ou de la veille d’arrivée, écrivez donc quelle heure fait foi, qui la contrôle, et ce qui se passe lors d’un changement d’heure.</p><section class="article-section" aria-labelledby="section-1"><h2 id="section-1">Trois heures différentes peuvent coexister</h2><p>Quand vous demandez « envoyer le message à 8 h », trois heures peuvent s’appliquer : celle de votre établissement, celle de la personne qui reçoit le message et celle de l’outil qui exécute l’automatisation. Elles coïncident parfois, pas toujours. Un hébergement qui accueille des voyageurs étrangers ou un prestataire qui configure l’outil depuis un autre fuseau le voit vite.</p><p>La documentation de n8n décrit, pour une instance auto-hébergée, une variable de fuseau horaire dont la valeur par défaut est America/New_York, et ajoute qu’elle est importante pour les nœuds de planification. Cette page ne dit rien de votre configuration réelle, ni de celle d’un service géré par un autre prestataire : elle montre seulement qu’un défaut existe et qu’il faut vérifier. Cette précaution vaut pour tout outil de planification, pas seulement pour celui-ci.</p></section><section class="article-section" aria-labelledby="section-2"><h2 id="section-2">Choisir l’heure qui fait foi pour chaque message</h2><p>Pour un rappel de rendez-vous en institut, l’heure qui fait foi est généralement celle de l’institut : le soin a lieu là-bas. Pour une information envoyée avant l’arrivée dans un hébergement, la question est plus ouverte : envoyer à 8 h chez l’hébergeur ou à un moment raisonnable pour le voyageur ? Il n’y a pas de bonne réponse universelle ; il y a une décision à prendre, par une personne désignée, et à écrire.</p><p>Remplissez une grille avec une ligne par message : objet du message, heure souhaitée, heure de référence (établissement, destinataire ou événement), fuseau configuré dans l’outil, personne qui le vérifie. Un message sans ligne n’est pas prêt à être automatisé.</p></section><section class="article-section" aria-labelledby="section-3"><h2 id="section-3">Exemple hypothétique : un message du matin qui part en pleine nuit</h2><p>Imaginons un hébergement dont le message de bienvenue doit partir à 8 h le jour d’arrivée. Le prestataire installe l’outil sans modifier le réglage de fuseau. Le premier jour, le message part à une heure très différente de celle prévue, car l’outil planifie selon son propre fuseau. Personne ne s’en aperçoit, aucun flux n’est en erreur, et c’est le voyageur ou l’accueil qui finit par le signaler.</p><p>Dans cette situation, la bonne décision n’est pas de décaler l’heure dans chaque flux au hasard. Le responsable vérifie d’abord le réglage de fuseau, fait corriger la référence, puis demande un essai sur des messages fictifs avant de rouvrir les envois. Les horaires et les effets de cet exemple sont fictifs ; aucun résultat n’en est déduit.</p></section><section class="article-section" aria-labelledby="section-4"><h2 id="section-4">Prévoir le changement d’heure et les cas limites</h2><p>Deux fois par an, le passage à l’heure d’été puis à l’heure d’hiver peut déplacer un envoi d’une heure ou poser une question sur les messages programmés autour du changement. Faites tester sur des données fictives un message juste avant, pendant et après la date de changement, et notez ce que l’outil fait réellement. Ne présumez pas son comportement : demandez à la personne qui l’installe de le démontrer.</p><p>Prévoyez aussi un rythme d’envoi acceptable : un message tardif le soir ou très tôt le matin peut déranger un destinataire. Cette décision relève de votre politique de communication ; elle ne se déduit pas de l’outil.</p></section><section class="article-section" aria-labelledby="section-5"><h2 id="section-5">Agir maintenant, attendre ou garder un envoi manuel</h2><p>Automatisez un message dont l’heure de référence, le responsable et l’essai fictif sont définis. Attendez si personne ne sait quel fuseau l’outil utilise ou si les destinataires sont dans plusieurs fuseaux sans règle. Un envoi manuel à heure fixe par l’accueil, ou un message envoyé dès la confirmation plutôt qu’à un horaire précis, restent des solutions sans IA et sans planification.</p><p>Pour préparer le diagnostic, rassemblez la liste des messages envisagés, leur heure souhaitée, les outils d’envoi, la personne qui configure le fuseau et trois cas fictifs : message avant, pendant et après un changement d’heure. Ces éléments permettent d’examiner avec Nextylab ce qui peut être automatisé et quelles vérifications prévoir.</p></section><section class="article-resources" aria-labelledby="article-resources-title"><p class="article-eyebrow">Pour aller plus loin</p><h2 id="article-resources-title">À explorer aussi</h2><ul><li><a href="/solutions/automatisations.html">Cadrer des automatisations d’envois et de relances<span aria-hidden="true">↗</span></a></li><li><a href="/metiers/hebergement-tourisme.html">Les besoins d’accueil des hébergements et du tourisme<span aria-hidden="true">↗</span></a></li><li><a href="/blog/automatisation-mise-en-service-essai-donnees-reelles.html">Valider un essai avant de passer aux vraies demandes<span aria-hidden="true">↗</span></a></li></ul></section><section class="article-sources" aria-labelledby="article-sources-title"><h2 id="article-sources-title">Sources</h2><ul><li><a href="https://docs.n8n.io/deploy/host-n8n/configure-n8n/basic-configuration/use-environment-variables/timezone-and-localization" target="_blank" rel="noopener noreferrer">n8n — Timezone and localization — fuseau horaire d’une instance n8n auto-hébergée</a><span>Consulté le 20 novembre 2026</span></li></ul></section></div></div>
+<aside class="article-contact"><div><p class="article-eyebrow">Et dans votre organisation ?</p><h2>Passons de l’idée<br>au concret.</h2><p>On regarde ensemble ce qui peut être simplifié dans votre organisation.</p></div><a class="article-contact__button" href="/#contact">Réserver un diagnostic <span aria-hidden="true">↗</span></a></aside>
+</article></main><footer class="site-footer theme-dark">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35" loading="lazy">
+          <p>Un flux maîtrisé. Une étape d'avance. Automatisations, agents IA et logiciels métier, conçus au Puy-en-Velay.</p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Pied de page">
+          <div class="footer__col">
+            <h2 class="footer__title">Solutions</h2>
+            <ul>
+              <li><a href="/solutions/agents-ia.html">Agent IA</a></li>
+              <li><a href="/solutions/automatisations.html">Automatisations</a></li>
+              <li><a href="/solutions/logiciel-sur-mesure.html">Logiciel sur mesure</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Métiers</h2>
+            <ul>
+              <li><a href="/metiers/hebergement-tourisme.html">Hébergement et tourisme</a></li>
+              <li><a href="/metiers/collectivites.html">Collectivités</a></li>
+              <li><a href="/metiers/bien-etre-spa.html">Bien-être et spa</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Ressources</h2>
+            <ul>
+              <li><a href="/blog/">Conseils et tutoriels</a></li>
+              <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Contact</h2>
+            <ul>
+              <li><a href="/#contact">Réserver un diagnostic</a></li>
+              <li><a href="mailto:contact@nextylab.com">contact@nextylab.com</a></li>
+              <li>Le Puy-en-Velay (43)</li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Nextylab SAS · SIRET 130 993 884 00019</span>
+        <span class="footer__legal"><a href="/mentions-legales.html">Mentions légales</a><a href="/confidentialite.html">Confidentialité</a><a href="/cgv.html">CGV</a></span>
+      </div>
+    </div>
+  </footer></body></html>
