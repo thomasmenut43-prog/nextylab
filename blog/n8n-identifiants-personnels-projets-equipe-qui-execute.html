@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>n8n : un collègue peut utiliser ses accès personnels dans un projet d’équipe. Qui peut alors exécuter le flux ? | Nextylab</title><meta name="description" content="Depuis n8n 2.46.0, un flux peut reposer sur la connexion personnelle d’un membre. Voici les décisions à prendre pour que l’équipe puisse l’exécuter et le publier.">
+<link rel="canonical" href="https://www.nextylab.fr/blog/n8n-identifiants-personnels-projets-equipe-qui-execute.html"><meta property="og:type" content="article"><meta property="og:title" content="n8n : un collègue peut utiliser ses accès personnels dans un projet d’équipe. Qui peut alors exécuter le flux ?"><meta property="og:description" content="Depuis n8n 2.46.0, un flux peut reposer sur la connexion personnelle d’un membre. Voici les décisions à prendre pour que l’équipe puisse l’exécuter et le publier."><meta property="og:url" content="https://www.nextylab.fr/blog/n8n-identifiants-personnels-projets-equipe-qui-execute.html"><meta property="og:image" content="https://www.nextylab.fr/assets/blog/articles/n8n-identifiants-personnels-projets-equipe-qui-execute.webp"><meta property="og:image:width" content="1536"><meta property="og:image:height" content="1024">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/blog-editorial.css"><script src="/js/main.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "n8n : un collègue peut utiliser ses accès personnels dans un projet d’équipe. Qui peut alors exécuter le flux ?", "description": "Depuis n8n 2.46.0, un flux peut reposer sur la connexion personnelle d’un membre. Voici les décisions à prendre pour que l’équipe puisse l’exécuter et le publier.", "datePublished": "2026-11-21", "dateModified": "2026-11-21", "author": {"@type": "Organization", "name": "Nextylab"}, "inLanguage": "fr-FR", "mainEntityOfPage": "https://www.nextylab.fr/blog/n8n-identifiants-personnels-projets-equipe-qui-execute.html", "image": "https://www.nextylab.fr/assets/blog/articles/n8n-identifiants-personnels-projets-equipe-qui-execute.webp"}</script></head>
+<body class="theme-light blog-editorial"><a class="skip-link" href="#contenu">Aller au contenu</a><header class="site-header theme-dark">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__brand" href="/" aria-label="Nextylab, accueil">
+        <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35">
+      </a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Ouvrir le menu">
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__links">
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-solutions">Solutions<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-solutions">
+              <p class="nav__sub-label">Sur-mesure</p>
+              <a class="nav__sub-link" href="/solutions/agents-ia.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6.5 4.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4 3.5v-3.5h-.5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1.1" fill="currentColor"/><circle cx="12" cy="10.5" r="1.1" fill="currentColor"/><circle cx="15" cy="10.5" r="1.1" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Agent IA</b><small>Répondre, qualifier, prendre les rendez-vous</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/automatisations.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="6" rx="1.6" fill="#FF6B2C"/><rect x="13.5" y="14.5" width="7" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 9.5v4.5a3.5 3.5 0 0 0 3.5 3.5h3M11.5 15.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="nav__sub-text"><b>Automatisations métier</b><small>Vos outils échangent leurs données</small></span>
+              </a>
+              <a class="nav__sub-link" href="/solutions/logiciel-sur-mesure.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 8.5h17M9 8.5v11" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="11.5" y="11" width="6" height="2.4" rx="1.2" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Logiciel sur mesure</b><small>Le logiciel qui remplace vos tableurs</small></span>
+              </a>
+            </div>
+          </li>
+          <li class="nav__dropdown">
+            <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="menu-metiers">Métiers<svg class="nav__chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="nav__submenu" id="menu-metiers">
+              <a class="nav__sub-link" href="/metiers/hebergement-tourisme.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 18.5v-9M3.5 14h17v4.5M20.5 18.5V14a3 3 0 0 0-3-3H11v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.2" cy="11.6" r="1.9" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Hébergement et tourisme</b><small>Réservations, accueil, facturation</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/collectivites.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 20h17M5 20v-8.5M9.7 20v-8.5M14.3 20v-8.5M19 20v-8.5M3.5 9.5 12 4l8.5 5.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7.6" r="1.3" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Collectivités</b><small>Équipements, usagers, services</small></span>
+              </a>
+              <a class="nav__sub-link" href="/metiers/bien-etre-spa.html">
+                <span class="nav__sub-icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19.5c-4.4 0-7.5-2.6-7.5-6 2.6 0 5.2 1.2 7.5 3.6 2.3-2.4 4.9-3.6 7.5-3.6 0 3.4-3.1 6-7.5 6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 16.6c-1.7-2.2-2.3-4.5-1.6-7.1.4-1.5 1-2.7 1.6-3.6.6.9 1.2 2.1 1.6 3.6.7 2.6.1 4.9-1.6 7.1z" fill="#FF6B2C"/></svg></span>
+                <span class="nav__sub-text"><b>Bien-être et spa</b><small>Rendez-vous, rappels, fidélisation</small></span>
+              </a>
+            </div>
+          </li>
+          <li><a href="/#methode">Comment ça marche</a></li>
+          <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+        </ul>
+        <a class="btn btn--light btn--sm nav__cta" href="/#contact">
+          Réserver un diagnostic
+        </a>
+      </div>
+    </nav>
+  </header>
+<main id="contenu" class="article-editorial"><article>
+<header class="article-hero"><nav class="article-breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span><a href="/blog/">Le journal</a><span aria-hidden="true">/</span><span>Actualité</span></nav>
+<div class="article-hero__grid"><div class="article-hero__copy"><p class="article-eyebrow"><span aria-hidden="true"></span>Actualité</p>
+<h1 class="article-title">n8n : un collègue peut utiliser ses accès personnels dans un projet d’équipe. Qui peut alors exécuter le flux ?</h1><p class="article-hero__description">Depuis n8n 2.46.0, un flux peut reposer sur la connexion personnelle d’un membre. Voici les décisions à prendre pour que l’équipe puisse l’exécuter et le publier.</p>
+<div class="article-hero__actions"><a class="article-hero__secondary" href="/#methode">Découvrir notre méthode <span aria-hidden="true">↗</span></a><a class="article-hero__primary" href="/#contact">Réserver un diagnostic</a></div>
+<div class="article-meta"><span class="article-meta__author"><span class="article-meta__avatar" aria-hidden="true">N.</span>Nextylab</span><time datetime="2026-11-21">21 novembre 2026</time><span>5 min de lecture</span></div></div>
+<div class="article-hero__image"><img src="/assets/blog/articles/n8n-identifiants-personnels-projets-equipe-qui-execute.webp" alt="Clé personnelle dans un bac de projet partagé, reliée à une fiche de flux, avec deux fiches verrouillées" width="1536" height="1024" fetchpriority="high" decoding="async"></div></div></header>
+<div class="article-layout"><aside class="article-toc"><p class="article-eyebrow">Dans cet article</p><nav aria-label="Sommaire de l’article"><ol><li><a href="#section-1"><span>01</span>Ce que n8n a annoncé le 27 octobre</a></li><li><a href="#section-2"><span>02</span>Ce que cela change pour une équipe qui partage ses automatisations</a></li><li><a href="#section-3"><span>03</span>Une grille de décision pour chaque flux</a></li><li><a href="#section-4"><span>04</span>Exemple hypothétique : un hébergement et son envoi d’informations d’arrivée</a></li><li><a href="#section-5"><span>05</span>Agir maintenant, attendre ou rester sur un accès partagé</a></li></ol></nav><a class="article-toc__back" href="/blog/">← Tous les articles</a></aside>
+<div class="article-content"><p class="article-lead">Selon le journal des modifications de n8n, la version 2.46.0, publiée le 27 octobre 2026, permet de choisir ses propres identifiants personnels dans un projet d’équipe sans les partager d’abord. Chaque exécution agit au nom d’une personne et ne peut utiliser que les connexions que cette personne a le droit d’employer. Pour une direction, la conséquence est pratique : un flux construit avec la connexion d’un collègue peut devenir impossible à exécuter ou à publier pour les autres. Avant de mettre à jour, listez les flux concernés, décidez pour chacun si la connexion doit rester personnelle ou devenir partagée, et nommez la personne qui peut reprendre la main en cas d’absence.</p><section class="article-section" aria-labelledby="section-1"><h2 id="section-1">Ce que n8n a annoncé le 27 octobre</h2><p>Le journal des modifications de n8n décrit, pour la version 2.46.0, la possibilité de sélectionner ses propres identifiants personnels dans n’importe quel projet d’équipe dont on est membre, sans les partager au préalable. L’éditeur précise que chaque exécution d’un flux agit au nom d’une personne et ne peut utiliser que les identifiants que cette personne est autorisée à employer.</p><p>Les autres membres qui n’ont pas le droit d’utiliser cette connexion voient que le flux s’en sert. Ils ne peuvent pas l’exécuter ni le publier avec elle, ni consulter les données des exécutions qu’elle a produites. L’éditeur ajoute que les flux déjà publiés continuent de fonctionner. Il s’agit d’une annonce de l’éditeur, pas d’un essai réalisé par Nextylab ; vérifiez dans votre propre version ce qui est disponible.</p></section><section class="article-section" aria-labelledby="section-2"><h2 id="section-2">Ce que cela change pour une équipe qui partage ses automatisations</h2><p>Le changement est utile pour un membre qui veut travailler avec son propre accès sans l’exposer à toute l’équipe. Il déplace aussi une question de gestion : lorsqu’un flux est modifié ou republié par quelqu’un d’autre, la connexion qu’il utilise est-elle utilisable par cette personne ? Sinon, la publication est bloquée et le flux reste dans l’état où il était.</p><p>Dans une petite structure, cela concerne surtout les flux bâtis un peu vite avec la connexion de la personne la plus à l’aise avec l’outil, ou par un prestataire qui a utilisé son propre accès pour avancer. Tant que personne ne regarde quelles connexions sont réellement employées, le problème reste invisible. Il apparaît le jour où il faut corriger un flux en urgence.</p></section><section class="article-section" aria-labelledby="section-3"><h2 id="section-3">Une grille de décision pour chaque flux</h2><p>Pour chaque automatisation, notez quatre éléments : le flux et son rôle métier, la connexion qu’il utilise, la personne à qui appartient cette connexion et la personne qui peut reprendre le flux si elle est absente. Ajoutez une question : si cette connexion disparaissait demain, quelle conséquence pour un client, un voyageur ou un usager ?</p><p>Trois décisions sont alors possibles. Garder la connexion personnelle lorsque le flux n’agit réellement qu’au nom de cette personne, par exemple son propre agenda. Partager la connexion avec le projet lorsque plusieurs personnes doivent pouvoir exécuter ou corriger le flux. Remplacer la connexion par un accès dédié à l’entreprise, créé pour cet usage, lorsque le flux appartient à l’organisation et non à un individu. Le choix du niveau de droits de cet accès relève de votre responsable des outils, pas de cet article.</p></section><section class="article-section" aria-labelledby="section-4"><h2 id="section-4">Exemple hypothétique : un hébergement et son envoi d’informations d’arrivée</h2><p>Imaginons un hébergement dont le flux d’informations d’arrivée utilise la connexion de messagerie de la responsable de l’accueil. Un jour, un prestataire doit corriger un message dans ce flux. Il ne peut pas utiliser la connexion de la responsable : il voit que le flux s’en sert, mais ne peut ni l’exécuter pour essayer ni le publier. Il faut attendre que la responsable soit présente ou partage la connexion.</p><p>Si la grille avait été remplie, la décision aurait été prise avant : soit la connexion est partagée avec le projet, soit l’établissement utilise une adresse d’envoi dédiée. Les personnes, les outils et les effets de cet exemple sont fictifs ; ils ne mesurent aucun résultat.</p></section><section class="article-section" aria-labelledby="section-5"><h2 id="section-5">Agir maintenant, attendre ou rester sur un accès partagé</h2><p>Faites l’inventaire maintenant si plusieurs personnes ou un prestataire interviennent sur vos flux et si l’un d’eux touche à des clients, à des réservations ou à des demandes d’usagers. Attendez la mise à jour de votre instance tant que vous ne savez pas qui administre l’outil ou dans quelle version vous êtes. Un accès partagé, géré par une personne désignée, reste une solution simple et sans IA pour les flux qui appartiennent à l’entreprise.</p><p>Pour préparer le diagnostic, rassemblez la liste de vos automatisations, les outils auxquels elles se connectent, la personne qui a créé chaque connexion et ceux qui doivent pouvoir corriger un flux en son absence. Ces éléments permettent d’examiner avec Nextylab quels flux doivent changer de mode d’accès, sans présumer d’un résultat.</p></section><section class="article-resources" aria-labelledby="article-resources-title"><p class="article-eyebrow">Pour aller plus loin</p><h2 id="article-resources-title">À explorer aussi</h2><ul><li><a href="/solutions/automatisations.html">Cadrer des automatisations dont l’équipe garde le contrôle<span aria-hidden="true">↗</span></a></li><li><a href="/blog/automatisation-connexion-personnelle-depart-collaborateur.html">Préparer le départ d’un collaborateur dont la connexion soutient un flux<span aria-hidden="true">↗</span></a></li><li><a href="/metiers/hebergement-tourisme.html">Les besoins d’accueil des hébergements et du tourisme<span aria-hidden="true">↗</span></a></li></ul></section><section class="article-sources" aria-labelledby="article-sources-title"><h2 id="article-sources-title">Sources</h2><ul><li><a href="https://docs.n8n.io/changelog#use-your-personal-credentials-in-team-projects" target="_blank" rel="noopener noreferrer">n8n — Changelog — Use your personal credentials in team projects (n8n 2.46.0)</a><span>Publié le 27 octobre 2026 · consulté le 21 novembre 2026</span></li></ul></section></div></div>
+<aside class="article-contact"><div><p class="article-eyebrow">Et dans votre organisation ?</p><h2>Passons de l’idée<br>au concret.</h2><p>On regarde ensemble ce qui peut être simplifié dans votre organisation.</p></div><a class="article-contact__button" href="/#contact">Réserver un diagnostic <span aria-hidden="true">↗</span></a></aside>
+</article></main><footer class="site-footer theme-dark">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="/assets/brand/nextylab-logo.svg" alt="Nextylab" width="149" height="35" loading="lazy">
+          <p>Un flux maîtrisé. Une étape d'avance. Automatisations, agents IA et logiciels métier, conçus au Puy-en-Velay.</p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Pied de page">
+          <div class="footer__col">
+            <h2 class="footer__title">Solutions</h2>
+            <ul>
+              <li><a href="/solutions/agents-ia.html">Agent IA</a></li>
+              <li><a href="/solutions/automatisations.html">Automatisations</a></li>
+              <li><a href="/solutions/logiciel-sur-mesure.html">Logiciel sur mesure</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Métiers</h2>
+            <ul>
+              <li><a href="/metiers/hebergement-tourisme.html">Hébergement et tourisme</a></li>
+              <li><a href="/metiers/collectivites.html">Collectivités</a></li>
+              <li><a href="/metiers/bien-etre-spa.html">Bien-être et spa</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Ressources</h2>
+            <ul>
+              <li><a href="/blog/">Conseils et tutoriels</a></li>
+              <li><a href="/etude-de-cas.html">Étude de cas</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h2 class="footer__title">Contact</h2>
+            <ul>
+              <li><a href="/#contact">Réserver un diagnostic</a></li>
+              <li><a href="mailto:contact@nextylab.com">contact@nextylab.com</a></li>
+              <li>Le Puy-en-Velay (43)</li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Nextylab SAS · SIRET 130 993 884 00019</span>
+        <span class="footer__legal"><a href="/mentions-legales.html">Mentions légales</a><a href="/confidentialite.html">Confidentialité</a><a href="/cgv.html">CGV</a></span>
+      </div>
+    </div>
+  </footer></body></html>
